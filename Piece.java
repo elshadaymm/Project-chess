@@ -5,7 +5,7 @@ enum Type{
 }
 
 public class Piece{
-    private boolean is_white;
+    protected boolean is_white;
     private Type type;
 
     public Piece(Type type, boolean white){
@@ -31,33 +31,6 @@ public class Piece{
     }
     
     public char to_char(){
-        char piece;
-        switch (type){
-            case King:
-                piece = 'k';
-                break;
-            case Queen:
-                piece = 'q';
-                break;
-            case Rook:
-                piece = 'r';
-                break;
-            case Bishop:
-                piece = 'b';
-                break;
-            case Knight:
-                piece = 'n';
-                break;
-            case Pawn:
-                piece = 'p';
-                break;
-            default:
-                piece = ' ';
-                break;
-        }
-
-        if(is_white) piece += 'A' - 'a';
-
-        return piece;
+        return ' ';
     }
 }

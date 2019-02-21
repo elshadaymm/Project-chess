@@ -40,24 +40,30 @@
         private void null_board(){
             for(int i = 0; i < Board_Size; i++)
                 for(int j = 0; j < Board_Size; j++)
-                    board[i][j] = new Empty();
+                    board[i][j] = new Empty(cord_color(new Cord(i,j)));
         }
 
         //Interface starts here
         public void move(Cord from, Cord to){
             board[to.get_x()][to.get_y()] = board[from.get_x()][from.get_y()];
-            board[from.get_x()][from.get_y()] = new Empty();
+            board[from.get_x()][from.get_y()] = new Empty(cord_color(from));
+        }
+
+        public boolean cord_color(Cord at){
+            return (at.get_x() + at.get_y()) % 2 == 0? white : black;
         }
 
         public void print_state(){
-            System.out.println();
+            System.out.println("  a b c d e f g h");
             for(int i = Board_Size - 1; i >= 0; i--){
-                System.out.println("---------------");
+                System.out.print(i + 1 + " ");
                 for(int j = 0; j < Board_Size; j++){
-                    System.out.print(board[i][j].to_char() + "|");
+                    System.out.print(board[i][j].to_char() + " ");
                 }
+                System.out.print(i + 1 + " ");
                 System.out.println();
             }
+            System.out.println("  a b c d e f g h");
             System.out.println();
         }
     }

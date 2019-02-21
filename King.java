@@ -11,4 +11,9 @@ public class King extends Piece{
         if(dy == 1 && dx == 0) return true;
         return false;
     }
+
+    @Override
+    public char to_char(){
+        return is_white? 'K' : 'k';
+    }
 }
