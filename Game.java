@@ -2,6 +2,8 @@
         public static int Board_Size = 8;
         public static boolean white = true;
         public static boolean black = false;
+        
+        private boolean white_turn = true;
 
         private Piece[][] board = new Piece[Board_Size][Board_Size];
         public Game(){
@@ -43,17 +45,31 @@
                     board[i][j] = new Empty(cord_color(new Cord(i,j)));
         }
 
+        private boolean cord_color(Cord at){
+            return (at.get_x() + at.get_y()) % 2 == 0? white : black;
+        }
+
+        private Piece get_piece(Cord at){
+            return board[at.get_x()][at.get_y()];
+        }
+
         //Interface starts here
         public void move(Cord from, Cord to){
             board[to.get_x()][to.get_y()] = board[from.get_x()][from.get_y()];
             board[from.get_x()][from.get_y()] = new Empty(cord_color(from));
         }
 
-        public boolean cord_color(Cord at){
-            return (at.get_x() + at.get_y()) % 2 == 0? white : black;
+        public void change_turn(){
+            white_turn = white_turn ? false : true;
+        }
+
+        public boolean valid_move(boolean is_white, Cord from, Cord to){
+            return get_piece(from).is_valid(board, from, to) && get_piece(from).get_color() == is_white;
         }
 
         public void print_state(){
+            System.out.println();
+            System.out.println("White's turn: " + white_turn);
             System.out.println("  a b c d e f g h");
             for(int i = Board_Size - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");

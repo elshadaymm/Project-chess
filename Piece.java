@@ -21,6 +21,8 @@ public class Piece{
         return false;
     }
 
+    public boolean get_color() {return is_white;}
+
     public int abs(int x){
         if(x < 0) return -x;
         return x;

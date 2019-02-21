@@ -2,14 +2,15 @@ public class Main{
     public static void main(String[] args){
         Game game = new Game();
         game.print_state();
+        
+        Player white = new Player(true);
+        Player black = new Player(false);
 
-        game.move(new Cord(1, 2), new Cord(3, 2));
-        game.print_state();
-
-        game.move(new Cord(6, 3), new Cord(4, 3));
-        game.print_state();
-
-        game.move(new Cord(3, 2), new Cord(4, 3));
-        game.print_state();
+        while(true){
+            white.move(game);
+            game.print_state();
+            black.move(game);
+            game.print_state();
+        }
     }
 }

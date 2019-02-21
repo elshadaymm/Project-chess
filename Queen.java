@@ -5,7 +5,7 @@ public class Queen extends Piece{
 
     @Override
     public boolean is_valid(Piece[][] board, Cord from, Cord to){
-        return false;
+        return true;
     }
 
     @Override
