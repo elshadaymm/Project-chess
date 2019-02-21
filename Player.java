@@ -6,14 +6,13 @@ public class Player{
 
     public void move(Game game){
         Scanner sc = new Scanner(System.in);
-        String pos1, pos2;
+        String move;
         Cord from, to;
         do{
-            System.out.println("Input Move");
-            pos1 = sc.next();
-            pos2 = sc.next();
-            from = new Cord(Integer.parseInt("" + pos1.charAt(1)) - 1, pos1.charAt(0) - 'a');
-            to = new Cord(Integer.parseInt("" + pos2.charAt(1)) - 1, pos2.charAt(0) - 'a');
+            System.out.print("Input Move of format \"a1a2\": ");
+            move = sc.next();
+            from = new Cord(Integer.parseInt("" + move.charAt(1)) - 1, move.charAt(0) - 'a');
+            to = new Cord(Integer.parseInt("" + move.charAt(3)) - 1, move.charAt(2) - 'a');
         }while (!game.valid_move(is_white, from, to));
         game.move(from, to);
         game.change_turn();
