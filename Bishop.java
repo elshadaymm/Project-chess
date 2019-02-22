@@ -5,7 +5,10 @@ public class Bishop extends Piece{
 
     @Override
     public boolean is_valid(Piece[][] board, Cord from, Cord to){
-        return true;
+        int dx = abs(from.get_x() - to.get_x());
+        int dy = abs(from.get_y() - to.get_y());
+        if(dx == dy) return true;
+        return false;
     }
 
     @Override
