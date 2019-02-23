@@ -9,7 +9,7 @@ public class Queen extends Piece{
         int dy = abs(from.get_y() - to.get_y());
         if(dx == dy) return true;
         if(from.get_x() == to.get_x() && from.get_y() != to.get_y()) return true;
-        if(from.get_y() == to.get_y() && from.get_x() != to.get_x()) return true;
+        else if(from.get_y() == to.get_y() && from.get_x() != to.get_x()) return true;
         return false;
     }
 
