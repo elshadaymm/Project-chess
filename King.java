@@ -5,11 +5,12 @@ public class King extends Piece{
 
     @Override
     public boolean is_valid(Piece[][] board, Cord from, Cord to){
+        boolean valid = false;
         int dx = abs(from.get_x() - to.get_x());
         int dy = abs(from.get_y() - to.get_y());
-        if(dx == 1 && dy <= 1) return true;
-        if(dy == 1 && dx == 0) return true;
-        return false;
+        if(dx == 1 && dy <= 1) valid = true;
+        if(dy == 1 && dx == 0) valid = true;
+        return super.is_valid(board, from, to) && valid;
     }
 
     @Override
