@@ -4,6 +4,7 @@
         public static boolean black = false;
         
         private boolean white_turn = true;
+        private int peace = 0;
 
         private Piece[][] board = new Piece[Board_Size][Board_Size];
         public Game(){
@@ -55,7 +56,12 @@
 
         //Interface starts here
         public void move(Cord from, Cord to){
-            board[to.get_y()][to.get_x()] = board[from.get_y()][from.get_x()];
+            if(get_piece(from).get_color() == black) peace++;
+            
+            if(get_piece(to).get_type() != Type.Empty
+                || get_piece(from).get_type() == Type.Pawn) peace = 0;
+
+            board[to.get_y()][to.get_x()] = get_piece(from);
             board[from.get_y()][from.get_x()] = new Empty(cord_color(from));
         }
 
@@ -76,7 +82,8 @@
 
         public void print_state(){
             System.out.println();
-            System.out.println("White's turn: " + white_turn);
+            System.out.println("Fifty-move Rule: " + peace);
+            System.out.println("Currently " + get_turn() + "'s turn.");
             System.out.println("  a b c d e f g h");
             for(int i = Board_Size - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");
