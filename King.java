@@ -4,17 +4,17 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean is_valid(Piece[][] board, Cord from, Cord to){
+    public boolean isValid(Piece[][] board, Cord from, Cord to){
         boolean valid = false;
-        int dx = abs(from.get_x() - to.get_x());
-        int dy = abs(from.get_y() - to.get_y());
+        int dx = abs(from.getX() - to.getX());
+        int dy = abs(from.getY() - to.getY());
         if(dx == 1 && dy <= 1) valid = true;
         if(dy == 1 && dx == 0) valid = true;
-        return valid && super.is_valid(board, from, to);
+        return valid && super.isValid(board, from, to);
     }
 
     @Override
-    public char to_char(){
-        return is_white? 'K' : 'k';
+    public char toCharacter(){
+        return isWhite? 'K' : 'k';
     }
 }

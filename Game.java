@@ -1,18 +1,18 @@
     public class Game{
-        public static int Board_Size = 8;
+        public static int boardSize = 8;
         public static boolean white = true;
         public static boolean black = false;
-        
-        private boolean white_turn = true;
+
+        private boolean whiteTurn = true;
         private int peace = 0;
 
-        private Piece[][] board = new Piece[Board_Size][Board_Size];
+        private Piece[][] board = new Piece[boardSize][boardSize];
         public Game(){
-            null_board();
-            setup_board();
+            nullBoard();
+            setUpBoard();
         }
 
-        private void setup_board(){
+        private void setUpBoard(){
             boolean side = white;
             board[0][0] = new Rook(side);
             board[0][1] = new Knight(side);
@@ -22,7 +22,7 @@
             board[0][5] = new Bishop(side);
             board[0][6] = new Knight(side);
             board[0][7] = new Rook(side);
-            for(int i = 0; i < Board_Size; i++)
+            for(int i = 0; i < boardSize; i++)
                 board[1][i] = new Pawn(side);
 
 
@@ -36,59 +36,59 @@
             board[7][5] = new Bishop(side);
             board[7][6] = new Knight(side);
             board[7][7] = new Rook(side);
-            for(int i = 0; i < Board_Size; i++)
+            for(int i = 0; i < boardSize; i++)
                 board[6][i] = new Pawn(side);
         }
 
-        private void null_board(){
-            for(int i = 0; i < Board_Size; i++)
-                for(int j = 0; j < Board_Size; j++)
-                    board[i][j] = new Empty(cord_color(new Cord(i,j)));
+        private void nullBoard(){
+            for(int i = 0; i < boardSize; i++)
+                for(int j = 0; j < boardSize; j++)
+                    board[i][j] = new Empty(cordColor(new Cord(i,j)));
         }
 
-        private boolean cord_color(Cord at){
-            return (at.get_x() + at.get_y()) % 2 == 0? white : black;
+        private boolean cordColor(Cord at){
+            return (at.getX() + at.getY()) % 2 == 0? white : black;
         }
 
-        private Piece get_piece(Cord at){
-            return board[at.get_y()][at.get_x()];
+        private Piece getPiece(Cord at){
+            return board[at.getY()][at.getX()];
         }
 
         //Interface starts here
         public void move(Cord from, Cord to){
-            if(get_piece(from).get_color() == black) peace++;
-            
-            if(get_piece(to).get_type() != Type.Empty
-                || get_piece(from).get_type() == Type.Pawn) peace = 0;
+            if(getPiece(from).getColor() == black) peace++;
 
-            board[to.get_y()][to.get_x()] = get_piece(from);
-            board[from.get_y()][from.get_x()] = new Empty(cord_color(from));
+            if(getPiece(to).getType() != Type.Empty
+                || getPiece(from).getType() == Type.Pawn) peace = 0;
+
+            board[to.getY()][to.getX()] = getPiece(from);
+            board[from.getY()][from.getX()] = new Empty(cordColor(from));
         }
 
-        public void change_turn(){
-            white_turn = white_turn ? false : true;
+        public void changeTurn(){
+            whiteTurn = whiteTurn ? false : true;
         }
 
-        public boolean valid_move(Cord from, Cord to){
-            if(get_piece(from).get_color() == white_turn)
-                return get_piece(from).is_valid(board, from, to);
-            System.out.println("Error: It's not " + get_turn(!white_turn) + "'s turn.");
+        public boolean validMove(Cord from, Cord to){
+            if(getPiece(from).getColor() == whiteTurn)
+                return getPiece(from).isValid(board, from, to);
+            System.out.println("Error: It's not " + getTurn(!whiteTurn) + "'s turn.");
             return false;
         }
 
-        public String get_turn() {return get_turn(white_turn);}
+        public String getTurn() {return getTurn(whiteTurn);}
 
-        public String get_turn(boolean white) {return white? "white" : "black";}
+        public String getTurn(boolean white) {return white? "white" : "black";}
 
-        public void print_state(){
+        public void printState(){
             System.out.println();
             System.out.println("Fifty-move Rule: " + peace);
-            System.out.println("Currently " + get_turn() + "'s turn.");
+            System.out.println("Currently " + getTurn() + "'s turn.");
             System.out.println("  a b c d e f g h");
-            for(int i = Board_Size - 1; i >= 0; i--){
+            for(int i = boardSize - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");
-                for(int j = 0; j < Board_Size; j++){
-                    System.out.print(board[i][j].to_char() + " ");
+                for(int j = 0; j < boardSize; j++){
+                    System.out.print(board[i][j].toCharacter() + " ");
                 }
                 System.out.print(i + 1 + " ");
                 System.out.println();

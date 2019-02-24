@@ -5,11 +5,11 @@ enum Type{
 }
 
 public class Piece{
-    protected boolean is_white;
+    protected boolean isWhite;
     private Type type;
 
     public Piece(Type type, boolean white){
-        is_white = white;
+        isWhite = white;
         this.type = type;
     }
 
@@ -17,31 +17,31 @@ public class Piece{
         this(Type.Empty, false);
     }
 
-    public boolean is_valid(Piece[][] board, Cord from, Cord to){
-        if(board[to.get_y()][to.get_x()].get_type() == Type.Empty) return true;
-        if(board[from.get_y()][from.get_x()].get_color() != board[to.get_y()][to.get_x()].get_color()) return true;
+    public boolean isValid(Piece[][] board, Cord from, Cord to){
+        if(board[to.getY()][to.getX()].getType() == Type.Empty) return true;
+        if(board[from.getY()][from.getX()].getColor() != board[to.getY()][to.getX()].getColor()) return true;
         else System.out.println("Error: Friendly Fire");
         return false;
     }
 
     //To Do
-    public void valid_moves(Piece[][] board, Cord from){
-        return; 
+    public void validMoves(Piece[][] board, Cord from){
+        return;
     }
 
-    public boolean get_color() {return is_white;}
-    public Type get_type() {return type;}
+    public boolean getColor() {return isWhite;}
+    public Type getType() {return type;}
 
     public int abs(int x){
         if(x < 0) return -x;
         return x;
     }
 
-    public String to_string(){
-        return "" + type + ", " + is_white;
+    public String toString(){
+        return "" + type + ", " + isWhite;
     }
-    
-    public char to_char(){
+
+    public char toCharacter(){
         return  ' ';
     }
 }

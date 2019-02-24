@@ -12,11 +12,11 @@ public class Player{
             move = sc.next();
             from = new Cord(move.charAt(0) - 'a', Integer.parseInt("" + move.charAt(1)) - 1);
             to = new Cord(move.charAt(2) - 'a', Integer.parseInt("" + move.charAt(3)) - 1);
-            //System.out.println("UCI: " + from.get_x() + "" + from.get_y() + " " + to.get_x() + "" + to.get_y());
+            //System.out.println("UCI: " + from.getX() + "" + from.getY() + " " + to.getX() + "" + to.getY());
             System.out.println();
-            if(game.valid_move(from, to)){
+            if(game.validMove(from, to)){
                 game.move(from, to);
-                game.change_turn();
+                game.changeTurn();
                 return;
             }else{
                 System.out.println("Invalid Move: Enter move of format \"a1a2\": ");

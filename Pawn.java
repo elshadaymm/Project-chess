@@ -4,20 +4,20 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean is_valid(Piece[][] board, Cord from, Cord to){
+    public boolean isValid(Piece[][] board, Cord from, Cord to){
       boolean valid = false;
-      int mod = get_color()? 1 : -1;
-      int dx = abs(from.get_x() - to.get_x());
-      int dy = mod * (to.get_y() - from.get_y());
-      if(dy == 1 && dx == 0 && board[to.get_y()][to.get_x()].get_type() == Type.Empty) valid = true;
-      if(dy == 1 && dx == 1 && board[to.get_y()][to.get_x()].get_type() != Type.Empty && board[to.get_y()][to.get_x()].get_color() != get_color()) valid = true;
-      if((from.get_y() == 1) || (from.get_y() == 6))
-        if(dy == 2 && dx == 0 && board[to.get_y()][to.get_x()].get_type() == Type.Empty && board[to.get_y() - mod][to.get_x()].get_type() == Type.Empty) valid = true;
-      return valid && super.is_valid(board, from, to);
+      int mod = getColor()? 1 : -1;
+      int dx = abs(from.getX() - to.getX());
+      int dy = mod * (to.getY() - from.getY());
+      if(dy == 1 && dx == 0 && board[to.getY()][to.getX()].getType() == Type.Empty) valid = true;
+      if(dy == 1 && dx == 1 && board[to.getY()][to.getX()].getType() != Type.Empty && board[to.getY()][to.getX()].getColor() != getColor()) valid = true;
+      if((from.getY() == 1) || (from.getY() == 6))
+        if(dy == 2 && dx == 0 && board[to.getY()][to.getX()].getType() == Type.Empty && board[to.getY() - mod][to.getX()].getType() == Type.Empty) valid = true;
+      return valid && super.isValid(board, from, to);
     }
 
     @Override
-    public char to_char(){
-        return is_white? 'P' : 'p';
+    public char toCharacter(){
+        return isWhite? 'P' : 'p';
     }
 }

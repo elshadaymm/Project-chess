@@ -4,18 +4,18 @@ public class Queen extends Piece{
     }
 
     @Override
-    public boolean is_valid(Piece[][] board, Cord from, Cord to){
+    public boolean isValid(Piece[][] board, Cord from, Cord to){
         boolean valid = false;
-        int dx = abs(from.get_x() - to.get_x());
-        int dy = abs(from.get_y() - to.get_y());
+        int dx = abs(from.getX() - to.getX());
+        int dy = abs(from.getY() - to.getY());
         if(dx == dy) valid = true;
-        else if(from.get_x() == to.get_x() && from.get_y() != to.get_y()) valid = true;
-        else if(from.get_y() == to.get_y() && from.get_x() != to.get_x()) valid = true;
-        return valid && super.is_valid(board, from, to);
+        else if(from.getX() == to.getX() && from.getY() != to.getY()) valid = true;
+        else if(from.getY() == to.getY() && from.getX() != to.getX()) valid = true;
+        return valid && super.isValid(board, from, to);
     }
 
     @Override
-    public char to_char(){
-        return is_white? 'Q' : 'q';
+    public char toCharacter(){
+        return isWhite? 'Q' : 'q';
     }
 }
