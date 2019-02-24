@@ -50,22 +50,31 @@
         }
 
         private Piece get_piece(Cord at){
-            return board[at.get_x()][at.get_y()];
+            return board[at.get_y()][at.get_x()];
         }
 
         //Interface starts here
         public void move(Cord from, Cord to){
-            board[to.get_x()][to.get_y()] = board[from.get_x()][from.get_y()];
-            board[from.get_x()][from.get_y()] = new Empty(cord_color(from));
+            board[to.get_y()][to.get_x()] = board[from.get_y()][from.get_x()];
+            board[from.get_y()][from.get_x()] = new Empty(cord_color(from));
         }
 
         public void change_turn(){
             white_turn = white_turn ? false : true;
         }
 
-        public boolean valid_move(boolean is_white, Cord from, Cord to){
-            return get_piece(from).is_valid(board, from, to) && get_piece(from).get_color() == is_white;
+        public boolean valid_move(Cord from, Cord to){
+            if(get_piece(from).is_valid(board, from, to))
+                if(get_piece(from).get_color() == white_turn)
+                    return true;
+                else
+                    System.out.println("It's " + get_turn() + "'s turn.");
+            return false;
         }
+
+        public String get_turn() {return get_turn(white_turn);}
+
+        public String get_turn(boolean white) {return white? "white" : "black";}
 
         public void print_state(){
             System.out.println();

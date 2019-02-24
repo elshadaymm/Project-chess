@@ -18,8 +18,8 @@ public class Piece{
     }
 
     public boolean is_valid(Piece[][] board, Cord from, Cord to){
-        return board[from.get_x()][from.get_y()].get_color() != board[to.get_x()][to.get_y()].get_color()
-            || board[to.get_x()][to.get_y()].get_type() == Type.Empty;
+        return board[from.get_y()][from.get_x()].get_color() != board[to.get_y()][to.get_x()].get_color()
+            || board[to.get_y()][to.get_x()].get_type() == Type.Empty;
     }
 
     //To Do
@@ -40,6 +40,6 @@ public class Piece{
     }
     
     public char to_char(){
-        return  '';
+        return  ' ';
     }
 }

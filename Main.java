@@ -3,13 +3,10 @@ public class Main{
         Game game = new Game();
         game.print_state();
         
-        Player white = new Player(true);
-        Player black = new Player(false);
+        Player wb = new Player();
 
         while(true){
-            white.move(game);
-            game.print_state();
-            black.move(game);
+            wb.move(game);
             game.print_state();
         }
     }
