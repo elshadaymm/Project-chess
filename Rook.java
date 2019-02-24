@@ -8,9 +8,9 @@ public class Rook extends Piece{
         boolean valid = false;
         int dx = abs(from.get_x() - to.get_x());
         int dy = abs(from.get_y() - to.get_y());
-        if (dy == 0 && dy != 0) valid = true;
-        else if (dy == 0 && dx != 0) valid = true;
-        return super.is_valid(board, from, to) && valid;
+        if (dy == 0 && dx != 0) valid = true;
+        else if (dx == 0 && dy != 0) valid = true;
+        return valid && super.is_valid(board, from, to);
     }
 
     @Override

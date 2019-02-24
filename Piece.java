@@ -18,8 +18,10 @@ public class Piece{
     }
 
     public boolean is_valid(Piece[][] board, Cord from, Cord to){
-        return board[from.get_y()][from.get_x()].get_color() != board[to.get_y()][to.get_x()].get_color()
-            || board[to.get_y()][to.get_x()].get_type() == Type.Empty;
+        if(board[to.get_y()][to.get_x()].get_type() == Type.Empty) return true;
+        if(board[from.get_y()][from.get_x()].get_color() != board[to.get_y()][to.get_x()].get_color()) return true;
+        else System.out.println("Error: Friendly Fire");
+        return false;
     }
 
     //To Do

@@ -10,7 +10,7 @@ public class King extends Piece{
         int dy = abs(from.get_y() - to.get_y());
         if(dx == 1 && dy <= 1) valid = true;
         if(dy == 1 && dx == 0) valid = true;
-        return super.is_valid(board, from, to) && valid;
+        return valid && super.is_valid(board, from, to);
     }
 
     @Override

@@ -64,11 +64,9 @@
         }
 
         public boolean valid_move(Cord from, Cord to){
-            if(get_piece(from).is_valid(board, from, to))
-                if(get_piece(from).get_color() == white_turn)
-                    return true;
-                else
-                    System.out.println("It's " + get_turn() + "'s turn.");
+            if(get_piece(from).get_color() == white_turn)
+                return get_piece(from).is_valid(board, from, to);
+            System.out.println("Error: It's not " + get_turn(!white_turn) + "'s turn.");
             return false;
         }
 
