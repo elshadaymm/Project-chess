@@ -10,8 +10,20 @@ public class Rook extends Piece{
         boolean valid = false;
         int dx = abs(from.getX() - to.getX());
         int dy = abs(from.getY() - to.getY());
-        if (dy == 0 && dx != 0) valid = true;
-        else if (dx == 0 && dy != 0) valid = true;
+        if (dy == 0 && dx != 0){
+            int mod = to.getX() - from.getX() > 0? 1 : -1;
+            valid = true;
+            for(int i = 1; i < dx; i++)
+                if(game.getPiece(new Cord(from.getX() + i * mod, from.getY())).getType() != Type.Empty)
+                    valid = false;
+        }
+        else if (dx == 0 && dy != 0){ 
+            int mod = to.getY() - from.getY() > 0? 1 : -1;
+            valid = true;
+            for(int i = 1; i < dy; i++)
+                if(game.getPiece(new Cord(from.getX(), from.getY() + i * mod)).getType() != Type.Empty)
+                    valid = false;
+        }
         return valid && super.isValid(game, from, to);
     }
 

@@ -10,7 +10,14 @@ public class Bishop extends Piece{
         boolean valid = false;
         int dx = abs(from.getX() - to.getX());
         int dy = abs(from.getY() - to.getY());
-        if(dx == dy) valid = true;
+        if(dx == dy){
+            valid = true;
+            int modX = to.getX() - from.getX() > 0? 1 : -1;
+            int modY = to.getY() - from.getY() > 0? 1 : -1;
+            for(int i = 1; i < dx; i++)
+                if(game.getPiece(new Cord(from.getX() + i * modX, from.getY() + i * modY)).getType() != Type.Empty)
+                    valid = false;
+        }
         return valid && super.isValid(game, from, to);
     }
 
