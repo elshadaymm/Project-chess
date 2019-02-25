@@ -49,12 +49,15 @@
         private boolean cordColor(Cord at){
             return (at.getX() + at.getY()) % 2 == 0? white : black;
         }
+        
+        private String toTurn(boolean white) {return white? "white" : "black";}
 
-        private Piece getPiece(Cord at){
+        //Interface starts here
+
+        public Piece getPiece(Cord at){
             return board[at.getY()][at.getX()];
         }
 
-        //Interface starts here
         public void move(Cord from, Cord to){
             if(getPiece(from).getColor() == black) peace++;
 
@@ -70,20 +73,50 @@
         }
 
         public boolean validMove(Cord from, Cord to){
-            if(getPiece(from).getColor() == whiteTurn)
-                return getPiece(from).isValid(board, from, to);
-            System.out.println("Error: It's not " + getTurn(!whiteTurn) + "'s turn.");
-            return false;
+            if(getPiece(from).getType() == Type.Empty){
+                System.out.println("Error: Can't move an Empty Piece.");
+                return false;
+            }
+            if(getPiece(from).getColor() != whiteTurn){
+                System.out.println("Error: It's not " + toTurn(!whiteTurn) + "'s turn.");
+                return false;
+            }
+            if(getPiece(to).getType() != Type.Empty && getPiece(from).getColor() == getPiece(to).getColor()){
+                System.out.println("Error: Friendly Fire");
+                return false;
+            }
+            return getPiece(from).isValid(this, from, to);
         }
 
-        public String getTurn() {return getTurn(whiteTurn);}
+        public boolean getTurn() {return whiteTurn;}
 
-        public String getTurn(boolean white) {return white? "white" : "black";}
+        public Piece[][] getBoard() {return board;}
+
+        public int getBoardSize() {return boardSize;}
+
+        public String allValidMoves(){
+            Cord cord;
+            String current;
+            String moves = "";
+
+            for(int i = 0; i < boardSize; i++)
+                for(int j = 0; j < boardSize; j++){
+                    cord = new Cord(i, j);
+                    current = getPiece(cord).validMovesToString(this, cord);
+                    if(current.length() != 0){
+                        moves = moves + current + ", ";
+                    }
+                }
+            if(moves.length() != 0) moves = moves.substring(0, moves.length() - 2);
+            moves = "{" + moves + "}";
+            return moves;
+        }
 
         public void printState(){
             System.out.println();
             System.out.println("Fifty-move Rule: " + peace);
             System.out.println("Currently " + getTurn() + "'s turn.");
+            System.out.println();
             System.out.println("  a b c d e f g h");
             for(int i = boardSize - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");

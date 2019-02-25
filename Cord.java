@@ -10,4 +10,8 @@ public class Cord{
 
     public int getX(){return x;}
     public int getY(){return y;}
+
+    public void printCord(){
+        System.out.println("X: " + x + ", Y: " + y);
+    }
 }

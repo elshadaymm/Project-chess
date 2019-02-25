@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 enum Type{
     King, Queen, Rook,
     Bishop, Knight, Pawn,
@@ -17,16 +19,18 @@ public class Piece{
         this(Type.Empty, false);
     }
 
-    public boolean isValid(Piece[][] board, Cord from, Cord to){
-        if(board[to.getY()][to.getX()].getType() == Type.Empty) return true;
-        if(board[from.getY()][from.getX()].getColor() != board[to.getY()][to.getX()].getColor()) return true;
-        else System.out.println("Error: Friendly Fire");
-        return false;
+    public boolean isValid(Game game, Cord from, Cord to){
+        if(game.getPiece(from).getColor() != game.getTurn()) return false;
+        if(game.getPiece(to).getType() != Type.Empty && game.getPiece(from).getColor() == game.getPiece(to).getColor()) return false;
+        return true;
     }
 
-    //To Do
-    public void validMoves(Piece[][] board, Cord from){
-        return;
+    public ArrayList<Cord> validMoves(Game game, Cord from){
+        return new ArrayList<Cord>();
+    }
+
+    public String validMovesToString(Game game, Cord from){
+        return "";
     }
 
     public boolean getColor() {return isWhite;}
