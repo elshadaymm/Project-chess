@@ -115,7 +115,7 @@
         public void printState(){
             System.out.println();
             System.out.println("Fifty-move Rule: " + peace);
-            System.out.println("Currently " + getTurn() + "'s turn.");
+            System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
             System.out.println();
             System.out.println("  a b c d e f g h");
             for(int i = boardSize - 1; i >= 0; i--){
