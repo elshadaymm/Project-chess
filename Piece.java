@@ -19,6 +19,10 @@ public class Piece{
         this(Type.Empty, false);
     }
 
+    public Piece(Piece piece){
+        this(piece.getType(), piece.getColor());
+    }
+
     public boolean isValid(Game game, Cord from, Cord to){
         if(game.getPiece(from).getColor() != game.getTurn()) return false;
         if(game.getPiece(to).getType() != Type.Empty && game.getPiece(from).getColor() == game.getPiece(to).getColor()) return false;

@@ -10,9 +10,12 @@ public class Main{
 
         Player wb = new Player();
 
-        while(true){
+        while(!game.win()){
             wb.move(game);
             game.printState();
         }
+
+        game.printState();
+        System.out.println("Game Won");
     }
 }

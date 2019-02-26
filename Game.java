@@ -17,6 +17,14 @@
             setUpBoard();
         }
 
+        public Game(Game game){
+            this.whiteTurn = game.getTurn();
+            this.peace = game.getPeace();
+            for(int i = 0; i < boardSize; i++)
+                for(int j = 0; j < boardSize; j++)
+                    this.board[i][j] = new Piece(game.getPiece(new Cord(i, j)));
+        }
+
         private void setUpBoard(){
             boolean side = white;
             board[0][0] = new Rook(side);
@@ -60,13 +68,20 @@
 
         private String toTurn(boolean white) {return white? "white" : "black";}
 
-        /**
-         * Functin to determine which piece occupies this space on the board.
-         * @param at Takes in a coordinate as a value
-         * @return The piece at the coordinate provided
-         */
-        public Piece getPiece(Cord at){
-            return board[at.getY()][at.getX()];
+        private boolean kingAlive(boolean color){
+            for(int i = 0; i < boardSize; i++)
+                for(int j = 0; j < boardSize; j++)
+                    if(board[i][j].getType() == Type.King && board[i][j].getColor() == color)
+                        return true;
+            return false;
+        }
+
+        /*
+        START OF GAME INTERFACE!!!!!!!!!!!!!!!
+        */
+
+        public boolean win(){
+            return !(kingAlive(white) && kingAlive(black));
         }
 
         /**
@@ -113,7 +128,18 @@
             return getPiece(from).isValid(this, from, to);
         }
 
+        /**
+         * Functin to determine which piece occupies this space on the board.
+         * @param at Takes in a coordinate as a value
+         * @return The piece at the coordinate provided
+         */
+        public Piece getPiece(Cord at){
+            return board[at.getY()][at.getX()];
+        }
+
         public boolean getTurn() {return whiteTurn;}
+
+        public int getPeace() {return peace;}
 
         public Piece[][] getBoard() {return board;}
 
