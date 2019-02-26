@@ -55,7 +55,7 @@
         }
 
         private boolean cordColor(Cord at){
-            return (at.getX() + at.getY()) % 2 == 0? white : black;
+            return (at.getX() + at.getY()) % 2 == 0? black : white;
         }
 
         private String toTurn(boolean white) {return white? "white" : "black";}
@@ -81,6 +81,11 @@
             if(getPiece(to).getType() != Type.Empty
                 || getPiece(from).getType() == Type.Pawn) peace = 0;
 
+            board[to.getY()][to.getX()] = getPiece(from);
+            board[from.getY()][from.getX()] = new Empty(cordColor(from));
+        }
+
+        public void cheatMove(Cord from, Cord to){
             board[to.getY()][to.getX()] = getPiece(from);
             board[from.getY()][from.getX()] = new Empty(cordColor(from));
         }
@@ -156,5 +161,6 @@
             }
             System.out.println("  a b c d e f g h");
             System.out.println();
+            System.out.println("All Legal Moves: " + allValidMoves());
         }
     }
