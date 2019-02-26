@@ -85,11 +85,6 @@
             board[from.getY()][from.getX()] = new Empty(cordColor(from));
         }
 
-        public void cheatMove(Cord from, Cord to){
-            board[to.getY()][to.getX()] = getPiece(from);
-            board[from.getY()][from.getX()] = new Empty(cordColor(from));
-        }
-
         public void changeTurn(){
             whiteTurn = whiteTurn ? false : true;
         }
