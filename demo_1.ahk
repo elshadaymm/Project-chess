@@ -1,4 +1,4 @@
-global delay = 500
+global delay = 1500
 
 F7::
 	Send, e2e4{enter}
@@ -77,6 +77,21 @@ F7::
 	Sleep, delay
 	
 	Send, b7b5{enter}
+	Sleep, delay
+	
+	Send, b1e1{enter}
+	Sleep, delay
+	
+	Send, d8e7{enter}
+	Sleep, delay
+	
+	Send, a1a3{enter}
+	Sleep, delay
+	
+	Send, z9k10{enter}
+	Sleep, delay
+	
+	Send, a1a2{enter}
 	Sleep, delay
 	
 	Send, f1d8*{enter}

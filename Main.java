@@ -15,7 +15,6 @@ public class Main{
             game.printState();
         }
 
-        game.printState();
         System.out.println("Game Won");
     }
 }
