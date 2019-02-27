@@ -6,3 +6,12 @@ You must first run the run.bat file to compile the code, the game with launch af
 
 # How To Play
 The GUI is currently text based in the command console.  Moves are made by inputing the the coordinate of the piece to be moved, and the coordinate of the square to be moved to.  Input is alphanumeric.  The console will printe all legal moves for the player to reference.  The game currently enforces basic rules and will score a win when a king is captured.  Check and checkmate are not yet programmed.  
+
+
+v0.1 (Demo 1)
+Tut10G01
+Elvis Chen
+Elshaday Moges
+Diwij Dev
+Yifeng Pan
+Jeremy Stuart
