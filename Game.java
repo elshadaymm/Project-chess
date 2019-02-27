@@ -9,7 +9,7 @@
         public static boolean black = false;
 
         private boolean whiteTurn = true;
-        private int peace = 0;
+        private int peace = 0;  //definitely need to comment what "peace" is...because I doubt it's obvious to anyone else!
 
         private Piece[][] board = new Piece[boardSize][boardSize];
         public Game(){
@@ -122,14 +122,14 @@
                 return false;
             }
             if(getPiece(to).getType() != Type.Empty && getPiece(from).getColor() == getPiece(to).getColor()){
-                System.out.println("Error: Friendly Fire");
+                System.out.println("Error: Friendly Fire");   //need to comment what "Friendly Fire" is
                 return false;
             }
             return getPiece(from).isValid(this, from, to);
         }
 
         /**
-         * Functin to determine which piece occupies this space on the board.
+         * Function to determine which piece occupies this space on the board.
          * @param at Takes in a coordinate as a value
          * @return The piece at the coordinate provided
          */

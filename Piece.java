@@ -1,7 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * This is the base class for all of the chess pieces (including empty)
+ * It uses enum type to specify the types of pieces.
+ */
+
 enum Type{
-    King, Queen, Rook,
+    King, Queen, Rook,  //these should all be upper case I think (convention)?
     Bishop, Knight, Pawn,
     Empty;
 }
@@ -23,6 +28,14 @@ public class Piece{
         this(piece.getType(), piece.getColor());
     }
 
+    /**
+     * Checks that the piece to be moved is the same colour as the player whose turn it is,
+     * and that the piece moving is not moving to a square with a same of the same colour.
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param to coordinate variable of the pieces end position
+     *
+     */
     public boolean isValid(Game game, Cord from, Cord to){
         if(game.getPiece(from).getColor() != game.getTurn()) return false;
         if(game.getPiece(to).getType() != Type.Empty && game.getPiece(from).getColor() == game.getPiece(to).getColor()) return false;
