@@ -12,10 +12,18 @@ public class Pawn extends Piece{
       int mod = getColor()? 1 : -1;
       int dx = abs(from.getX() - to.getX());
       int dy = mod * (to.getY() - from.getY());
-      if(dy == 1 && dx == 0 && board[to.getY()][to.getX()].getType() == Type.Empty) valid = true;
-      if(dy == 1 && dx == 1 && board[to.getY()][to.getX()].getType() != Type.Empty && board[to.getY()][to.getX()].getColor() != getColor()) valid = true;
-      if((from.getY() == 1) || (from.getY() == 6))
-        if(dy == 2 && dx == 0 && board[to.getY()][to.getX()].getType() == Type.Empty && board[to.getY() - mod][to.getX()].getType() == Type.Empty) valid = true;
+      if(dy == 1 && dx == 0 
+        && board[to.getY()][to.getX()].getType() == Type.Empty) 
+        valid = true;
+      else if(dy == 1 && dx == 1 
+        && board[to.getY()][to.getX()].getType() != Type.Empty 
+        && board[to.getY()][to.getX()].getColor() != getColor()) 
+        valid = true;
+      else if((from.getY() == 1) || (from.getY() == 6))
+        if(dy == 2 && dx == 0 
+        && board[to.getY()][to.getX()].getType() == Type.Empty 
+        && board[to.getY() - mod][to.getX()].getType() == Type.Empty) 
+        valid = true;
       return valid && super.isValid(game, from, to);
     }
 
