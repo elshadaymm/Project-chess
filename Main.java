@@ -5,7 +5,10 @@
  */
 public class Main{
     public static void main(String[] args){
-        Game game = new Game();
+        int row = 8;//Change row and col to change the board size
+        int col = 8;//As long as both values are >= 8
+
+        Game game = new Game(row, col);
         game.printState();
 
         Player wb = new Player();

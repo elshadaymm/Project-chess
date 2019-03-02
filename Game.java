@@ -13,14 +13,18 @@
         private int fileSize = 8;//col
 
         private boolean whiteTurn = true;
-        private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule
-        private double advantage = 0; // Who's winning? white if its positive. black if its negative
+        private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
+        
+        // Who's winning? white if its positive. black if its negative
+        //Larger the value, more the game faves white
+        private double advantage = 0;
 
-        private Piece[][] board = new Piece[rankSize][fileSize];
+        private Piece[][] board;
 
         public Game(int rank, int file){
             rankSize = rank;
             fileSize = file;
+            board = new Piece[rankSize][fileSize];
             nullBoard();
             setUpBoard();
         }
@@ -32,6 +36,7 @@
         public Game(Game game){
             rankSize = game.getRankSize();
             fileSize = game.getFileSize();
+            board = new Piece[rankSize][fileSize];
             this.whiteTurn = game.getTurn();
             this.peace = game.getPeace();
             this.advantage = game.getAdvantage();
