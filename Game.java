@@ -83,7 +83,7 @@
         }
 
         private boolean cordColor(Cord at){
-            return (at.getX() + at.getY()) % 2 == 0? BLACK : WHITE;
+            return (at.getRank() + at.getFile()) % 2 == 0? BLACK : WHITE;
         }
 
         private String toTurn(boolean white) {return white? "white" : "black";}
@@ -129,8 +129,8 @@
             if(getPiece(to).getType() != Type.Empty
                 || getPiece(from).getType() == Type.Pawn) peace = 0;
 
-            board[to.getY()][to.getX()] = getPiece(from);
-            board[from.getY()][from.getX()] = new Empty(cordColor(from));
+            board[to.getFile()][to.getRank()] = getPiece(from);
+            board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
 
             updateAdvantage();
         }
@@ -169,7 +169,7 @@
          * @return The piece at the coordinate provided
          */
         public Piece getPiece(Cord at){
-            return board[at.getY()][at.getX()];
+            return board[at.getFile()][at.getRank()];
         }
 
         public boolean getTurn() {return whiteTurn;}
@@ -202,6 +202,10 @@
          */
         public void printState(){
             printInfo();
+
+            System.out.println();
+            System.out.println("All Legal Moves: " + allValidMoves());
+
             printBoard();
         }
 
@@ -210,8 +214,6 @@
             System.out.println("Fifty-move Rule: " + peace);
             System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
             System.out.println("White's Advantage: " + advantage);
-            System.out.println();
-            System.out.println("All Legal Moves: " + allValidMoves());
         }
 
         public void printBoard(){
@@ -233,6 +235,8 @@
             System.out.print(' ');
             for(int j = 0; j < fileSize; j++)
                 System.out.print(" " + (char) ('a' + j));
+
+            System.out.println();
             System.out.println();
         }
     }

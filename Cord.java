@@ -5,19 +5,19 @@
  */
 
 public class Cord{
-    private int x, y;
-    public Cord(int x, int y){
-        setX(x);
-        setY(y);
+    private int rank, file;
+    public Cord(int rank, int file){
+        this.rank = rank;
+        this.file = file;
     }
 
-    public void setX(int x){this.x = x;}
-    public void setY(int y){this.y = y;}
+    public void setRank(int rank){this.rank = rank;}
+    public void setFile(int file){this.file = file;}
 
-    public int getX(){return x;}
-    public int getY(){return y;}
+    public int getRank(){return rank;}
+    public int getFile(){return file;}
 
-    public void printCord(){
-        System.out.println("X: " + x + ", Y: " + y);
+    public String toString(){
+        return Converter.CordToUCI(this);
     }
 }

@@ -10,19 +10,19 @@ public class Pawn extends Piece{
       boolean valid = false;
       Piece[][] board = game.getBoard();
       int mod = getColor()? 1 : -1;
-      int dx = abs(from.getX() - to.getX());
-      int dy = mod * (to.getY() - from.getY());
+      int dx = abs(from.getRank() - to.getRank());
+      int dy = mod * (to.getFile() - from.getFile());
       if(dy == 1 && dx == 0 
-        && board[to.getY()][to.getX()].getType() == Type.Empty) 
+        && board[to.getFile()][to.getRank()].getType() == Type.Empty) 
         valid = true;
       else if(dy == 1 && dx == 1 
-        && board[to.getY()][to.getX()].getType() != Type.Empty 
-        && board[to.getY()][to.getX()].getColor() != getColor()) 
+        && board[to.getFile()][to.getRank()].getType() != Type.Empty 
+        && board[to.getFile()][to.getRank()].getColor() != getColor()) 
         valid = true;
-      else if((from.getY() == 1) || (from.getY() == 6))
+      else if((from.getFile() == 1) || (from.getFile() == 6))
         if(dy == 2 && dx == 0 
-        && board[to.getY()][to.getX()].getType() == Type.Empty 
-        && board[to.getY() - mod][to.getX()].getType() == Type.Empty) 
+        && board[to.getFile()][to.getRank()].getType() == Type.Empty 
+        && board[to.getFile() - mod][to.getRank()].getType() == Type.Empty) 
         valid = true;
       return valid && super.isValid(game, from, to);
     }

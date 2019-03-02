@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class Bishop extends Piece{
+    public static final int POSITIVE = 1;
+    public static final int NEGATIVE = -1;
+
     public Bishop(boolean white){
         super(Type.Bishop, white);
     }
@@ -8,14 +11,14 @@ public class Bishop extends Piece{
     @Override
     public boolean isValid(Game game, Cord from, Cord to){
         boolean valid = false;
-        int dx = abs(from.getX() - to.getX());
-        int dy = abs(from.getY() - to.getY());
+        int dx = abs(from.getRank() - to.getRank());
+        int dy = abs(from.getFile() - to.getFile());
         if(dx == dy){
             valid = true;
-            int modX = to.getX() - from.getX() > 0? 1 : -1;
-            int modY = to.getY() - from.getY() > 0? 1 : -1;
+            int modX = to.getRank() - from.getRank() > 0? POSITIVE : NEGATIVE;
+            int modY = to.getFile() - from.getFile() > 0? POSITIVE : NEGATIVE;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getX() + i * modX, from.getY() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile() + i * modY)).getType() != Type.Empty)
                     valid = false;
         }
         return valid && super.isValid(game, from, to);

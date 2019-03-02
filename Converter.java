@@ -13,8 +13,8 @@ public class Converter{
 
     public static String CordToUCI(Cord cord){
         return ""
-            + (char) (cord.getX() + 'a')
+            + (char) (cord.getRank() + 'a')
             + ""
-            + (cord.getY() + 1);
+            + (cord.getFile() + 1);
     }
 }

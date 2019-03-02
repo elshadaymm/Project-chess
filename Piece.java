@@ -72,9 +72,9 @@ public class Piece{
     public String validMovesToString(Game game, Cord from){
         ArrayList<Cord> moves = validMoves(game, from);
         String movesToString = "";
-        String fromString = Converter.CordToUCI(from);
+        String fromString = from.toString();
         for(Cord cord : moves)
-            movesToString = movesToString + fromString + Converter.CordToUCI(cord) + ", ";
+            movesToString = movesToString + fromString + cord.toString() + ", ";
         if(movesToString.length() != 0) movesToString = movesToString.substring(0, movesToString.length() - 2);
         return movesToString;
     }
