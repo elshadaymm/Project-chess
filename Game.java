@@ -30,8 +30,11 @@
         }
 
         public Game(Game game){
+            rankSize = game.getRankSize();
+            fileSize = game.getFileSize();
             this.whiteTurn = game.getTurn();
             this.peace = game.getPeace();
+            this.advantage = game.getAdvantage();
             for(int i = 0; i < rankSize; i++)
                 for(int j = 0; j < fileSize; j++)
                     this.board[i][j] = new Piece(game.getPiece(new Cord(i, j)));
@@ -123,6 +126,8 @@
 
             board[to.getY()][to.getX()] = getPiece(from);
             board[from.getY()][from.getX()] = new Empty(cordColor(from));
+
+            updateAdvantage();
         }
 
         public void changeTurn(){
@@ -191,11 +196,26 @@
          * prints the state of the board using ascii characters to the terminal for the player to reference
          */
         public void printState(){
+            printInfo();
+            printBoard();
+        }
+
+        public void printInfo(){
             System.out.println();
             System.out.println("Fifty-move Rule: " + peace);
             System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
+            System.out.println("White's Advantage: " + advantage);
             System.out.println();
-            System.out.println("  a b c d e f g h");
+            System.out.println("All Legal Moves: " + allValidMoves());
+        }
+
+        public void printBoard(){
+            System.out.println();
+            System.out.print(' ');
+            for(int j = 0; j < fileSize; j++)
+                System.out.print(" " + (char) ('a' + j));
+            System.out.println();
+
             for(int i = rankSize - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");
                 for(int j = 0; j < fileSize; j++){
@@ -204,8 +224,10 @@
                 System.out.print(i + 1 + " ");
                 System.out.println();
             }
-            System.out.println("  a b c d e f g h");
+            
+            System.out.print(' ');
+            for(int j = 0; j < fileSize; j++)
+                System.out.print(" " + (char) ('a' + j));
             System.out.println();
-            System.out.println("All Legal Moves: " + allValidMoves());
         }
     }

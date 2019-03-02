@@ -17,12 +17,12 @@ public class King extends Piece{
 
     @Override
     public void updateValue(){
-        value = 1000;
+        value = 1100;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 1000;
+        double worth = 1100;
         
         value = worth;
     }
