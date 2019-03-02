@@ -14,6 +14,18 @@ public class King extends Piece{
         if(dy == 1 && dx == 0) valid = true;
         return valid && super.isValid(game, from, to);
     }
+
+    @Override
+    public void updateValue(){
+        value = 1000;
+    }
+
+    @Override
+    public void updateValue(Game game, Cord at){
+        double worth = 1000;
+        
+        value = worth;
+    }
     
     @Override
     public char toCharacter(){

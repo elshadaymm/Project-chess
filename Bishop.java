@@ -22,6 +22,18 @@ public class Bishop extends Piece{
     }
 
     @Override
+    public void updateValue(){
+        value = 3;
+    }
+
+    @Override
+    public void updateValue(Game game, Cord at){
+        double worth = 3;
+        
+        value = worth;
+    }
+
+    @Override
     public char toCharacter(){
         return isWhite? 'B' : 'b';
     }

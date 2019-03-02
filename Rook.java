@@ -28,6 +28,18 @@ public class Rook extends Piece{
     }
 
     @Override
+    public void updateValue(){
+        value = 5;
+    }
+
+    @Override
+    public void updateValue(Game game, Cord at){
+        double worth = 5;
+        
+        value = worth;
+    }
+
+    @Override
     public char toCharacter(){
         return isWhite? 'R' : 'r';
     }

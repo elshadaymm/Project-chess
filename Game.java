@@ -4,29 +4,41 @@
  *
  */
     public class Game{
-        public static int boardSize = 8;
-        public static boolean white = true;
-        public static boolean black = false;
+        public static final boolean WHITE = true;
+        public static final boolean BLACK = false;
+        public static final int POSITIVE = 1;
+        public static final int NEGATIVE = -1;
+        
+        private int rankSize = 8;//row
+        private int fileSize = 8;//col
 
         private boolean whiteTurn = true;
-        private int peace = 0;  //definitely need to comment what "peace" is...because I doubt it's obvious to anyone else!
+        private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule
+        private double advantage = 0; // Who's winning? white if its positive. black if its negative
 
-        private Piece[][] board = new Piece[boardSize][boardSize];
-        public Game(){
+        private Piece[][] board = new Piece[rankSize][fileSize];
+
+        public Game(int rank, int file){
+            rankSize = rank;
+            fileSize = file;
             nullBoard();
             setUpBoard();
+        }
+
+        public Game(){
+            this(8,8);
         }
 
         public Game(Game game){
             this.whiteTurn = game.getTurn();
             this.peace = game.getPeace();
-            for(int i = 0; i < boardSize; i++)
-                for(int j = 0; j < boardSize; j++)
+            for(int i = 0; i < rankSize; i++)
+                for(int j = 0; j < fileSize; j++)
                     this.board[i][j] = new Piece(game.getPiece(new Cord(i, j)));
         }
 
         private void setUpBoard(){
-            boolean side = white;
+            boolean side = WHITE;
             board[0][0] = new Rook(side);
             board[0][1] = new Knight(side);
             board[0][2] = new Bishop(side);
@@ -35,12 +47,12 @@
             board[0][5] = new Bishop(side);
             board[0][6] = new Knight(side);
             board[0][7] = new Rook(side);
-            for(int i = 0; i < boardSize; i++)
+            for(int i = 0; i < fileSize; i++)
                 board[1][i] = new Pawn(side);
 
 
 
-            side = black;
+            side = BLACK;
             board[7][0] = new Rook(side);
             board[7][1] = new Knight(side);
             board[7][2] = new Bishop(side);
@@ -49,7 +61,7 @@
             board[7][5] = new Bishop(side);
             board[7][6] = new Knight(side);
             board[7][7] = new Rook(side);
-            for(int i = 0; i < boardSize; i++)
+            for(int i = 0; i < fileSize; i++)
                 board[6][i] = new Pawn(side);
         }
 
@@ -57,23 +69,36 @@
       * Creates the spaces on the board, the bottom left corner is 0,0 and the top right is 7,7
       */
         private void nullBoard(){
-            for(int i = 0; i < boardSize; i++)
-                for(int j = 0; j < boardSize; j++)
+            for(int i = 0; i < rankSize; i++)
+                for(int j = 0; j < fileSize; j++)
                     board[i][j] = new Empty(cordColor(new Cord(i,j)));
         }
 
         private boolean cordColor(Cord at){
-            return (at.getX() + at.getY()) % 2 == 0? black : white;
+            return (at.getX() + at.getY()) % 2 == 0? BLACK : WHITE;
         }
 
         private String toTurn(boolean white) {return white? "white" : "black";}
 
         private boolean kingAlive(boolean color){
-            for(int i = 0; i < boardSize; i++)
-                for(int j = 0; j < boardSize; j++)
+            for(int i = 0; i < rankSize; i++)
+                for(int j = 0; j < fileSize; j++)
                     if(board[i][j].getType() == Type.King && board[i][j].getColor() == color)
                         return true;
             return false;
+        }
+
+        private void updateAdvantage(){
+            double sum = 0;
+            Piece current;
+            Cord at;
+            for(int i = 0; i < rankSize; i++)
+                for(int j = 0; j < fileSize; j++){
+                    at = new Cord(i,j);
+                    current = getPiece(at);
+                    sum += current.getValue() * (current.getColor()? POSITIVE: NEGATIVE);
+                }
+            advantage = sum;
         }
 
         /*
@@ -81,7 +106,7 @@
         */
 
         public boolean win(){
-            return !(kingAlive(white) && kingAlive(black));
+            return !(kingAlive(WHITE) && kingAlive(BLACK));
         }
 
         /**
@@ -91,7 +116,7 @@
          * @param to The coordinate that the piece is moving to
          */
         public void move(Cord from, Cord to){
-            if(getPiece(from).getColor() == black) peace++;
+            if(getPiece(from).getColor() == BLACK) peace++;
 
             if(getPiece(to).getType() != Type.Empty
                 || getPiece(from).getType() == Type.Pawn) peace = 0;
@@ -138,20 +163,19 @@
         }
 
         public boolean getTurn() {return whiteTurn;}
-
         public int getPeace() {return peace;}
-
         public Piece[][] getBoard() {return board;}
-
-        public int getBoardSize() {return boardSize;}
+        public int getRankSize() {return rankSize;}
+        public int getFileSize() {return fileSize;}
+        public double getAdvantage() {return advantage;}
 
         public String allValidMoves(){
             Cord cord;
             String current;
             String moves = "";
 
-            for(int i = 0; i < boardSize; i++)
-                for(int j = 0; j < boardSize; j++){
+            for(int i = 0; i < rankSize; i++)
+                for(int j = 0; j < fileSize; j++){
                     cord = new Cord(i, j);
                     current = getPiece(cord).validMovesToString(this, cord);
                     if(current.length() != 0){
@@ -172,9 +196,9 @@
             System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
             System.out.println();
             System.out.println("  a b c d e f g h");
-            for(int i = boardSize - 1; i >= 0; i--){
+            for(int i = rankSize - 1; i >= 0; i--){
                 System.out.print(i + 1 + " ");
-                for(int j = 0; j < boardSize; j++){
+                for(int j = 0; j < fileSize; j++){
                     System.out.print(board[i][j].toCharacter() + " ");
                 }
                 System.out.print(i + 1 + " ");

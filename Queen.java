@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class Queen extends Piece{
+    public static final int POSITIVE = 1;
+    public static final int NEGATIVE = -1;
+
     public Queen(boolean white){
         super(Type.Queen, white);
     }
@@ -10,8 +13,8 @@ public class Queen extends Piece{
         boolean valid = false;
         int dx = abs(from.getX() - to.getX());
         int dy = abs(from.getY() - to.getY());
-        int modX = to.getX() - from.getX() > 0? 1 : -1;
-        int modY = to.getY() - from.getY() > 0? 1 : -1;
+        int modX = to.getX() - from.getX() > 0? POSITIVE : NEGATIVE;
+        int modY = to.getY() - from.getY() > 0? POSITIVE : NEGATIVE;
         if(dx == dy){
             valid = true;
             for(int i = 1; i < dx; i++)
@@ -31,6 +34,18 @@ public class Queen extends Piece{
                     return false;
         }
         return valid && super.isValid(game, from, to);
+    }
+
+    @Override
+    public void updateValue(){
+        value = 9;
+    }
+
+    @Override
+    public void updateValue(Game game, Cord at){
+        double worth = 9;
+        
+        value = worth;
     }
 
     @Override

@@ -26,6 +26,18 @@ public class Pawn extends Piece{
         valid = true;
       return valid && super.isValid(game, from, to);
     }
+
+    @Override
+    public void updateValue(){
+        value = 1;
+    }
+
+    @Override
+    public void updateValue(Game game, Cord at){
+        double worth = 1;
+        
+        value = worth;
+    }
     
     @Override
     public char toCharacter(){

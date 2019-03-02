@@ -14,10 +14,12 @@ enum Type{
 public class Piece{
     protected boolean isWhite;
     private Type type;
+    protected double value;
 
     public Piece(Type type, boolean white){
         isWhite = white;
         this.type = type;
+        updateValue();
     }
 
     public Piece(){
@@ -45,13 +47,23 @@ public class Piece{
         return true;
     }
 
+    //Default value of a piece
+    public void updateValue(){
+        value = 0;
+    }
+
+    //Default value of a piece
+    public void updateValue(Game game, Cord at){
+        value = 0;
+    }
+
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
         if(game.getPiece(from).getType() == Type.Empty)
             return moves;
         
-        for(int i = 0; i < game.getBoardSize(); i++)
-            for(int j = 0; j < game.getBoardSize(); j++)
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++)
                 if(isValid(game, from, new Cord(i, j)))
                     moves.add(new Cord(i, j));
         return moves;
@@ -69,6 +81,7 @@ public class Piece{
 
     public boolean getColor() {return isWhite;}
     public Type getType() {return type;}
+    public double getValue() {return value;}
 
     public int abs(int x){
         if(x < 0) return -x;
