@@ -39,7 +39,7 @@ public class Piece{
      *
      */
     public boolean isValid(Game game, Cord from, Cord to){
-        if(game.getPiece(from).getColor() != game.getTurn()) 
+        if(game.getPiece(from).getColor() != game.getWhiteTurn()) 
             return false;
         else if(game.getPiece(to).getType() != Type.Empty 
             && game.getPiece(from).getColor() == game.getPiece(to).getColor()) 

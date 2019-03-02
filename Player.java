@@ -1,40 +1,28 @@
-import java.util.Scanner;
+import java.util.Random;
+import java.util.ArrayList;
 
 public class Player{
-    public Player() {}
+    protected Game game;
+    public Player(Game game) {this.game = game;}
 
-    public void move(Game game){
-        Scanner sc = new Scanner(System.in);
-        String move;
-        Cord from, to;
-        System.out.print("Input Move of Format \"a1h8\": ");
-        while (true) {
-            do{
-                move = sc.next();
-                System.out.println();
-                if(!validInput(move))
-                    System.out.print("Invalid Fromat: Enter move of format \"a1h8\": ");
-            }while(!validInput(move));
-            move = move + " ";
-            move = Converter.UCIToCord(move) + move.charAt(4);
-            from = new Cord(Integer.parseInt("" + move.charAt(1)), Integer.parseInt("" + move.charAt(0)));
-            to = new Cord(Integer.parseInt("" + move.charAt(3)), Integer.parseInt("" + move.charAt(2)));
-            
-            if(move.length() == 5 && move.charAt(4) == '*'){
-                game.move(from, to);
-                game.changeTurn();
-                return;
-            }else if(game.validMove(from, to)){
-                game.move(from, to);
-                game.changeTurn();
-                return;
-            }else{
-                System.out.print("Invalid Move: Enter new move: ");
-            }
-        }
+    //Player by default makes a random move by ai
+    public void move(){
+        Random rand = new Random();
+        ArrayList<Move> validMoves = game.allValidMoves();
+        makeMove(validMoves.get(rand.nextInt(validMoves.size())));
     }
 
-    private boolean validInput(String str){
+    protected void makeMove(Cord from, Cord to){
+        game.move(from, to);
+        game.changeTurn();
+    }
+
+    protected void makeMove(Move move){
+        game.move(move);
+        game.changeTurn();
+    }
+
+    protected boolean validInput(String str){
         if(str.length() < 4 || str.length() > 5) return false;
 
         if(str.charAt(0) < 'a' || str.charAt(0) > 'h'

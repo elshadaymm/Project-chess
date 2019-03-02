@@ -23,7 +23,6 @@ public class King extends Piece{
     @Override
     public void updateValue(Game game, Cord at){
         double worth = Constant.KING_VALUE;
-        
         value = worth;
     }
     

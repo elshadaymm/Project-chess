@@ -11,11 +11,30 @@ public class Main{
         Game game = new Game(row, col);
         game.printState();
 
-        Player wb = new Player();
+        Player white, black;
+
+        if(args.length == 2){
+            if(args[0].equals("Human"))
+                white = new Human(game);
+            else
+                white = new Engine(game);
+
+            if(args[1].equals("Human"))
+                black = new Human(game);
+            else
+                black = new Engine(game);
+        }else{
+            white = new Human(game);
+            black = new Human(game);
+        }
 
         while(!game.win()){
-            wb.move(game);
+            white.move();
             game.printState();
+            if(!game.win()){
+                black.move();
+                game.printState();
+            }
         }
 
         System.out.println("Game Won");
