@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 
 public class Queen extends Piece{
-    public static final int POSITIVE = 1;
-    public static final int NEGATIVE = -1;
-
     public Queen(boolean white){
         super(Type.Queen, white);
     }
@@ -13,8 +10,8 @@ public class Queen extends Piece{
         boolean valid = false;
         int dx = abs(from.getRank() - to.getRank());
         int dy = abs(from.getFile() - to.getFile());
-        int modX = to.getRank() - from.getRank() > 0? POSITIVE : NEGATIVE;
-        int modY = to.getFile() - from.getFile() > 0? POSITIVE : NEGATIVE;
+        int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int modY = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         if(dx == dy){
             valid = true;
             for(int i = 1; i < dx; i++)
@@ -38,12 +35,12 @@ public class Queen extends Piece{
 
     @Override
     public void updateValue(){
-        value = 9;
+        value = Constant.QUEEN_VALUE;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 9;
+        double worth = Constant.QUEEN_VALUE;
         
         value = worth;
     }

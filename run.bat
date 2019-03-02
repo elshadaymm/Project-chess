@@ -1,8 +1,20 @@
-javac Main.java
-javac Game.java
-javac Piece.java
-javac Player.java
+javac Constant.java
+javac Cord.java
 javac Converter.java
+
+javac Piece.java
+javac King.java
+javac Queen.java
+javac Rook.java
+javac Bishop.java
+javac Knight.java
+javac Pawn.java
+javac Empty.java
+
+javac Game.java
+javac Player.java
+
+javac Main.java
 
 java Main
 

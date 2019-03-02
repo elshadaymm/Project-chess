@@ -29,12 +29,12 @@ public class Pawn extends Piece{
 
     @Override
     public void updateValue(){
-        value = 1;
+        value = Constant.PAWN_VALUE;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 1;
+        double worth = Constant.PAWN_VALUE;
         
         value = worth;
     }

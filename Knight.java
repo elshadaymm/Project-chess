@@ -17,12 +17,12 @@ public class Knight extends Piece{
 
     @Override
     public void updateValue(){
-        value = 3;
+        value = Constant.KNIGHT_VALUE;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 3;
+        double worth = Constant.KNIGHT_VALUE;
         value = worth;
     }
 

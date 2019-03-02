@@ -11,14 +11,14 @@ public class Rook extends Piece{
         int dx = abs(from.getRank() - to.getRank());
         int dy = abs(from.getFile() - to.getFile());
         if (dy == 0 && dx != 0){
-            int mod = to.getRank() - from.getRank() > 0? 1 : -1;
+            int mod = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             valid = true;
             for(int i = 1; i < dx; i++)
                 if(game.getPiece(new Cord(from.getRank() + i * mod, from.getFile())).getType() != Type.Empty)
                     valid = false;
         }
         else if (dx == 0 && dy != 0){ 
-            int mod = to.getFile() - from.getFile() > 0? 1 : -1;
+            int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             valid = true;
             for(int i = 1; i < dy; i++)
                 if(game.getPiece(new Cord(from.getRank(), from.getFile() + i * mod)).getType() != Type.Empty)
@@ -29,12 +29,12 @@ public class Rook extends Piece{
 
     @Override
     public void updateValue(){
-        value = 5;
+        value = Constant.ROOK_VALUE;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 5;
+        double worth = Constant.ROOK_VALUE;
         
         value = worth;
     }

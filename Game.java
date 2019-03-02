@@ -4,11 +4,6 @@
  *
  */
     public class Game{
-        public static final boolean WHITE = true;
-        public static final boolean BLACK = false;
-        public static final int POSITIVE = 1;
-        public static final int NEGATIVE = -1;
-        
         private int rankSize = 8;//row
         private int fileSize = 8;//col
 
@@ -46,7 +41,7 @@
         }
 
         private void setUpBoard(){
-            boolean side = WHITE;
+            boolean side = Constant.WHITE;
             board[0][0] = new Rook(side);
             board[0][1] = new Knight(side);
             board[0][2] = new Bishop(side);
@@ -60,7 +55,7 @@
 
 
 
-            side = BLACK;
+            side = Constant.BLACK;
             board[7][0] = new Rook(side);
             board[7][1] = new Knight(side);
             board[7][2] = new Bishop(side);
@@ -83,7 +78,7 @@
         }
 
         private boolean cordColor(Cord at){
-            return (at.getRank() + at.getFile()) % 2 == 0? BLACK : WHITE;
+            return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
         }
 
         private String toTurn(boolean white) {return white? "white" : "black";}
@@ -104,7 +99,7 @@
                 for(int j = 0; j < fileSize; j++){
                     at = new Cord(i,j);
                     current = getPiece(at);
-                    sum += current.getValue() * (current.getColor()? POSITIVE: NEGATIVE);
+                    sum += current.getValue() * (current.getColor()? Constant.POSITIVE: Constant.NEGATIVE);
                 }
             advantage = sum;
         }
@@ -114,7 +109,7 @@
         */
 
         public boolean win(){
-            return !(kingAlive(WHITE) && kingAlive(BLACK));
+            return !(kingAlive(Constant.WHITE) && kingAlive(Constant.BLACK));
         }
 
         /**
@@ -124,7 +119,7 @@
          * @param to The coordinate that the piece is moving to
          */
         public void move(Cord from, Cord to){
-            if(getPiece(from).getColor() == BLACK) peace++;
+            if(getPiece(from).getColor() == Constant.BLACK) peace++;
 
             if(getPiece(to).getType() != Type.Empty
                 || getPiece(from).getType() == Type.Pawn) peace = 0;
@@ -213,7 +208,7 @@
             System.out.println();
             System.out.println("Fifty-move Rule: " + peace);
             System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
-            System.out.println("White's Advantage: " + advantage);
+            System.out.printf("White's Advantage: %.2f\n", advantage);
         }
 
         public void printBoard(){

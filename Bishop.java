@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 
 public class Bishop extends Piece{
-    public static final int POSITIVE = 1;
-    public static final int NEGATIVE = -1;
-
     public Bishop(boolean white){
         super(Type.Bishop, white);
     }
@@ -15,8 +12,8 @@ public class Bishop extends Piece{
         int dy = abs(from.getFile() - to.getFile());
         if(dx == dy){
             valid = true;
-            int modX = to.getRank() - from.getRank() > 0? POSITIVE : NEGATIVE;
-            int modY = to.getFile() - from.getFile() > 0? POSITIVE : NEGATIVE;
+            int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int modY = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             for(int i = 1; i < dx; i++)
                 if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile() + i * modY)).getType() != Type.Empty)
                     valid = false;
@@ -26,12 +23,12 @@ public class Bishop extends Piece{
 
     @Override
     public void updateValue(){
-        value = 3;
+        value = Constant.BISHOP_VALUE;
     }
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = 3;
+        double worth = Constant.BISHOP_VALUE;
         
         value = worth;
     }
