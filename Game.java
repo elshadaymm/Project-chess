@@ -13,6 +13,8 @@ public class Game{
     private int turn = 1;
     private boolean whiteTurn = true;
     private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
+
+    private int end = Constant.ONGOING;
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
@@ -38,6 +40,7 @@ public class Game{
         this.whiteTurn = game.getWhiteTurn();
         this.peace = game.getPeace();
         this.advantage = game.getAdvantage();
+        this.end = game.getEnd();
         setBoard(game.getBoard());
     }
 
@@ -141,8 +144,17 @@ public class Game{
     START OF GAME INTERFACE!!!!!!!!!!!!!!!
     */
 
-    public boolean win(){
-        return !(kingAlive(Constant.WHITE) && kingAlive(Constant.BLACK));
+    public int end(){
+        return end;
+    }
+
+    public void updateEnd(){
+        if(!kingAlive(Constant.WHITE))
+            end = Constant.BLACK_WIN;
+        else if(!kingAlive(Constant.BLACK))
+            end = Constant.WHITE_WIN;
+        else if(peace >= 50)
+            end = Constant.DRAW;
     }
 
     /**
@@ -164,6 +176,7 @@ public class Game{
         board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
 
         updateAdvantage();
+        updateEnd();
         changeTurn();
     }
 
@@ -184,6 +197,10 @@ public class Game{
      * .is_valid() returns true if the piece is allowed to make that move, false otherwise
      */
     public boolean validMove(Cord from, Cord to){
+        if(end != Constant.ONGOING){
+            System.out.println("Error: Game's Over");
+            return false;
+        }
         if(getPiece(from).getType() == Type.Empty){
             System.out.println("Error: Can't move an Empty Piece.");
             return false;
@@ -215,6 +232,7 @@ public class Game{
     public int getFileSize() {return fileSize;}
     public double getAdvantage() {return advantage;}
     public int getTurn() {return turn;}
+    public int getEnd() {return end;}
 
     public ArrayList<Move> allValidMoves(){
         ArrayList<Move> moves = new ArrayList<Move>();

@@ -12,6 +12,10 @@ public class Move{
         this.value = value;
     }
 
+    public Move(double value){
+        this.value = value;
+    }
+
     public void setValue(double n) {value = n;}
     public double getValue() {return value;}
 

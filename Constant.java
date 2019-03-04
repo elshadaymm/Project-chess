@@ -14,6 +14,15 @@ public class Constant{
     public static final double KNIGHT_VALUE = 3 - BISHOP_PREFERENCE;
     public static final double PAWN_VALUE = 1;
 
+    //Threathhold fo the game lossing or winning
+    public static final double THRESHOLD = KING_VALUE / 2;
+
+    //Values and meaning for the end variable in Game class
+    public static final int ONGOING = 0;
+    public static final int WHITE_WIN = 1;
+    public static final int BLACK_WIN = 2;
+    public static final int DRAW = 3;
+
 
     //default depth for minmax ai
     public static final int DEFAULT_MINMAX = 2;

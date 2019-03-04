@@ -47,15 +47,28 @@ public class Main{
             black = new Human(game);
         }
 
-        while(!game.win()){
+        while(game.end() == Constant.ONGOING){
             white.move();
             game.printState();
-            if(!game.win()){
+            if(game.end() == Constant.ONGOING){
                 black.move();
                 game.printState();
             }
         }
 
-        System.out.println("Game Won");
+        switch (game.getEnd()){
+            case Constant.WHITE_WIN:
+                System.out.println("White Wins.");
+                break;
+            case Constant.BLACK_WIN:
+                System.out.println("Black Wins.");
+                break;
+            case Constant.DRAW:
+                System.out.println("Draw.");
+                break;
+            default:
+                System.out.println("Error: Invalid End.");
+                break;
+        }
     }
 }

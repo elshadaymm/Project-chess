@@ -42,12 +42,14 @@ public class AIMinMax extends Player{
     }
 
     public Move min(final ArrayList<Move> moves){
+        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
         Random rand = new Random();
         ArrayList<Move> allMin = minMoves(moves);
         return allMin.get(rand.nextInt(allMin.size()));
     }
 
     public Move max(final ArrayList<Move> moves){
+        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
         Random rand = new Random();
         ArrayList<Move> allMax = maxMoves(moves);
         return allMax.get(rand.nextInt(allMax.size()));
