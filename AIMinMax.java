@@ -5,7 +5,9 @@ public class AIMinMax extends Player{
     public AIMinMax(Game game) {super(game);}
 
     public void move(){
-        makeMove(minMax());
+        Move move = minMax();
+        System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
+        makeMove(move);
     }
 
     public Move minMax(){return minMax(Constant.DEFAULT_MINMAX);}
@@ -28,16 +30,15 @@ public class AIMinMax extends Player{
                 tempGame.move(move);
                 move.setValue(tempGame.getAdvantage());
             }
-            return game.getWhiteTurn()? max(validMoves) : min(validMoves);
         }else{
             for(Move move : validMoves){
                 Game tempGame = new Game(game);
                 tempGame.move(move);
                 AIMinMax tempAI = new AIMinMax(tempGame);
-                move = tempAI.minMax(depth - 1);
+                move.setValue(tempAI.minMax(depth - 1).getValue());
             }
-            return game.getWhiteTurn()? max(validMoves) : min(validMoves);
         }
+        return game.getWhiteTurn()? max(validMoves) : min(validMoves);
     }
 
     public Move min(final ArrayList<Move> moves){
@@ -64,7 +65,7 @@ public class AIMinMax extends Player{
                 minMoves.add(current);
             else if(current.getValue() < min.getValue()){
                 min = current;
-                minMoves = new ArrayList<Move>();
+                minMoves.clear();
                 minMoves.add(min);
             }
         }
@@ -83,7 +84,7 @@ public class AIMinMax extends Player{
                 maxMoves.add(current);
             else if(current.getValue() > max.getValue()){
                 max = current;
-                maxMoves = new ArrayList<Move>();
+                maxMoves.clear();
                 maxMoves.add(max);
             }
         }
