@@ -14,15 +14,28 @@ public class Main{
         Player white, black;
 
         if(args.length == 2){
-            if(args[0].equals("Human"))
-                white = new Human(game);
-            else
-                white = new Engine(game);
-
-            if(args[1].equals("Human"))
-                black = new Human(game);
-            else
-                black = new Engine(game);
+            switch (args[0]){
+                case "Human": 
+                    white = new Human(game);
+                    break;
+                case "Engine": 
+                    white = new Engine(game);
+                    break;
+                default:
+                    white = new AIRandom(game);
+                    break;
+            }
+            switch (args[1]){
+                case "Human": 
+                    black = new Human(game);
+                    break;
+                case "Engine": 
+                    black = new Engine(game);
+                    break;
+                default:
+                    black = new AIRandom(game);
+                    break;
+            }
         }else{
             white = new Human(game);
             black = new Human(game);
