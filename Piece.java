@@ -39,6 +39,7 @@ public class Piece{
      *
      */
     public boolean isValid(Game game, Cord from, Cord to){
+        if(game.getPiece(from) == null) return false;
         if(game.getPiece(from).getColor() != game.getWhiteTurn()) 
             return false;
         else if(game.getPiece(to).getType() != Type.Empty 
@@ -57,7 +58,7 @@ public class Piece{
         value = 0;
     }
 
-    public ArrayList<Cord> validMoves(Game game, Cord from){
+    public ArrayList<Cord> validMoves(final Game game, final Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
         if(game.getPiece(from).getType() == Type.Empty)
             return moves;
@@ -67,16 +68,6 @@ public class Piece{
                 if(isValid(game, from, new Cord(i, j)))
                     moves.add(new Cord(i, j));
         return moves;
-    }
-
-    public String validMovesToString(Game game, Cord from){
-        ArrayList<Cord> moves = validMoves(game, from);
-        String movesToString = "";
-        String fromString = from.toString();
-        for(Cord cord : moves)
-            movesToString = movesToString + fromString + cord.toString() + ", ";
-        if(movesToString.length() != 0) movesToString = movesToString.substring(0, movesToString.length() - 2);
-        return movesToString;
     }
 
     public boolean getColor() {return isWhite;}

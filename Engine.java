@@ -1,5 +1,3 @@
-public class Engine extends Player{
+public class Engine extends AIRandom{
     public Engine(Game game) {super(game);}
-
-    //todo
 }

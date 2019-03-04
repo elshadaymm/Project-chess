@@ -5,6 +5,10 @@ public class Knight extends Piece{
         super(Type.Knight, white);
     }
 
+    public Knight(Piece piece){
+        this(piece.getColor());
+    }
+
     @Override
     public boolean isValid(Game game, Cord from, Cord to){
         boolean valid = false;

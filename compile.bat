@@ -15,5 +15,6 @@ javac Game.java
 javac Player.java
 javac Engine.java
 javac AIRandom.java
+javac AIMinMax.java
 
 javac Main.java

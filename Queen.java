@@ -5,6 +5,10 @@ public class Queen extends Piece{
         super(Type.Queen, white);
     }
 
+    public Queen(Piece piece){
+        this(piece.getColor());
+    }
+
     @Override
     public boolean isValid(Game game, Cord from, Cord to){
         boolean valid = false;

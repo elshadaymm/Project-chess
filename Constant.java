@@ -13,4 +13,8 @@ public class Constant{
     public static final double BISHOP_VALUE = 3 + BISHOP_PREFERENCE;
     public static final double KNIGHT_VALUE = 3 - BISHOP_PREFERENCE;
     public static final double PAWN_VALUE = 1;
+
+
+    //default depth for minmax ai
+    public static final int DEFAULT_MINMAX = 4;
 }

@@ -21,6 +21,9 @@ public class Main{
                 case "Engine": 
                     white = new Engine(game);
                     break;
+                case "AIMinMax":
+                    white = new AIMinMax(game);
+                    break;
                 default:
                     white = new AIRandom(game);
                     break;
@@ -31,6 +34,9 @@ public class Main{
                     break;
                 case "Engine": 
                     black = new Engine(game);
+                    break;
+                case "AIMinMax":
+                    black = new AIMinMax(game);
                     break;
                 default:
                     black = new AIRandom(game);

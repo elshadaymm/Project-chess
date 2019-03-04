@@ -14,12 +14,10 @@ public class Player{
 
     protected void makeMove(Cord from, Cord to){
         game.move(from, to);
-        game.changeTurn();
     }
 
     protected void makeMove(Move move){
         game.move(move);
-        game.changeTurn();
     }
 
     protected boolean validInput(String str){

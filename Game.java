@@ -8,6 +8,8 @@ public class Game{
     private int rankSize = 8;//row
     private int fileSize = 8;//col
 
+    private Piece[][] board;
+
     private int turn = 1;
     private boolean whiteTurn = true;
     private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
@@ -15,8 +17,6 @@ public class Game{
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
     private double advantage = 0;
-
-    private Piece[][] board;
 
     public Game(int rank, int file){
         rankSize = rank;
@@ -30,7 +30,7 @@ public class Game{
         this(8,8);
     }
 
-    public Game(Game game){
+    public Game(final Game game){
         rankSize = game.getRankSize();
         fileSize = game.getFileSize();
         board = new Piece[rankSize][fileSize];
@@ -38,9 +38,39 @@ public class Game{
         this.whiteTurn = game.getWhiteTurn();
         this.peace = game.getPeace();
         this.advantage = game.getAdvantage();
+        setBoard(game.getBoard());
+    }
+
+    private void setBoard(final Piece[][] board){
         for(int i = 0; i < rankSize; i++)
-            for(int j = 0; j < fileSize; j++)
-                this.board[i][j] = new Piece(game.getPiece(new Cord(i, j)));
+            for(int j = 0; j < fileSize; j++){
+                Piece original = board[i][j];
+                Piece copy;
+                switch (original.getType()){
+                    case King:
+                        copy = new King(original);
+                        break;
+                    case Queen:
+                        copy = new Queen(original);
+                        break;
+                    case Rook:
+                        copy = new Rook(original);
+                        break;
+                    case Bishop:
+                        copy = new Bishop(original);
+                        break;
+                    case Knight:
+                        copy = new Knight(original);
+                        break;
+                    case Pawn:
+                        copy = new Pawn(original);
+                        break;
+                    default:
+                        copy = new Empty(cordColor(new Cord(i,j)));
+                        break;
+                }
+                this.board[i][j] = copy;
+            }
     }
 
     private void setUpBoard(){
@@ -134,6 +164,7 @@ public class Game{
         board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
 
         updateAdvantage();
+        changeTurn();
     }
 
     public void move(Move move){
@@ -201,22 +232,20 @@ public class Game{
         return moves;
     }
 
-    public String allValidMovesToString(){
-        Cord cord;
-        String current;
-        String moves = "";
+    public String movesToString(final ArrayList<Move> moves){
+        String string = "";
 
-        for(int i = 0; i < rankSize; i++)
-            for(int j = 0; j < fileSize; j++){
-                cord = new Cord(i, j);
-                current = getPiece(cord).validMovesToString(this, cord);
-                if(current.length() != 0){
-                    moves = moves + current + ", ";
-                }
-            }
-        if(moves.length() != 0) moves = moves.substring(0, moves.length() - 2);
-        moves = "{" + moves + "}";
-        return moves;
+        for(Move move : moves){
+            string = string + move.toString() + ", ";
+        }
+
+        if(string.length() != 0) string = string.substring(0, string.length() - 2);
+        string = "{" + string + "}";
+        return string;
+    }
+
+    public String allValidMovesToString(){
+        return movesToString(allValidMoves());
     }
 
     /**
