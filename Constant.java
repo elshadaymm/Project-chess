@@ -16,5 +16,5 @@ public class Constant{
 
 
     //default depth for minmax ai
-    public static final int DEFAULT_MINMAX = 4;
+    public static final int DEFAULT_MINMAX = 3;
 }
