@@ -49,10 +49,10 @@ public class Main{
 
         while(game.end() == Constant.ONGOING){
             white.move();
-            //game.printState();
+            game.printState();
             if(game.end() == Constant.ONGOING){
                 black.move();
-                //game.printState();
+                game.printState();
             }
         }
 
@@ -66,7 +66,7 @@ public class Main{
                 System.out.println("Black Wins.");
                 break;
             case Constant.DRAW_BY_FIFTY_MOVE_RULE:
-                System.out.println("Draw.");
+                System.out.println("Draw by Fifty-move Rule.");
                 break;
             case Constant.STALEMATE:
                 System.out.println("Stalemate.");
