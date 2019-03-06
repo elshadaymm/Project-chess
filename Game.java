@@ -152,6 +152,10 @@ public class Game{
     }
 
     private void updateAdvantage(){
+        if(checkmate()){
+            advantage = getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD;
+            return;
+        }
         double sum = 0;
         Piece current;
         Cord at;
@@ -178,13 +182,48 @@ public class Game{
         return end;
     }
 
+    //checks if the move is sucide/puting it self in check
+    public boolean sucide(Move move){
+        Game tempGame = new Game(this);
+        tempGame.simpleMove(move);
+        tempGame.changeTurn();
+        ArrayList<Move> moves = tempGame.allValidMoves();
+        for(Move nextMove : moves){
+            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+                return true;
+        }
+        return false;
+    }
+
+    //checks if you are in checkmate
+    public boolean checkmate(){
+        ArrayList<Move> moves = allValidMoves();
+
+        for(Move move : moves){
+            if(!sucide(move)) return false;
+        }
+
+        return true;
+    }
+
     public void updateEnd(){
-        if(!kingAlive(Constant.WHITE))
+        if(checkmate())
+            end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
+        else if(!kingAlive(Constant.WHITE))
             end = Constant.BLACK_WIN;
         else if(!kingAlive(Constant.BLACK))
             end = Constant.WHITE_WIN;
         else if(peace >= 50)
             end = Constant.DRAW;
+    }
+
+    public void makeMove(Move move){
+        if(checkmate()){
+            System.out.println("Error: You've lost, the game should have ended, you shouldn't even be getting this message");
+            return;
+        }
+
+        move(move);
     }
 
     /**
@@ -193,7 +232,9 @@ public class Game{
      * @param from The coordinate that the piece starts on
      * @param to The coordinate that the piece is moving to
      */
-    public void move(Cord from, Cord to){
+    public void move(Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
         if(getPiece(from).getColor() == Constant.BLACK){
             turn++;
             peace++;
@@ -206,12 +247,15 @@ public class Game{
         board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
 
         updateAdvantage();
-        updateEnd();
         changeTurn();
+        updateEnd();
     }
 
-    public void move(Move move){
-        move(move.getFrom(), move.getTo());
+    public void simpleMove(Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
+        board[to.getFile()][to.getRank()] = getPiece(from);
+        board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
     }
 
     public void changeTurn(){
@@ -222,11 +266,11 @@ public class Game{
      * Checks a pieces move rules to decide if a move is allowed.
      * @param from Take a coordinate value that the piece starts on
      * @param to Takes a coordinate value that the piece wants to move to
-     * @return Invokes the .is_valid() method from the piece, which contains the pieces
+     * @return Invokes the .is_legal() method from the piece, which contains the pieces
      * move rules that are evaluated based on the x,y coordinates that the piece is on and can move to.
-     * .is_valid() returns true if the piece is allowed to make that move, false otherwise
+     * .is_legal() returns true if the piece is allowed to make that move, false otherwise
      */
-    public boolean validMove(Move move){
+    public boolean legalMove(Move move){
         if(end != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
@@ -240,10 +284,14 @@ public class Game{
             return false;
         }
         if(getPiece(move.getTo()).getType() != Type.Empty && getPiece(move.getFrom()).getColor() == getPiece(move.getTo()).getColor()){
-            System.out.println("Error: Friendly Fire");   //need to comment what "Friendly Fire" is
+            System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
             return false;
         }
-        return getPiece(move.getFrom()).isValid(this, move);
+        if(sucide(move)){
+            System.out.println("Error: Can't put self in check.");
+            return false;
+        }
+        return getPiece(move.getFrom()).isLegal(this, move);
     }
 
     /**
@@ -285,6 +333,22 @@ public class Game{
         return moves;
     }
 
+    public ArrayList<Move> allLegalMoves(){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Cord from;
+        ArrayList<Cord> current;
+
+        for(int i = 0; i < rankSize; i++)
+            for(int j = 0; j < fileSize; j++){
+                from = new Cord(i, j);
+                current = getPiece(from).legalMoves(this, from);
+                for(Cord to : current)
+                    moves.add(new Move(from, to));
+            }
+        
+        return moves;
+    }
+
     public String movesToString(final ArrayList<Move> moves){
         String string = "";
 
@@ -301,6 +365,10 @@ public class Game{
         return movesToString(allValidMoves());
     }
 
+    public String allLegalMovesToString(){
+        return movesToString(allLegalMoves());
+    }
+
     /**
      * prints the state of the board using ascii characters to the terminal for the player to reference
      */
@@ -308,7 +376,7 @@ public class Game{
         printInfo();
 
         System.out.println();
-        System.out.println("All Legal Moves: " + allValidMovesToString());
+        System.out.println("All Legal Moves: " + allLegalMovesToString());
 
         printBoard();
     }

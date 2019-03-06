@@ -8,16 +8,14 @@ public class Player{
     //Player by default makes a random move by ai
     public void move(){
         Random rand = new Random();
-        ArrayList<Move> validMoves = game.allValidMoves();
-        makeMove(validMoves.get(rand.nextInt(validMoves.size())));
-    }
+        ArrayList<Move> legalMoves = game.allLegalMoves();
 
-    protected void makeMove(Cord from, Cord to){
-        game.move(from, to);
+        if(legalMoves.size() != 0)
+            makeMove(legalMoves.get(rand.nextInt(legalMoves.size())));
     }
 
     protected void makeMove(Move move){
-        game.move(move);
+        game.makeMove(move);
     }
 
     protected boolean validInput(String str){

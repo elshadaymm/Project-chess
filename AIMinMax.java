@@ -6,7 +6,7 @@ public class AIMinMax extends Player{
 
     public void move(){
         Move move = minMax();
-        System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
+        if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
         makeMove(move);
     }
 
@@ -14,41 +14,41 @@ public class AIMinMax extends Player{
 
     public Move minMax(final int depth){
         if(depth < 1) return null;
-        ArrayList<Move> validMoves = game.allValidMoves();
+        ArrayList<Move> legalMoves = game.allLegalMoves();
         
         //was using for debugging, keep for now
         /*
         System.out.println();
-        System.out.println("Calculating... Depth: " + depth + ", # of Legal Moves" + validMoves.size());
+        System.out.println("Calculating... Depth: " + depth + ", # of Legal Moves" + legalMoves.size());
         game.printState();
-        System.out.println(game.movesToString(validMoves));
+        System.out.println(game.movesToString(legalMoves));
         */
         
         if(depth == 1){
-            for(Move move : validMoves){
+            for(Move move : legalMoves){
                 Game tempGame = new Game(game);
                 tempGame.move(move);
                 move.setValue(tempGame.getAdvantage());
             }
         }else{
-            for(Move move : validMoves){
+            for(Move move : legalMoves){
                 Game tempGame = new Game(game);
                 tempGame.move(move);
                 AIMinMax tempAI = new AIMinMax(tempGame);
                 move.setValue(tempAI.minMax(depth - 1).getValue());
             }
         }
-        return game.getWhiteTurn()? max(validMoves) : min(validMoves);
+        return game.getWhiteTurn()? max(legalMoves) : min(legalMoves);
     }
 
-    public Move min(final ArrayList<Move> moves){
+    public Move min(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
         Random rand = new Random();
         ArrayList<Move> allMin = minMoves(moves);
         return allMin.get(rand.nextInt(allMin.size()));
     }
 
-    public Move max(final ArrayList<Move> moves){
+    public Move max(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
         Random rand = new Random();
         ArrayList<Move> allMax = maxMoves(moves);

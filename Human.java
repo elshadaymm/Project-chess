@@ -23,10 +23,10 @@ public class Human extends Player{
             to = new Cord(Integer.parseInt("" + move.charAt(3)), Integer.parseInt("" + move.charAt(2)));
             
             if(move.length() == 5 && move.charAt(4) == '*'){
-                makeMove(from, to);
+                makeMove(new Move(from, to));
                 return;
-            }else if(game.validMove(new Move(from, to))){
-                makeMove(from, to);
+            }else if(game.legalMove(new Move(from, to))){
+                makeMove(new Move(from, to));
                 return;
             }else{
                 System.out.print("Invalid Move: Enter new move: ");

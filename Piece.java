@@ -46,15 +46,12 @@ public class Piece{
         if(game.getPiece(move.getTo()).getType() != Type.Empty 
             && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()) 
             return false;
-        if(sucide(game, move))
-            return false;
-        
+
         return true;
     }
 
-    //checks if the move is sucide/puting it self in check
-    public boolean sucide(Game game, Move move){
-        return false;
+    public boolean isLegal(Game game, Move move){
+        return isValid(game, move) && !game.sucide(move);
     }
 
     //Default value of a piece
@@ -75,6 +72,18 @@ public class Piece{
         for(int i = 0; i < game.getRankSize(); i++)
             for(int j = 0; j < game.getFileSize(); j++)
                 if(isValid(game, new Move(from, new Cord(i, j))))
+                    moves.add(new Cord(i, j));
+        return moves;
+    }
+
+    public ArrayList<Cord> legalMoves(final Game game, final Cord from){
+        ArrayList<Cord> moves = new ArrayList<Cord>();
+        if(game.getPiece(from).getType() == Type.Empty)
+            return moves;
+        
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++)
+                if(isLegal(game, new Move(from, new Cord(i, j))))
                     moves.add(new Cord(i, j));
         return moves;
     }

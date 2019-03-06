@@ -7,7 +7,7 @@ public class Constant{
     public static final double BISHOP_PREFERENCE = 0.1;//Preference of bishop over knight
 
     //default values of pieces
-    public static final double KING_VALUE = 1100;
+    public static final double KING_VALUE = 1000;
     public static final double QUEEN_VALUE = 9;
     public static final double ROOK_VALUE = 5;
     public static final double BISHOP_VALUE = 3 + BISHOP_PREFERENCE;
@@ -25,5 +25,5 @@ public class Constant{
 
 
     //default depth for minmax ai
-    public static final int DEFAULT_MINMAX = 4;
+    public static final int DEFAULT_MINMAX = 2;
 }
