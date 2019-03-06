@@ -63,8 +63,11 @@ public class Main{
             case Constant.BLACK_WIN:
                 System.out.println("Black Wins.");
                 break;
-            case Constant.DRAW:
+            case Constant.DRAW_BY_FIFTY_MOVE_RULE:
                 System.out.println("Draw.");
+                break;
+            case Constant.STALEMATE:
+                System.out.println("Stalemate.");
                 break;
             default:
                 System.out.println("Error: Invalid End.");

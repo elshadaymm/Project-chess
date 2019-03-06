@@ -21,7 +21,8 @@ public class Constant{
     public static final int ONGOING = 0;
     public static final int WHITE_WIN = 1;
     public static final int BLACK_WIN = 2;
-    public static final int DRAW = 3;
+    public static final int DRAW_BY_FIFTY_MOVE_RULE = 3;
+    public static final int STALEMATE = 4;
 
 
     //default depth for minmax ai

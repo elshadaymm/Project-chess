@@ -197,24 +197,40 @@ public class Game{
 
     //checks if you are in checkmate
     public boolean checkmate(){
-        ArrayList<Move> moves = allValidMoves();
+        if(!inCheck()) return false;
+        ArrayList<Move> moves = allLegalMoves();
+        return moves.size() == 0;
+    }
 
-        for(Move move : moves){
-            if(!sucide(move)) return false;
+    //checks if you are in stalemate
+    public boolean stalemate(){
+        if(inCheck()) return false;
+        ArrayList<Move> moves = allLegalMoves();
+        return moves.size() == 0;
+    }
+
+    public boolean inCheck(){
+        Game tempGame = new Game(this);
+        tempGame.changeTurn();
+        ArrayList<Move> moves = tempGame.allValidMoves();
+        for(Move nextMove : moves){
+            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+                return true;
         }
-
-        return true;
+        return false;
     }
 
     public void updateEnd(){
         if(checkmate())
             end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
+        else if(stalemate())
+            end = Constant.STALEMATE;
         else if(!kingAlive(Constant.WHITE))
             end = Constant.BLACK_WIN;
         else if(!kingAlive(Constant.BLACK))
             end = Constant.WHITE_WIN;
         else if(peace >= 50)
-            end = Constant.DRAW;
+            end = Constant.DRAW_BY_FIFTY_MOVE_RULE;
     }
 
     public void makeMove(Move move){
