@@ -56,6 +56,8 @@ public class Main{
             }
         }
 
+        game.printState();
+
         switch (game.getEnd()){
             case Constant.WHITE_WIN:
                 System.out.println("White Wins.");

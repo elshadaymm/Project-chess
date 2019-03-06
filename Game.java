@@ -156,6 +156,10 @@ public class Game{
             advantage = getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD;
             return;
         }
+        if(stalemate()){
+            advantage = 0;
+            return;
+        }
         double sum = 0;
         Piece current;
         Cord at;
