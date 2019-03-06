@@ -10,11 +10,13 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean isValid(Game game, Cord from, Cord to){
+    public boolean isValid(Game game, Move move){
+      Cord from = move.getFrom();
+      Cord to = move.getTo();
       boolean valid = false;
       Piece[][] board = game.getBoard();
       int mod = getColor()? 1 : -1;
-      int dx = abs(from.getRank() - to.getRank());
+      int dx = Math.abs(from.getRank() - to.getRank());
       int dy = mod * (to.getFile() - from.getFile());
       if(dy == 1 && dx == 0 
         && board[to.getFile()][to.getRank()].getType() == Type.Empty) 
@@ -28,7 +30,7 @@ public class Pawn extends Piece{
         && board[to.getFile()][to.getRank()].getType() == Type.Empty 
         && board[to.getFile() - mod][to.getRank()].getType() == Type.Empty) 
         valid = true;
-      return valid && super.isValid(game, from, to);
+      return valid && super.isValid(game, move);
     }
 
     @Override

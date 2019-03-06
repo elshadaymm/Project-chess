@@ -10,13 +10,15 @@ public class King extends Piece{
     }
 
     @Override
-    public boolean isValid(Game game, Cord from, Cord to){
+    public boolean isValid(Game game, Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
         boolean valid = false;
-        int dx = abs(from.getRank() - to.getRank());
-        int dy = abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getRank() - to.getRank());
+        int dy = Math.abs(from.getFile() - to.getFile());
         if(dx == 1 && dy <= 1) valid = true;
         if(dy == 1 && dx == 0) valid = true;
-        return valid && super.isValid(game, from, to);
+        return valid && super.isValid(game, move);
     }
 
     @Override

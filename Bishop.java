@@ -10,10 +10,12 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public boolean isValid(Game game, Cord from, Cord to){
+    public boolean isValid(Game game, Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
         boolean valid = false;
-        int dx = abs(from.getRank() - to.getRank());
-        int dy = abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getRank() - to.getRank());
+        int dy = Math.abs(from.getFile() - to.getFile());
         if(dx == dy){
             valid = true;
             int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
@@ -22,7 +24,7 @@ public class Bishop extends Piece{
                 if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile() + i * modY)).getType() != Type.Empty)
                     valid = false;
         }
-        return valid && super.isValid(game, from, to);
+        return valid && super.isValid(game, move);
     }
 
     @Override

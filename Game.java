@@ -15,6 +15,18 @@ public class Game{
     private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
 
     private int end = Constant.ONGOING;
+
+    //@Jeremy @Elvis
+    //used for castleing, currently unused. also used for FEN
+    private boolean whiteKingCastle = true;
+    private boolean whiteQueenCastle = true;
+    private boolean blackKingCastle = true;
+    private boolean blackQueenCastle = true;
+
+    //@Jeremy @Elvis
+    //shows the piece that can be enpassented this turn
+    //used for en passent, currently unused. also used for FEN
+    private Cord enPassant;
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
@@ -32,15 +44,27 @@ public class Game{
         this(8,8);
     }
 
+    //copies a game
     public Game(final Game game){
         rankSize = game.getRankSize();
         fileSize = game.getFileSize();
+
         board = new Piece[rankSize][fileSize];
-        this.turn = game.getTurn();
-        this.whiteTurn = game.getWhiteTurn();
-        this.peace = game.getPeace();
-        this.advantage = game.getAdvantage();
-        this.end = game.getEnd();
+
+        turn = game.getTurn();
+        whiteTurn = game.getWhiteTurn();
+        peace = game.getPeace();
+        
+        end = game.getEnd();
+
+        whiteKingCastle = game.getWhiteKingCastle();
+        whiteQueenCastle = game.getWhiteQueenCastle();
+        blackKingCastle = game.getBlackKingCastle();
+        blackQueenCastle = game.getBlackQueenCastle();
+
+        enPassant = game.getEnPassant();
+        
+        advantage = game.getAdvantage();
         setBoard(game.getBoard());
     }
 
@@ -144,6 +168,12 @@ public class Game{
     START OF GAME INTERFACE!!!!!!!!!!!!!!!
     */
 
+    //@Jeremy impliment this function
+    //!!!!!!!!!!!!
+    public String FEN(){
+        return "";
+    }
+
     public int end(){
         return end;
     }
@@ -196,24 +226,24 @@ public class Game{
      * move rules that are evaluated based on the x,y coordinates that the piece is on and can move to.
      * .is_valid() returns true if the piece is allowed to make that move, false otherwise
      */
-    public boolean validMove(Cord from, Cord to){
+    public boolean validMove(Move move){
         if(end != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
         }
-        if(getPiece(from).getType() == Type.Empty){
+        if(getPiece(move.getFrom()).getType() == Type.Empty){
             System.out.println("Error: Can't move an Empty Piece.");
             return false;
         }
-        if(getPiece(from).getColor() != whiteTurn){
+        if(getPiece(move.getFrom()).getColor() != whiteTurn){
             System.out.println("Error: It's not " + toTurn(!whiteTurn) + "'s turn.");
             return false;
         }
-        if(getPiece(to).getType() != Type.Empty && getPiece(from).getColor() == getPiece(to).getColor()){
+        if(getPiece(move.getTo()).getType() != Type.Empty && getPiece(move.getFrom()).getColor() == getPiece(move.getTo()).getColor()){
             System.out.println("Error: Friendly Fire");   //need to comment what "Friendly Fire" is
             return false;
         }
-        return getPiece(from).isValid(this, from, to);
+        return getPiece(move.getFrom()).isValid(this, move);
     }
 
     /**
@@ -233,6 +263,11 @@ public class Game{
     public double getAdvantage() {return advantage;}
     public int getTurn() {return turn;}
     public int getEnd() {return end;}
+    public boolean getWhiteKingCastle() {return whiteKingCastle;}
+    public boolean getWhiteQueenCastle() {return whiteQueenCastle;}
+    public boolean getBlackKingCastle() {return blackKingCastle;}
+    public boolean getBlackQueenCastle() {return blackQueenCastle;}
+    public Cord getEnPassant() {return enPassant;}
 
     public ArrayList<Move> allValidMoves(){
         ArrayList<Move> moves = new ArrayList<Move>();

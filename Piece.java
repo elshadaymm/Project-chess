@@ -38,14 +38,23 @@ public class Piece{
      * @param to coordinate variable of the pieces end position
      *
      */
-    public boolean isValid(Game game, Cord from, Cord to){
-        if(game.getPiece(from) == null) return false;
-        if(game.getPiece(from).getColor() != game.getWhiteTurn()) 
+    public boolean isValid(Game game, Move move){
+        if(game.getPiece(move.getFrom()) == null) 
             return false;
-        else if(game.getPiece(to).getType() != Type.Empty 
-            && game.getPiece(from).getColor() == game.getPiece(to).getColor()) 
+        if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()) 
             return false;
+        if(game.getPiece(move.getTo()).getType() != Type.Empty 
+            && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()) 
+            return false;
+        if(sucide(game, move))
+            return false;
+        
         return true;
+    }
+
+    //checks if the move is sucide/puting it self in check
+    public boolean sucide(Game game, Move move){
+        return false;
     }
 
     //Default value of a piece
@@ -65,7 +74,7 @@ public class Piece{
         
         for(int i = 0; i < game.getRankSize(); i++)
             for(int j = 0; j < game.getFileSize(); j++)
-                if(isValid(game, from, new Cord(i, j)))
+                if(isValid(game, new Move(from, new Cord(i, j))))
                     moves.add(new Cord(i, j));
         return moves;
     }
@@ -73,11 +82,6 @@ public class Piece{
     public boolean getColor() {return isWhite;}
     public Type getType() {return type;}
     public double getValue() {return value;}
-
-    public int abs(int x){
-        if(x < 0) return -x;
-        return x;
-    }
 
     public String toString(){
         return "" + type + ", " + isWhite;

@@ -10,10 +10,12 @@ public class Queen extends Piece{
     }
 
     @Override
-    public boolean isValid(Game game, Cord from, Cord to){
+    public boolean isValid(Game game, Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
         boolean valid = false;
-        int dx = abs(from.getRank() - to.getRank());
-        int dy = abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getRank() - to.getRank());
+        int dy = Math.abs(from.getFile() - to.getFile());
         int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         int modY = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         if(dx == dy){
@@ -34,7 +36,7 @@ public class Queen extends Piece{
                 if(game.getPiece(new Cord(from.getRank(), from.getFile() + i * modY)).getType() != Type.Empty)
                     return false;
         }
-        return valid && super.isValid(game, from, to);
+        return valid && super.isValid(game, move);
     }
 
     @Override
