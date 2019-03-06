@@ -143,6 +143,7 @@ public class Game{
 
     private String toTurn(boolean white) {return white? "white" : "black";}
 
+    //currently unused
     private boolean kingAlive(boolean color){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++)
@@ -151,15 +152,25 @@ public class Game{
         return false;
     }
 
-    private void updateAdvantage(){
-        if(checkmate()){
-            advantage = getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD;
+    private void update(){
+        switch (inMate()){
+            case Constant.CHECK:
+                end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
+                advantage = whiteTurn? -Constant.THRESHOLD : Constant.THRESHOLD;
+                return;
+            case Constant.STALE:
+                end = Constant.STALEMATE;
+                advantage = 0;
+                return;
+            default:
+                break;
+        }
+        
+        if(peace >= 50){
+            end = Constant.DRAW_BY_FIFTY_MOVE_RULE;
             return;
         }
-        if(stalemate()){
-            advantage = 0;
-            return;
-        }
+
         double sum = 0;
         Piece current;
         Cord at;
@@ -224,17 +235,14 @@ public class Game{
         return false;
     }
 
-    public void updateEnd(){
-        if(checkmate())
-            end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
-        else if(stalemate())
-            end = Constant.STALEMATE;
-        else if(!kingAlive(Constant.WHITE))
-            end = Constant.BLACK_WIN;
-        else if(!kingAlive(Constant.BLACK))
-            end = Constant.WHITE_WIN;
-        else if(peace >= 50)
-            end = Constant.DRAW_BY_FIFTY_MOVE_RULE;
+    //0 for not in mate, 1 for checkmate, 2 for stale mate
+    public int inMate(){
+        ArrayList<Move> moves = allLegalMoves();
+        if(moves.size() == 0){
+            if(inCheck()) return Constant.CHECK;
+            else return Constant.STALE;
+        }
+        return Constant.NO;
     }
 
     public void makeMove(Move move){
@@ -266,9 +274,8 @@ public class Game{
         board[to.getFile()][to.getRank()] = getPiece(from);
         board[from.getFile()][from.getRank()] = new Empty(cordColor(from));
 
-        updateAdvantage();
         changeTurn();
-        updateEnd();
+        update();
     }
 
     public void simpleMove(Move move){

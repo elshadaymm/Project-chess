@@ -24,6 +24,11 @@ public class Constant{
     public static final int DRAW_BY_FIFTY_MOVE_RULE = 3;
     public static final int STALEMATE = 4;
 
+    //Used for inMate fuction in Game class
+    public static final int NO = 0;
+    public static final int CHECK = 1;
+    public static final int STALE = 2;
+
 
     //default depth for minmax ai
     public static final int DEFAULT_MINMAX = 2;

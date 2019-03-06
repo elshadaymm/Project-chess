@@ -49,10 +49,10 @@ public class Main{
 
         while(game.end() == Constant.ONGOING){
             white.move();
-            game.printState();
+            //game.printState();
             if(game.end() == Constant.ONGOING){
                 black.move();
-                game.printState();
+                //game.printState();
             }
         }
 
