@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Move{
     private Cord from, to;
     private double value = 0;
@@ -24,5 +26,17 @@ public class Move{
     
     public String toString(){
         return Converter.CordToUCI(from) + Converter.CordToUCI(to);
+    }
+
+    public static String movesToString(ArrayList<Move> moves){
+        String string = "";
+
+        for(Move move : moves){
+            string = string + move.toString() + ", ";
+        }
+
+        if(string.length() != 0) string = string.substring(0, string.length() - 2);
+        string = "{" + string + "}";
+        return string;
     }
 }

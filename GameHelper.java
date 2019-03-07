@@ -1,4 +1,54 @@
+import java.util.ArrayList;
+
 public class GameHelper{
+    private static String turnToString(boolean white){return white? "white" : "black";}
+    
+    public static boolean cordColor(Cord at){
+        return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
+    }
+
+    //0 for not in mate, 1 for checkmate, 2 for stale mate
+    public static int inMate(Game game){
+        ArrayList<Move> moves = allLegalMoves(game);
+        if(moves.size() == 0){
+            if(game.inCheck()) return Constant.CHECK;
+            else return Constant.STALE;
+        }
+        return Constant.NO;
+    }
+
+    /**
+     * Checks a pieces move rules to decide if a move is allowed.
+     * @param from Take a coordinate value that the piece starts on
+     * @param to Takes a coordinate value that the piece wants to move to
+     * @return Invokes the .is_legal() method from the piece, which contains the pieces
+     * move rules that are evaluated based on the x,y coordinates that the piece is on and can move to.
+     * .is_legal() returns true if the piece is allowed to make that move, false otherwise
+     */
+    public static boolean legalMove(Game game, Move move){
+        if(game.getEnd() != Constant.ONGOING){
+            System.out.println("Error: Game's Over");
+            return false;
+        }
+        if(game.getPiece(move.getFrom()).getType() == Type.Empty){
+            System.out.println("Error: Can't move an Empty Piece.");
+            return false;
+        }
+        if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()){
+            System.out.println("Error: It's not " + turnToString(!game.getWhiteTurn()) + "'s turn.");
+            return false;
+        }
+        if(game.getPiece(move.getTo()).getType() != Type.Empty && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()){
+            System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
+            return false;
+        }
+        if(game.sucide(move)){
+            System.out.println("Error: Can't put self in check.");
+            return false;
+        }
+        return game.getPiece(move.getFrom()).isLegal(game, move);
+    }
+
     /**
      * prints the state of the board using ascii characters to the terminal for the player to reference
      */
@@ -6,7 +56,7 @@ public class GameHelper{
         printInfo(game);
 
         System.out.println();
-        System.out.println("All Legal Moves: " + game.allLegalMovesToString());
+        System.out.println("All Legal Moves: " + Move.movesToString(allLegalMoves(game)));
 
         printBoard(game);
     }
@@ -15,7 +65,7 @@ public class GameHelper{
         System.out.println();
         System.out.println("Turn " + game.getTurn() + ":");
         System.out.println("Fifty-move Rule: " + game.getPeace());
-        System.out.println("Currently " + game.toTurn(game.getWhiteTurn()) + "'s turn.");
+        System.out.println("Currently " + turnToString(game.getWhiteTurn()) + "'s turn.");
         System.out.printf("White's Advantage: %.2f\n", game.getAdvantage());
     }
 
@@ -41,5 +91,37 @@ public class GameHelper{
 
         System.out.println();
         System.out.println();
+    }
+
+    public static ArrayList<Move> allValidMoves(Game game){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Cord from;
+        ArrayList<Cord> current;
+
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++){
+                from = new Cord(i, j);
+                current = game.getPiece(from).validMoves(game, from);
+                for(Cord to : current)
+                    moves.add(new Move(from, to));
+            }
+        
+        return moves;
+    }
+
+    public static ArrayList<Move> allLegalMoves(Game game){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Cord from;
+        ArrayList<Cord> current;
+
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++){
+                from = new Cord(i, j);
+                current = game.getPiece(from).legalMoves(game, from);
+                for(Cord to : current)
+                    moves.add(new Move(from, to));
+            }
+        
+        return moves;
     }
 }

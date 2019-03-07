@@ -8,7 +8,7 @@ public class Player{
     //Player by default makes a random move by ai
     public void move(){
         Random rand = new Random();
-        ArrayList<Move> legalMoves = game.allLegalMoves();
+        ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
 
         if(legalMoves.size() != 0)
             makeMove(legalMoves.get(rand.nextInt(legalMoves.size())));

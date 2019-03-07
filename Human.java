@@ -25,7 +25,7 @@ public class Human extends Player{
             if(move.length() == 5 && move.charAt(4) == '*'){
                 makeMove(new Move(from, to));
                 return;
-            }else if(game.legalMove(new Move(from, to))){
+            }else if(GameHelper.legalMove(game, new Move(from, to))){
                 makeMove(new Move(from, to));
                 return;
             }else{
