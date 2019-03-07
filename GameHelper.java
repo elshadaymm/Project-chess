@@ -11,7 +11,7 @@ public class GameHelper{
                     return true;
         return false;
     }
-    
+
     public static boolean cordColor(Cord at){
         return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
     }
@@ -118,13 +118,14 @@ public class GameHelper{
             System.out.print(i + 1 + " ");
             System.out.println();
         }
-        
+
         System.out.print(' ');
         for(int j = 0; j < game.getFileSize(); j++)
             System.out.print(" " + (char) ('a' + j));
 
         System.out.println();
         System.out.println();
+        printFEN(game);
     }
 
     public static ArrayList<Move> allValidMoves(Game game){
@@ -139,7 +140,7 @@ public class GameHelper{
                 for(Cord to : current)
                     moves.add(new Move(from, to));
             }
-        
+
         return moves;
     }
 
@@ -155,7 +156,31 @@ public class GameHelper{
                 for(Cord to : current)
                     moves.add(new Move(from, to));
             }
-        
+
         return moves;
     }
+
+    public static void printFEN(Game game){
+        int counter = 0;
+        StringBuilder rankState = new StringBuilder();
+        StringBuilder gameState = new StringBuilder();
+        for(int i = (game.getRankSize() - 1); i > -1; i--){
+          rankState.setLength(0);
+            for(int j = (game.getFileSize() - 1); j > -1; j--){
+              char symbol = game.getBoard()[i][j].toCharacter();
+              if ((symbol == '-') || (symbol == '+')){counter += 1;}
+              if (((symbol != '-') || (symbol != '+')) && (counter == 0)){
+                rankState.append(symbol);}
+              if (((symbol != '-') || (symbol != '+')) && (counter != 0)){
+                rankState.append(counter);
+                counter = 0;
+              }
+            }
+
+              gameState.append(rankState);
+              gameState.append('/');
+              }
+        System.out.println("Test");
+        System.out.println(gameState);
+      }
 }
