@@ -92,6 +92,10 @@ public class GameHelper{
         System.out.println();
         System.out.println("All Legal Moves: " + Move.movesToString(allLegalMoves(game)));
 
+        System.out.println();
+        System.out.print("Current FEN State: ");
+        printFEN(game);
+        
         printBoard(game);
     }
 
@@ -125,7 +129,6 @@ public class GameHelper{
 
         System.out.println();
         System.out.println();
-        printFEN(game);
     }
 
     public static ArrayList<Move> allValidMoves(Game game){
@@ -161,26 +164,30 @@ public class GameHelper{
     }
 
     public static void printFEN(Game game){
-        int counter = 0;
-        StringBuilder rankState = new StringBuilder();
         StringBuilder gameState = new StringBuilder();
         for(int i = (game.getRankSize() - 1); i > -1; i--){
+          StringBuilder rankState = new StringBuilder();
           rankState.setLength(0);
-            for(int j = (game.getFileSize() - 1); j > -1; j--){
-              char symbol = game.getBoard()[i][j].toCharacter();
-              if ((symbol == '-') || (symbol == '+')){counter += 1;}
-              if (((symbol != '-') || (symbol != '+')) && (counter == 0)){
-                rankState.append(symbol);}
-              if (((symbol != '-') || (symbol != '+')) && (counter != 0)){
+          int counter = 0;
+          for(int j = 0; j < (game.getFileSize()); j++){
+            char symbol = game.getBoard()[i][j].toCharacter();
+
+            if ((symbol != '-') && (symbol != '+'))
+              rankState.append(symbol);
+            else {
+              counter += 1;
+              if(j == 7){
                 rankState.append(counter);
                 counter = 0;
+              } else if ((game.getBoard()[i][j + 1].toCharacter() != '-') && (game.getBoard()[i][j + 1].toCharacter() != '+')) {
+                rankState.append(counter);
+                counter = 0;}
               }
             }
 
-              gameState.append(rankState);
-              gameState.append('/');
+            gameState.append(rankState);
+            gameState.append('/');
               }
-        System.out.println("Test");
         System.out.println(gameState);
       }
 }
