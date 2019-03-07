@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 
 enum Type{
-    King, Queen, Rook,  //these should all be upper case I think (convention)?
+    King, Queen, Rook,  //these should all be upper case I think (convention)?. <-- idk, google it and chacge it yourself if its not java conventions.
     Bishop, Knight, Pawn,
     Empty;
 }
@@ -51,7 +51,7 @@ public class Piece{
     }
 
     public boolean isLegal(Game game, Move move){
-        return isValid(game, move) && !game.sucide(move);
+        return isValid(game, move) && !GameHelper.sucide(game, move);
     }
 
     //Default value of a piece

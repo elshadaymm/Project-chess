@@ -2,6 +2,15 @@ import java.util.ArrayList;
 
 public class GameHelper{
     private static String turnToString(boolean white){return white? "white" : "black";}
+
+    //checks if a king of a color is alive in a game
+    public static boolean kingAlive(Game game, boolean color){
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++)
+                if(game.getBoard()[i][j].getType() == Type.King && game.getBoard()[i][j].getColor() == color)
+                    return true;
+        return false;
+    }
     
     public static boolean cordColor(Cord at){
         return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
@@ -11,10 +20,35 @@ public class GameHelper{
     public static int inMate(Game game){
         ArrayList<Move> moves = allLegalMoves(game);
         if(moves.size() == 0){
-            if(game.inCheck()) return Constant.CHECK;
+            if(inCheck(game)) return Constant.CHECK;
             else return Constant.STALE;
         }
         return Constant.NO;
+    }
+
+    //checks if the move is sucide/puting it self in check
+    public static boolean sucide(Game game, Move move){
+        Game tempGame = new Game(game);
+        tempGame.simpleMove(move);
+        tempGame.changeTurn();
+        ArrayList<Move> moves = GameHelper.allValidMoves(tempGame);
+        for(Move nextMove : moves){
+            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+                return true;
+        }
+        return false;
+    }
+
+    //cehcks if the game is in check
+    public static boolean inCheck(Game game){
+        Game tempGame = new Game(game);
+        tempGame.changeTurn();
+        ArrayList<Move> moves = allValidMoves(tempGame);
+        for(Move nextMove : moves){
+            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -42,7 +76,7 @@ public class GameHelper{
             System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
             return false;
         }
-        if(game.sucide(move)){
+        if(sucide(game, move)){
             System.out.println("Error: Can't put self in check.");
             return false;
         }

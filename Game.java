@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 /**
  * The Game class is the main control class for most of the chess game.  It creates the board,
  * sets up the board, and runs the main interface for the player.
@@ -35,13 +34,13 @@ public class Game{
     public Game(int rank, int file){
         rankSize = rank;
         fileSize = file;
-        board = new Piece[rankSize][fileSize];
+        board = new Piece[fileSize][rankSize];
         nullBoard();
         setUpBoard();
     }
 
     public Game(){
-        this(8,8);
+        this(Constant.DEFAULT_RANK_SIZE, Constant.DEFAULT_FILE_SIZE);
     }
 
     //copies a game
@@ -68,6 +67,7 @@ public class Game{
         setBoard(game.getBoard());
     }
 
+    //copies a board
     private void setBoard(final Piece[][] board){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
@@ -100,6 +100,7 @@ public class Game{
             }
     }
 
+    //sets up the default board for chess
     private void setUpBoard(){
         boolean side = Constant.WHITE;
         board[0][0] = new Rook(side);
@@ -112,8 +113,6 @@ public class Game{
         board[0][7] = new Rook(side);
         for(int i = 0; i < fileSize; i++)
             board[1][i] = new Pawn(side);
-
-
 
         side = Constant.BLACK;
         board[7][0] = new Rook(side);
@@ -137,15 +136,6 @@ public class Game{
                 board[i][j] = new Empty(GameHelper.cordColor(new Cord(i,j)));
     }
 
-    //currently unused
-    private boolean kingAlive(boolean color){
-        for(int i = 0; i < rankSize; i++)
-            for(int j = 0; j < fileSize; j++)
-                if(board[i][j].getType() == Type.King && board[i][j].getColor() == color)
-                    return true;
-        return false;
-    }
-
     private void update(){
         switch (GameHelper.inMate(this)){
             case Constant.CHECK:
@@ -159,12 +149,12 @@ public class Game{
             default:
                 break;
         }
-        if(!kingAlive(Constant.WHITE)){
+        if(!GameHelper.kingAlive(this, Constant.WHITE)){
             end = Constant.BLACK_WIN;
             advantage = -Constant.THRESHOLD;
             return;
         }
-        if(!kingAlive(Constant.BLACK)){
+        if(!GameHelper.kingAlive(this, Constant.BLACK)){
             end = Constant.WHITE_WIN;
             advantage = Constant.THRESHOLD;
             return;
@@ -191,40 +181,7 @@ public class Game{
     START OF GAME INTERFACE!!!!!!!!!!!!!!!
     */
 
-    //@Jeremy impliment this function
-    //!!!!!!!!!!!!
-    public String FEN(){
-        return "";
-    }
-
-    public int end(){
-        return end;
-    }
-
-    //checks if the move is sucide/puting it self in check
-    public boolean sucide(Move move){
-        Game tempGame = new Game(this);
-        tempGame.simpleMove(move);
-        tempGame.changeTurn();
-        ArrayList<Move> moves = GameHelper.allValidMoves(tempGame);
-        for(Move nextMove : moves){
-            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
-                return true;
-        }
-        return false;
-    }
-
-    public boolean inCheck(){
-        Game tempGame = new Game(this);
-        tempGame.changeTurn();
-        ArrayList<Move> moves = GameHelper.allValidMoves(tempGame);
-        for(Move nextMove : moves){
-            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
-                return true;
-        }
-        return false;
-    }
-
+    //To do
     public void makeMove(Move move){
         move(move);
     }

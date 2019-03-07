@@ -47,10 +47,10 @@ public class Main{
             black = new Human(game);
         }
 
-        while(game.end() == Constant.ONGOING){
+        while(game.getEnd() == Constant.ONGOING){
             white.move();
             GameHelper.printState(game);
-            if(game.end() == Constant.ONGOING){
+            if(game.getEnd() == Constant.ONGOING){
                 black.move();
                 GameHelper.printState(game);
             }
