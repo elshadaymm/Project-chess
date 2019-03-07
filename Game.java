@@ -5,8 +5,8 @@ import java.util.ArrayList;
  *
  */
 public class Game{
-    private int rankSize = 8;//row
-    private int fileSize = 8;//col
+    private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
+    private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
 
     private Piece[][] board;
 
@@ -141,7 +141,7 @@ public class Game{
         return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
     }
 
-    private String toTurn(boolean white) {return white? "white" : "black";}
+    public String toTurn(boolean white) {return white? "white" : "black";}
 
     //currently unused
     private boolean kingAlive(boolean color){
@@ -394,49 +394,5 @@ public class Game{
 
     public String allLegalMovesToString(){
         return movesToString(allLegalMoves());
-    }
-
-    /**
-     * prints the state of the board using ascii characters to the terminal for the player to reference
-     */
-    public void printState(){
-        printInfo();
-
-        System.out.println();
-        System.out.println("All Legal Moves: " + allLegalMovesToString());
-
-        printBoard();
-    }
-
-    public void printInfo(){
-        System.out.println();
-        System.out.println("Turn " + turn + ":");
-        System.out.println("Fifty-move Rule: " + peace);
-        System.out.println("Currently " + toTurn(whiteTurn) + "'s turn.");
-        System.out.printf("White's Advantage: %.2f\n", advantage);
-    }
-
-    public void printBoard(){
-        System.out.println();
-        System.out.print(' ');
-        for(int j = 0; j < fileSize; j++)
-            System.out.print(" " + (char) ('a' + j));
-        System.out.println();
-
-        for(int i = rankSize - 1; i >= 0; i--){
-            System.out.print(i + 1 + " ");
-            for(int j = 0; j < fileSize; j++){
-                System.out.print(board[i][j].toCharacter() + " ");
-            }
-            System.out.print(i + 1 + " ");
-            System.out.println();
-        }
-        
-        System.out.print(' ');
-        for(int j = 0; j < fileSize; j++)
-            System.out.print(" " + (char) ('a' + j));
-
-        System.out.println();
-        System.out.println();
     }
 }

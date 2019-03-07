@@ -1,4 +1,4 @@
-# Project-Chess
+# Java-Chess
 An OOP based chess program written in the java programming language.  Created as a project for CPSC233 at the University of Calgary for the winter 2019 semester.
 
 # How To Run

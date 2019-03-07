@@ -1,4 +1,7 @@
 public class Constant{
+    public static final int DEFAULT_RANK_SIZE = 8;
+    public static final int DEFAULT_FILE_SIZE = 8;
+    
     public static final boolean WHITE = true;
     public static final boolean BLACK = false;
     public static final int POSITIVE = 1;

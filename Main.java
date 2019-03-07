@@ -9,7 +9,7 @@ public class Main{
         int col = 8;//As long as both values are >= 8
 
         Game game = new Game(row, col);
-        game.printState();
+        GameHelper.printState(game);
 
         Player white, black;
 
@@ -49,14 +49,14 @@ public class Main{
 
         while(game.end() == Constant.ONGOING){
             white.move();
-            game.printState();
+            GameHelper.printState(game);
             if(game.end() == Constant.ONGOING){
                 black.move();
-                game.printState();
+                GameHelper.printState(game);
             }
         }
 
-        game.printState();
+        GameHelper.printState(game);
 
         switch (game.getEnd()){
             case Constant.WHITE_WIN:
