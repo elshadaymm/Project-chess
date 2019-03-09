@@ -186,7 +186,7 @@ public class GameHelper{
             }
 
             gameState.append(rankState);
-            gameState.append('/');
+            if(i != 0)gameState.append('/');
               }
         
         if(game.getWhiteTurn()){gameState.append(" w ");}else{gameState.append(" b ");}
@@ -194,7 +194,9 @@ public class GameHelper{
         if(game.getWhiteQueenCastle()){gameState.append("Q");}
         if(game.getBlackKingCastle()){gameState.append("k");}
         if(game.getBlackQueenCastle()){gameState.append("q");}
-        gameState.append(" - "); //en passant goes here, needs to get finished first
+        if(game.getWhiteKingCastle() && game.getWhiteQueenCastle() && game.getBlackKingCastle() && game.getBlackQueenCastle() == false) {gameState.append("-");}
+        if(game.getEnPassant() == null){gameState.append(" - ");
+        	} else {gameState.append(game.getEnPassant().toString());}
         gameState.append(game.getPeace());
         gameState.append(" ");
         gameState.append(game.getTurn());
