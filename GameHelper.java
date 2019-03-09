@@ -95,6 +95,7 @@ public class GameHelper{
         System.out.println();
         System.out.print("Current FEN State: ");
         printFEN(game);
+        System.out.println(game.getEnPassant());
         cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
         
         printBoard(game);
@@ -207,7 +208,7 @@ public class GameHelper{
     
     /**
      * Checks to see if the kings or rooks have moved, and if so changes their ability to castle to false
-     * @param game the board
+     * @param game
      */
     public static void cancelCastle(Game game) {
     	if(game.getBoard()[0][4].toCharacter() != 'K') {

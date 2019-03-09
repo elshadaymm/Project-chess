@@ -206,10 +206,10 @@ public class Game{
         //updates the en passant variable with the coordinated of the square behind the pawn that moved two spaces
         if(from.getRank() == 1 && to.getRank() == 3 && getPiece(from).getType() == Type.Pawn) {
         	enPassant.setRank(2);
-        	enPassant.setFile(to.getFile());
-        } else if(from.getRank() == 7 && to.getRank() == 5 && getPiece(from).getType() == Type.Pawn) {
-        	enPassant.setRank(6);
-        	enPassant.setFile(to.getFile());
+        	enPassant.setFile(from.getFile());
+        } else if(from.getRank() == 6 && to.getRank() == 4 && getPiece(from).getType() == Type.Pawn) {
+        	enPassant.setRank(5);
+        	enPassant.setFile(from.getFile());
         } else {this.enPassant = null;}
 
         board[to.getFile()][to.getRank()] = getPiece(from);
