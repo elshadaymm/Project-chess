@@ -30,13 +30,13 @@ public class Pawn extends Piece{
         && board[to.getFile()][to.getRank()].getType() == Type.Empty 
         && board[to.getFile() - mod][to.getRank()].getType() == Type.Empty) 
         valid = true;
-      else if(getColour() && game.getEnPassant() != null   //en passant white
+      else if(getColor() && game.getEnPassant() != null   //en passant white
     		  && game.getEnPassant().getRank() == 5
     		  && (from.getFile() == game.getEnPassant().getFile() + 1
     		  || (from.getFile() == game.getEnPassant().getFile() - 1))
     		  && to == game.getEnPassant())
     		  valid = true;
-      else if(getColour() == false && game.getEnPassant() != null //en passant black
+      else if(getColor() == false && game.getEnPassant() != null //en passant black
     		  && game.getEnPassant().getRank() == 2
     		  && (from.getFile() == game.getEnPassant().getFile() + 1
     		  || (from.getFile() == game.getEnPassant().getFile() - 1))
