@@ -14,14 +14,14 @@ public class Bishop extends Piece{
         Cord from = move.getFrom();
         Cord to = move.getTo();
         boolean valid = false;
-        int dx = Math.abs(from.getRank() - to.getRank());
-        int dy = Math.abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getFile() - to.getFile());
+        int dy = Math.abs(from.getRank() - to.getRank());
         if(dx == dy){
             valid = true;
-            int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-            int modY = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int modX = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int modY = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile() + i * modX, from.getRank() + i * modY)).getType() != Type.Empty)
                     valid = false;
         }
         return valid && super.isValid(game, move);
