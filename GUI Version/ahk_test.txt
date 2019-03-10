@@ -1,0 +1,12 @@
+The final board state for the ahk_test should look like this
+
+  a b c d e f g h
+8 r - b K + b + r 8
+7 - + - n - + p + 7
+6 + - p - p n B p 6
+5 p p - + - + - + 5
+4 + - + P + B + - 4
+3 - + - + - N - + 3
+2 P P P - + P P P 2
+1 R + - + - + - R 1
+  a b c d e f g h
