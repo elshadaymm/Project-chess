@@ -11,7 +11,7 @@ public class Game{
 
     private int turn = 1;
     private boolean whiteTurn = true;
-    private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
+    private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule
 
     private int end = Constant.ONGOING;
 
@@ -26,7 +26,7 @@ public class Game{
     //shows the piece that can be enpassented this turn
     //used for en passent, currently unused. also used for FEN
     private Cord enPassant = null;
-    
+
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
     private double advantage = 0;
@@ -53,7 +53,7 @@ public class Game{
         turn = game.getTurn();
         whiteTurn = game.getWhiteTurn();
         peace = game.getPeace();
-        
+
         end = game.getEnd();
 
         whiteKingCastle = game.getWhiteKingCastle();
@@ -62,7 +62,7 @@ public class Game{
         blackQueenCastle = game.getBlackQueenCastle();
 
         enPassant = game.getEnPassant();
-        
+
         advantage = game.getAdvantage();
         setBoard(game.getBoard());
     }
@@ -159,7 +159,7 @@ public class Game{
             advantage = Constant.THRESHOLD;
             return;
         }
-        
+
         if(peace >= 50){
             end = Constant.DRAW_BY_FIFTY_MOVE_RULE;
             return;
@@ -202,7 +202,7 @@ public class Game{
 
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
-        
+
         //updates the en passant variable with the coordinated of the square behind the pawn that moved two spaces
         if(from.getRank() == 1 && to.getRank() == 3 && getPiece(from).getType() == Type.Pawn) {
         	Cord temp = new Cord(2, from.getFile());
@@ -246,7 +246,7 @@ public class Game{
     public int getTurn() {return turn;}
     public boolean getWhiteTurn() {return whiteTurn;}
     public int getPeace() {return peace;}
-    
+
     public int getEnd() {return end;}
 
     public boolean getWhiteKingCastle() {return whiteKingCastle;}
