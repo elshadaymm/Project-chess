@@ -20,28 +20,26 @@ public class Pawn extends Piece{
       int dy = mod * (to.getRank() - from.getRank());
       if(dy == 1 && dx == 0 
         && board[to.getRank()][to.getFile()].getType() == Type.Empty) 
-        valid = true;
+          valid = true;
       else if(dy == 1 && dx == 1 
         && board[to.getRank()][to.getFile()].getType() != Type.Empty 
         && board[to.getRank()][to.getFile()].getColor() != getColor()) 
-        valid = true;
+          valid = true;
       else if((from.getRank() == 1) || (from.getRank() == 6))
         if(dy == 2 && dx == 0 
         && board[to.getRank()][to.getFile()].getType() == Type.Empty 
         && board[to.getRank() - mod][to.getFile()].getType() == Type.Empty) 
-        valid = true;
-      else if(getColor() && game.getEnPassant() != null   //en passant white
-    		  && game.getEnPassant().getFile() == 5
-    		  && (from.getRank() == game.getEnPassant().getRank() + 1
-    		  || (from.getRank() == game.getEnPassant().getRank() - 1))
-    		  && to == game.getEnPassant())
-    		  valid = true;
-      else if(getColor() == false && game.getEnPassant() != null //en passant black
-    		  && game.getEnPassant().getFile() == 2
-    		  && (from.getRank() == game.getEnPassant().getRank() + 1
-    		  || (from.getRank() == game.getEnPassant().getRank() - 1))
-    		  && to == game.getEnPassant())
-    		  valid = true;
+          valid = true;
+      else if(getColor() == Constant.WHITE && game.getEnPassant() != null   //en passant white
+        && dy == 1
+        && dx == 1
+        && to == game.getEnPassant())
+          valid = true;
+      else if(getColor() == Constant.BLACK && game.getEnPassant() != null //en passant black
+        && dy == 1
+        && dx == 1
+        && to == game.getEnPassant())
+          valid = true;
       return valid && super.isValid(game, move);
     }
 
