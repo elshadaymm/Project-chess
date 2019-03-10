@@ -21,19 +21,19 @@ public class Queen extends Piece{
         if(dx == dy){
             valid = true;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getFile() + i * modX, from.getRank() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getRank() + i * modY, from.getFile() + i * modX)).getType() != Type.Empty)
                     return false;
         }
         else if (dy == 0 && dx != 0){
             valid = true;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getFile() + i * modX, from.getRank())).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getRank(), from.getFile() + i * modX)).getType() != Type.Empty)
                     return false;
         }
         else if (dx == 0 && dy != 0){ 
             valid = true;
             for(int i = 1; i < dy; i++)
-                if(game.getPiece(new Cord(from.getFile(), from.getRank() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getRank() + i * modY, from.getFile())).getType() != Type.Empty)
                     return false;
         }
         return valid && super.isValid(game, move);

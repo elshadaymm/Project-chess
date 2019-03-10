@@ -93,10 +93,8 @@ public class GameHelper{
         System.out.println("All Legal Moves: " + Move.movesToString(allLegalMoves(game)));
 
         System.out.println();
-        System.out.print("Current FEN State: ");
-        cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
-        printFEN(game);
-        System.out.println(game.getEnPassant());
+        System.out.print("FEN: " + toFEN(game));
+        //cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
         
         printBoard(game);
     }
@@ -165,46 +163,60 @@ public class GameHelper{
         return moves;
     }
 
-    public static void printFEN(Game game){
+    public static String toFEN(Game game){
+        return FENBoard(game) + FENInfo(game);
+    }
+
+    public static String FENBoard(Game game){
         StringBuilder gameState = new StringBuilder();
         for(int i = (game.getRankSize() - 1); i > -1; i--){
-          StringBuilder rankState = new StringBuilder();
-          rankState.setLength(0);
-          int counter = 0;
-          for(int j = 0; j < (game.getFileSize()); j++){
-            char symbol = game.getBoard()[i][j].toCharacter();
+            StringBuilder rankState = new StringBuilder();
+            rankState.setLength(0);
+            int counter = 0;
+            for(int j = 0; j < (game.getFileSize()); j++){
+                char symbol = game.getBoard()[i][j].toCharacter();
 
-            if ((symbol != '-') && (symbol != '+'))
-              rankState.append(symbol);
-            else {
-              counter += 1;
-              if(j == 7){
-                rankState.append(counter);
-                counter = 0;
-              } else if ((game.getBoard()[i][j + 1].toCharacter() != '-') && (game.getBoard()[i][j + 1].toCharacter() != '+')) {
-                rankState.append(counter);
-                counter = 0;}
-              }
+                if ((symbol != '-') && (symbol != '+'))
+                    rankState.append(symbol);
+                else {
+                    counter += 1;
+                    if(j == 7){
+                    rankState.append(counter);
+                    counter = 0;
+                    } else if ((game.getBoard()[i][j + 1].toCharacter() != '-') && (game.getBoard()[i][j + 1].toCharacter() != '+')) {
+                    rankState.append(counter);
+                    counter = 0;}
+                }
             }
 
             gameState.append(rankState);
             if(i != 0)gameState.append('/');
-              }
-        
-        if(game.getWhiteTurn()){gameState.append(" w ");}else{gameState.append(" b ");}
+        }
+        return gameState.toString();
+    }
+
+    public static String FENInfo(Game game){
+        StringBuilder gameState = new StringBuilder();
+        gameState.append(game.getWhiteTurn()? " w " : " b " );
+
         if(game.getWhiteKingCastle()){gameState.append("K");}
         if(game.getWhiteQueenCastle()){gameState.append("Q");}
         if(game.getBlackKingCastle()){gameState.append("k");}
         if(game.getBlackQueenCastle()){gameState.append("q");}
-        if(game.getWhiteKingCastle() && game.getWhiteQueenCastle() && game.getBlackKingCastle() && game.getBlackQueenCastle() == false) {gameState.append("-");}
-        if(game.getEnPassant() == null){gameState.append(" - ");
-        	} else {gameState.append(game.getEnPassant().toString());}
+
+        if(!game.getWhiteKingCastle() 
+            && !game.getWhiteQueenCastle() 
+            && !game.getBlackKingCastle() 
+            && !game.getBlackQueenCastle()) {gameState.append("-");}
+
+        gameState.append(game.getEnPassant() == null? " - " : " " + game.getEnPassant().toString() + " ");
+            
         gameState.append(game.getPeace());
         gameState.append(" ");
         gameState.append(game.getTurn());
-        
-        System.out.println(gameState);
-      }
+
+        return gameState.toString();
+    }
     
     /**
      * Checks to see if the kings or rooks have moved, and if so changes their ability to castle to false
