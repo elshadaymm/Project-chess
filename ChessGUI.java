@@ -63,6 +63,7 @@ public class ChessGUI extends Application{
 
 	Rectangle chessBoard = new Rectangle(10,90,580,580);
     chessBoard.setFill(Color.BLACK);
+    chessBoard.setStroke(Color.BLACK);
     root.getChildren().add(chessBoard);
     
     for(int i=0; i<8; i++) {
