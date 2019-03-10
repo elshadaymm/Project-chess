@@ -212,8 +212,8 @@ public class Game{
         	enPassant = temp;
         } else {enPassant = null;}
 
-        board[to.getFile()][to.getRank()] = getPiece(from);
-        board[from.getFile()][from.getRank()] = new Empty(GameHelper.cordColor(from));
+        board[to.getRank()][to.getFile()] = getPiece(from);
+        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
 
         changeTurn();
         update();
@@ -222,8 +222,8 @@ public class Game{
     public void simpleMove(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        board[to.getFile()][to.getRank()] = getPiece(from);
-        board[from.getFile()][from.getRank()] = new Empty(GameHelper.cordColor(from));
+        board[to.getRank()][to.getFile()] = getPiece(from);
+        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
     }
 
     public void changeTurn(){
@@ -235,7 +235,7 @@ public class Game{
      * @param at Takes in a coordinate as a value
      * @return The piece at the coordinate provided
      */
-    public Piece getPiece(Cord at){return board[at.getFile()][at.getRank()];}
+    public Piece getPiece(Cord at){return board[at.getRank()][at.getFile()];}
     public Piece getPiece(int rank, int file){return board[file][rank];}
 
     public int getRankSize() {return rankSize;}
