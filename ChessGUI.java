@@ -16,6 +16,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+
+import javax.sound.sampled.AudioFileFormat.Type;
 
 public class ChessGUI extends Application{
 
@@ -79,14 +83,52 @@ public class ChessGUI extends Application{
     	}
     }
 
+    //looping through setting the pieces in place
+    for(int i=0; i<8; i++) {
+    	for(int j=0; j<8; j++) {
+    		boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
+    		Type pieceType = getType(game.getPiece(i,j));
+    		String picture;
+    		switch (pieceType) {
+    			case Pawn:
+    				picture = pieceColor ? "/pictures/320/WhitePawn.png" : "/pictures/320/BlackPawn.png";
+    				break;
+    			case Rook:
+    				picture = pieceColor ? "/pictures/320/WhiteRook.png" : "/pictures/320/BlackRook.png";
+    				break;
+    			case Bishop:
+    				picture = pieceColor ? "/pictures/320/WhiteBishop.png" : "/pictures/320/BlackBishop.png";
+    				break;
+    			case Knight:
+    				picture = pieceColor ? "/pictures/320/WhiteKnight.png" : "/pictures/320/BlackKnight.png";
+    				break;
+    			case Queen:
+    				picture = pieceColor ? "/pictures/320/WhiteQueen.png" : "/pictures/320/BlackQueen.png";
+    				break;
+    			case King:
+    				picture = pieceColor ? "/pictures/320/WhiteKing.png" : "/pictures/320/BlackKing.png";
+    				break;}
+    			Image pic = new Image(picture);
+    			ImageView toPlace = new ImageView(pic);
+    			toPlace.setPreserveRatio(true);
+    			toPlace.setX(10+(72.5 * j));
+    			toPlace.setY(90+(72.5 * i));
+    			root.getChildren().add(toPlace);
+    		}
+    	}
 
-    Image test = new Image("BlackKnight.png");
-    ImageView tester = new ImageView(test);
-    tester.setPreserveRatio(true);
-    tester.setX(157);
-    tester.setY(90);
-    root.getChildren().add(tester);
+    submit.setOnAction(new EventHandler<ActionEvent>()
+    {
+     @Override
+     public void handle(ActionEvent event)
+     {
+       String moveInput = txtName.getText();
+       //PASS THE INPUT TO HUMAN CLASS
 
+     }
+    }
+   );
+    
     Scene scene = new Scene(root, 800, 800);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
