@@ -236,7 +236,7 @@ public class Game{
      * @return The piece at the coordinate provided
      */
     public Piece getPiece(Cord at){return board[at.getRank()][at.getFile()];}
-    public Piece getPiece(int rank, int file){return board[file][rank];}
+    public Piece getPiece(int rank, int file){return board[rank][file];}
 
     public int getRankSize() {return rankSize;}
     public int getFileSize() {return fileSize;}
