@@ -5,6 +5,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
@@ -60,10 +61,26 @@ public class ChessGUI extends Application{
     rect1.setFill(Color.BLUE);
     root.getChildren().add(rect1);
 
+	Rectangle chessBoard = new Rectangle(10,90,580,580);
+    chessBoard.setFill(Color.BLACK);
+    root.getChildren().add(chessBoard);
+    
+    for(int i=0; i<8; i++) {
+    	for(int j=0; j<8; j++) {
+    		int check_1= i+j;
+    		Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
+    		if (check_1%2==0) {
+    			square_s.setFill(Color.WHITE);	
+    		}
+    		else {
+    			square_s.setFill(Color.BLACK);
+    		}
+    		root.getChildren().add(square_s);
+    	}
+    }
 
 
-
-    Scene scene = new Scene(root, 900, 650);
+    Scene scene = new Scene(root, 780, 780);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();

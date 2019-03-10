@@ -94,9 +94,9 @@ public class GameHelper{
 
         System.out.println();
         System.out.print("Current FEN State: ");
+        cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
         printFEN(game);
         System.out.println(game.getEnPassant());
-        cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
         
         printBoard(game);
     }

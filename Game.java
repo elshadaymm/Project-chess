@@ -25,7 +25,7 @@ public class Game{
     //@Jeremy @Elvis
     //shows the piece that can be enpassented this turn
     //used for en passent, currently unused. also used for FEN
-    private Cord enPassant;
+    private Cord enPassant = null;
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
@@ -205,15 +205,15 @@ public class Game{
         
         //updates the en passant variable with the coordinated of the square behind the pawn that moved two spaces
         if(from.getRank() == 1 && to.getRank() == 3 && getPiece(from).getType() == Type.Pawn) {
-        	enPassant.setRank(2);
-        	enPassant.setFile(from.getFile());
+        	Cord temp = new Cord(2, from.getFile());
+        	enPassant = temp;
         } else if(from.getRank() == 6 && to.getRank() == 4 && getPiece(from).getType() == Type.Pawn) {
-        	enPassant.setRank(5);
-        	enPassant.setFile(from.getFile());
-        } else {this.enPassant = null;}
+        	Cord temp = new Cord(5, from.getFile());
+        	enPassant = temp;
+        } else {enPassant = null;}
 
-        board[to.getFile()][to.getRank()] = getPiece(from);
-        board[from.getFile()][from.getRank()] = new Empty(GameHelper.cordColor(from));
+        board[to.getRank()][to.getFile()] = getPiece(from);
+        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
 
         changeTurn();
         update();
@@ -222,8 +222,8 @@ public class Game{
     public void simpleMove(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        board[to.getFile()][to.getRank()] = getPiece(from);
-        board[from.getFile()][from.getRank()] = new Empty(GameHelper.cordColor(from));
+        board[to.getRank()][to.getFile()] = getPiece(from);
+        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
     }
 
     public void changeTurn(){
@@ -235,7 +235,7 @@ public class Game{
      * @param at Takes in a coordinate as a value
      * @return The piece at the coordinate provided
      */
-    public Piece getPiece(Cord at){return board[at.getFile()][at.getRank()];}
+    public Piece getPiece(Cord at){return board[at.getRank()][at.getFile()];}
     public Piece getPiece(int rank, int file){return board[file][rank];}
 
     public int getRankSize() {return rankSize;}
