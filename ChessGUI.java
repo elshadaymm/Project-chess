@@ -5,7 +5,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
@@ -54,33 +53,34 @@ public class ChessGUI extends Application{
     root.setBottom(bottomPane);
 
     //draws the board
-    //Canvas canvas = new Canvas();
-    //GraphicsContext board = canvas.GraphicsContext2D();
+    Rectangle outline = new Rectangle(49, 29, 529, 529);
+    outline.setStroke(Color.BLACK);
+    root.getChildren().add(outline);
+    outline.setStrokeWidth(5);
 
-    Rectangle rect1 = new Rectangle(10, 10, 65, 65);
-    rect1.setFill(Color.BLUE);
-    root.getChildren().add(rect1);
-
-	Rectangle chessBoard = new Rectangle(10,90,580,580);
-    chessBoard.setFill(Color.BLACK);
-    root.getChildren().add(chessBoard);
-    
-    for(int i=0; i<8; i++) {
-    	for(int j=0; j<8; j++) {
-    		int check_1= i+j;
-    		Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
-    		if (check_1%2==0) {
-    			square_s.setFill(Color.WHITE);	
-    		}
-    		else {
-    			square_s.setFill(Color.BLACK);
-    		}
-    		root.getChildren().add(square_s);
-    	}
-    }
+    Rectangle baseLayer = new Rectangle(50, 30, 528, 528);
+      baseLayer.setFill(Color.GREY);
+      root.getChildren().add(baseLayer);
+      int x = 50;
+      int y = 30;
+      for(int i=0; i<8; i++) {
+      	for(int j=0; j<8; j++) {
+      		int check_1= i+j;
+      		Rectangle square_s = new Rectangle(50+(66*j),30+(66*i),66,66);
+      		if (check_1%2==0) {
+      			square_s.setFill(Color.WHITE);
+      		}
+      		else {
+      			square_s.setFill(Color.BLACK);
+      		}
+      		root.getChildren().add(square_s);
+      	}
+      }
 
 
-    Scene scene = new Scene(root, 780, 780);
+
+
+    Scene scene = new Scene(root, 800, 650);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();
