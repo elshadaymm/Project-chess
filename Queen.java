@@ -14,26 +14,26 @@ public class Queen extends Piece{
         Cord from = move.getFrom();
         Cord to = move.getTo();
         boolean valid = false;
-        int dx = Math.abs(from.getRank() - to.getRank());
-        int dy = Math.abs(from.getFile() - to.getFile());
-        int modX = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-        int modY = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int dx = Math.abs(from.getFile() - to.getFile());
+        int dy = Math.abs(from.getRank() - to.getRank());
+        int modX = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int modY = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         if(dx == dy){
             valid = true;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile() + i * modX, from.getRank() + i * modY)).getType() != Type.Empty)
                     return false;
         }
         else if (dy == 0 && dx != 0){
             valid = true;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getRank() + i * modX, from.getFile())).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile() + i * modX, from.getRank())).getType() != Type.Empty)
                     return false;
         }
         else if (dx == 0 && dy != 0){ 
             valid = true;
             for(int i = 1; i < dy; i++)
-                if(game.getPiece(new Cord(from.getRank(), from.getFile() + i * modY)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile(), from.getRank() + i * modY)).getType() != Type.Empty)
                     return false;
         }
         return valid && super.isValid(game, move);

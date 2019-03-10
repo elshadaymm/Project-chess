@@ -14,8 +14,8 @@ public class King extends Piece{
         Cord from = move.getFrom();
         Cord to = move.getTo();
         boolean valid = false;
-        int dx = Math.abs(from.getRank() - to.getRank());
-        int dy = Math.abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getFile() - to.getFile());
+        int dy = Math.abs(from.getRank() - to.getRank());
         if(dx == 1 && dy <= 1) valid = true;
         if(dy == 1 && dx == 0) valid = true;
         return valid && super.isValid(game, move);

@@ -19,8 +19,8 @@ public class Human extends Player{
             }while(!validInput(move));
             move = move + " ";
             move = Converter.UCIToCord(move) + move.charAt(4);
-            from = new Cord(Integer.parseInt("" + move.charAt(1)), Integer.parseInt("" + move.charAt(0)));
-            to = new Cord(Integer.parseInt("" + move.charAt(3)), Integer.parseInt("" + move.charAt(2)));
+            from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
+            to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
             
             if(move.length() == 5 && move.charAt(4) == '*'){
                 makeMove(new Move(from, to));

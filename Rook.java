@@ -14,20 +14,20 @@ public class Rook extends Piece{
         Cord from = move.getFrom();
         Cord to = move.getTo();
         boolean valid = false;
-        int dx = Math.abs(from.getRank() - to.getRank());
-        int dy = Math.abs(from.getFile() - to.getFile());
+        int dx = Math.abs(from.getFile() - to.getFile());
+        int dy = Math.abs(from.getRank() - to.getRank());
         if (dy == 0 && dx != 0){
-            int mod = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             valid = true;
             for(int i = 1; i < dx; i++)
-                if(game.getPiece(new Cord(from.getRank() + i * mod, from.getFile())).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile() + i * mod, from.getRank())).getType() != Type.Empty)
                     valid = false;
         }
         else if (dx == 0 && dy != 0){ 
-            int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int mod = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             valid = true;
             for(int i = 1; i < dy; i++)
-                if(game.getPiece(new Cord(from.getRank(), from.getFile() + i * mod)).getType() != Type.Empty)
+                if(game.getPiece(new Cord(from.getFile(), from.getRank() + i * mod)).getType() != Type.Empty)
                     valid = false;
         }
         return valid && super.isValid(game, move);
