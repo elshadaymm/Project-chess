@@ -16,30 +16,30 @@ public class Pawn extends Piece{
       boolean valid = false;
       Piece[][] board = game.getBoard();
       int mod = getColor()? 1 : -1;
-      int dx = Math.abs(from.getRank() - to.getRank());
-      int dy = mod * (to.getFile() - from.getFile());
+      int dx = Math.abs(from.getFile() - to.getFile());
+      int dy = mod * (to.getRank() - from.getRank());
       if(dy == 1 && dx == 0 
-        && board[to.getFile()][to.getRank()].getType() == Type.Empty) 
+        && board[to.getRank()][to.getFile()].getType() == Type.Empty) 
         valid = true;
       else if(dy == 1 && dx == 1 
-        && board[to.getFile()][to.getRank()].getType() != Type.Empty 
-        && board[to.getFile()][to.getRank()].getColor() != getColor()) 
+        && board[to.getRank()][to.getFile()].getType() != Type.Empty 
+        && board[to.getRank()][to.getFile()].getColor() != getColor()) 
         valid = true;
-      else if((from.getFile() == 1) || (from.getFile() == 6))
+      else if((from.getRank() == 1) || (from.getRank() == 6))
         if(dy == 2 && dx == 0 
-        && board[to.getFile()][to.getRank()].getType() == Type.Empty 
-        && board[to.getFile() - mod][to.getRank()].getType() == Type.Empty) 
+        && board[to.getRank()][to.getFile()].getType() == Type.Empty 
+        && board[to.getRank() - mod][to.getFile()].getType() == Type.Empty) 
         valid = true;
       else if(getColor() && game.getEnPassant() != null   //en passant white
-    		  && game.getEnPassant().getRank() == 5
-    		  && (from.getFile() == game.getEnPassant().getFile() + 1
-    		  || (from.getFile() == game.getEnPassant().getFile() - 1))
+    		  && game.getEnPassant().getFile() == 5
+    		  && (from.getRank() == game.getEnPassant().getRank() + 1
+    		  || (from.getRank() == game.getEnPassant().getRank() - 1))
     		  && to == game.getEnPassant())
     		  valid = true;
       else if(getColor() == false && game.getEnPassant() != null //en passant black
-    		  && game.getEnPassant().getRank() == 2
-    		  && (from.getFile() == game.getEnPassant().getFile() + 1
-    		  || (from.getFile() == game.getEnPassant().getFile() - 1))
+    		  && game.getEnPassant().getFile() == 2
+    		  && (from.getRank() == game.getEnPassant().getRank() + 1
+    		  || (from.getRank() == game.getEnPassant().getRank() - 1))
     		  && to == game.getEnPassant())
     		  valid = true;
       return valid && super.isValid(game, move);
