@@ -60,6 +60,9 @@ public class ChessGUI extends Application{
     rect1.setFill(Color.BLUE);
     root.getChildren().add(rect1);
 
+	Rectangle chessBoard = new Rectangle(10,90,580,580);
+    chessBoard.setFill(Color.BLACK);
+    root.getChildren().add(chessBoard);
 
 
     Scene scene = new Scene(root, 780, 780);
