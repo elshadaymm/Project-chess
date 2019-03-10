@@ -77,6 +77,27 @@ public class ChessGUI extends Application{
       	}
       }
 
+<<<<<<< HEAD
+=======
+	Rectangle chessBoard = new Rectangle(10,90,580,580);
+    chessBoard.setFill(Color.BLACK);
+    chessBoard.setStroke(Color.BLACK);
+    root.getChildren().add(chessBoard);
+    
+    for(int i=0; i<8; i++) {
+    	for(int j=0; j<8; j++) {
+    		int check_1= i+j;
+    		Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
+    		if (check_1%2==0) {
+    			square_s.setFill(Color.WHITE);	
+    		}
+    		else {
+    			square_s.setFill(Color.BLACK);
+    		}
+    		root.getChildren().add(square_s);
+    	}
+    }
+>>>>>>> 1bb85fa8e6ac181838c8fc7ae186b5f02f4b8818
 
 
 
