@@ -62,8 +62,7 @@ public class ChessGUI extends Application{
 
 
 
-
-    Scene scene = new Scene(root, 900, 650);
+    Scene scene = new Scene(root, 780, 780);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();
