@@ -82,7 +82,7 @@ public class ChessGUI extends Application{
 		}
 	}
 	 
-	public void update(GridPane board){
+	public void update(GridPane board, VBox infoDisplay){
 		baseBoard(board);
 		drawBoard(board);
 	}
@@ -139,10 +139,10 @@ public class ChessGUI extends Application{
 			public void handle(ActionEvent event){
 				String moveInput = txtName.getText();
 				if(playerWhite.move()){
+					update(board, infoDisplay);
 						
 					playerBlack.move();
-					baseBoard(board);
-					drawBoard(board);
+					update(board, infoDisplay);
 				}
 			}
 		});
