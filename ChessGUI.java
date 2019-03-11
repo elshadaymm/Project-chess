@@ -23,7 +23,7 @@ import javafx.event.ActionEvent;
 
 import javax.sound.sampled.AudioFileFormat.Type;
 
-public class Testing extends Application{
+public class ChessGUI extends Application{
 
   private static Game game = new Game();
   private static Player playerWhite = new Human(game);
