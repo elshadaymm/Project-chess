@@ -32,6 +32,45 @@ public class ChessGUI extends Application{
      launch(args);
   }
 
+  //looping through setting the pieces in place
+  public void drawBoard(BorderPane b){
+  for(int i=0; i<8; i++) {
+    for(int j=0; j<8; j++) {
+      boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
+      String picture;
+      switch (game.getPiece(i,j).getType()) {
+        case Pawn:
+          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+          break;
+        case Rook:
+          picture = !pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
+          break;
+        case Bishop:
+          picture = !pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
+          break;
+        case Knight:
+          picture = !pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
+          break;
+        case Queen:
+          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
+          break;
+        case King:
+          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+          break;
+        default:
+          picture = null;
+          break;}
+        if(picture == null) continue;
+        Image pic = new Image(picture);
+        ImageView toPlace = new ImageView(pic);
+        toPlace.setPreserveRatio(true);
+        toPlace.setX(10+(72 * j));
+        toPlace.setY(90+(72 * i));
+        b.getChildren().add(toPlace);
+      }
+    }
+  }
+
   @Override
   public void start(Stage primaryStage) throws Exception{
 
@@ -82,42 +121,7 @@ public class ChessGUI extends Application{
     	}
     }
 
-    //looping through setting the pieces in place
-    for(int i=0; i<8; i++) {
-    	for(int j=0; j<8; j++) {
-    		boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
-    		String picture;
-    		switch (game.getPiece(i,j).getType()) {
-    			case Pawn:
-    				picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
-    				break;
-    			case Rook:
-    				picture = !pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
-    				break;
-    			case Bishop:
-    				picture = !pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
-    				break;
-    			case Knight:
-    				picture = !pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
-    				break;
-    			case Queen:
-    				picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
-    				break;
-    			case King:
-    				picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
-    				break;
-          default:
-            picture = null;
-            break;}
-          if(picture == null) continue;
-    			Image pic = new Image(picture);
-    			ImageView toPlace = new ImageView(pic);
-    			toPlace.setPreserveRatio(true);
-    			toPlace.setX(10+(72 * j));
-    			toPlace.setY(90+(72 * i));
-    			root.getChildren().add(toPlace);
-    		}
-    	}
+    drawBoard(root);
 
     submit.setOnAction(new EventHandler<ActionEvent>()
     {
@@ -126,12 +130,11 @@ public class ChessGUI extends Application{
      {
        String moveInput = txtName.getText();
        playerWhite.move(moveInput);
-
+       drawBoard(root);
      }
     }
    );
-
-    Scene scene = new Scene(root, 1200, 800);
+    Scene scene = new Scene(root, 1280, 800);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();
