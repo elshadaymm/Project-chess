@@ -86,6 +86,10 @@ public class ChessGUI extends Application{
 	  }
 	 }
 
+  public void update(GridPane b){
+    baseBoard(b);
+    drawBoard(b);
+  }
 
   public void start(Stage primaryStage) throws Exception{
 	  Pane root = new Pane();
@@ -136,15 +140,13 @@ public class ChessGUI extends Application{
 			public void handle(ActionEvent event){
 				String moveInput = txtName.getText();
 				if(playerWhite.move(moveInput)){
-					baseBoard(board);
-					drawBoard(board);
+					update(board);
           whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
           fen.setText("FEN: " + GameHelper.toFEN(game));
           turnNumber.setText("Turn: " + game.getTurn());
           fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
 					playerBlack.move(moveInput);
-					baseBoard(board);
-					drawBoard(board);
+					update(board);
           whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
           fen.setText("FEN: " + GameHelper.toFEN(game));
           turnNumber.setText("Turn: " + game.getTurn());
