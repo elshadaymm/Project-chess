@@ -36,6 +36,10 @@ public class Human extends Player{
     
     @Override
     public boolean move(String move){
+        if(!validInput(move)){
+            System.out.println("invalid input");
+            return false;
+        }
         Cord from, to;
         move = move + " ";
         move = Converter.UCIToCord(move) + move.charAt(4);

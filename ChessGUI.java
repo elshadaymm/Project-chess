@@ -23,7 +23,7 @@ import javax.sound.sampled.AudioFileFormat.Type;
 
 public class ChessGUI extends Application{
 
-  private static Game game = new Game(8, 8);
+  private static Game game = new Game();
   private static Player playerWhite = new Human(game);
   private static Player playerBlack = new AIMinMax(game);
 
@@ -34,39 +34,41 @@ public class ChessGUI extends Application{
 
   //looping through setting the pieces in place
   public void drawBoard(BorderPane b){
-  for(int i=0; i<8; i++) {
-    for(int j=0; j<8; j++) {
-      boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
-      String picture;
-      switch (game.getPiece(i,j).getType()) {
-        case King:
-          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
-          break;
-        case Queen:
-          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
-          break;
-        case Rook:
-          picture = !pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
-          break;
-        case Bishop:
-          picture = !pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
-          break;
-        case Knight:
-          picture = !pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
-          break;
-        case Pawn:
-          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
-          break;
-        default:
-          picture = null;
-          break;}
-        if(picture == null) continue;
-        Image pic = new Image(picture);
-        ImageView toPlace = new ImageView(pic);
-        toPlace.setPreserveRatio(true);
-        toPlace.setX(10+(72 * j));
-        toPlace.setY(90+(72 * i));
-        b.getChildren().add(toPlace);
+    GameHelper.printState(game);
+    for(int i = 0; i < game.getRankSize(); i++) {
+      for(int j = 0; j < game.getFileSize(); j++) {
+
+        boolean pieceColor = game.getPiece(i, j).getColor();
+        String picture;
+        switch (game.getPiece(i,j).getType()) {
+          case King:
+            picture = pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+            break;
+          case Queen:
+            picture = pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
+            break;
+          case Rook:
+            picture = pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
+            break;
+          case Bishop:
+            picture = pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
+            break;
+          case Knight:
+            picture = pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
+            break;
+          case Pawn:
+            picture = pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+            break;
+          default:
+            picture = null;
+            break;}
+          if(picture == null) continue;
+          Image pic = new Image(picture);
+          ImageView toPlace = new ImageView(pic);
+          toPlace.setPreserveRatio(true);
+          toPlace.setX(10+(72 * j));
+          toPlace.setY(90+(72 * i));
+          b.getChildren().add(toPlace);
       }
     }
   }
@@ -107,11 +109,11 @@ public class ChessGUI extends Application{
     chessBoard.setStroke(Color.BLACK);
     root.getChildren().add(chessBoard);
 
-    for(int i=0; i<8; i++) {
-    	for(int j=0; j<8; j++) {
+    for(int i = 0; i < game.getRankSize(); i++) {
+      for(int j = 0; j < game.getFileSize(); j++) {
     		int check_1= i+j;
     		Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
-    		if (check_1%2==0) {
+    		if (check_1 % 2 == 0) {
     			square_s.setFill(Color.WHITE);
     		}
     		else {
@@ -129,12 +131,12 @@ public class ChessGUI extends Application{
      public void handle(ActionEvent event)
      {
        String moveInput;
-       do{
-        moveInput = txtName.getText();
-       }while(!playerWhite.move(moveInput));
-       drawBoard(root);
-       playerBlack.move();
-       drawBoard(root);
+       moveInput = txtName.getText();
+       if(playerWhite.move(moveInput)){
+        drawBoard(root);
+        playerBlack.move();
+        drawBoard(root);
+       }
      }
     }
    );
