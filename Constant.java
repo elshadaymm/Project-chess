@@ -46,6 +46,7 @@ public class Constant{
     public static final int STALE = 2;
 
 
-    //default depth for minmax ai
+    //default depth for ai
     public static final int DEFAULT_MINMAX = 2;
+    public static final int DEFAULT_ALPHABETA = 3;
 }

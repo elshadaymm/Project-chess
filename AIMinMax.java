@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class AIMinMax extends Player{
     public AIMinMax(Game game) {super(game);}
 
+    @Override
     public void move(){
         Move move = minMax();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
@@ -12,7 +13,7 @@ public class AIMinMax extends Player{
 
     public Move minMax(){return minMax(Constant.DEFAULT_MINMAX);}
 
-    public Move minMax(final int depth){
+    public Move minMax(int depth){
         if(depth < 1) return null;
         ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
         
