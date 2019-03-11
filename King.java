@@ -28,8 +28,8 @@ public class King extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.KING_VALUE;
-        value = worth;
+        value = Constant.KING_VALUE;
+        value += validMoves(game, at).size() * Constant.KING_SCOPE;
     }
     
     @Override

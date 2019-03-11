@@ -28,8 +28,8 @@ public class Knight extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.KNIGHT_VALUE;
-        value = worth;
+        value = Constant.KNIGHT_VALUE;
+        value += validMoves(game, at).size() * Constant.KNIGHT_SCOPE;
     }
 
     @Override

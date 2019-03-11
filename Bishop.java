@@ -34,9 +34,8 @@ public class Bishop extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.BISHOP_VALUE;
-        
-        value = worth;
+        value = Constant.BISHOP_VALUE;
+        value += validMoves(game, at).size() * Constant.BISHOP_SCOPE;
     }
 
     @Override

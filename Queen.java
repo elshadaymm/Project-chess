@@ -46,9 +46,8 @@ public class Queen extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.QUEEN_VALUE;
-        
-        value = worth;
+        value = Constant.QUEEN_VALUE;
+        value += validMoves(game, at).size() * Constant.QUEEN_SCOPE;
     }
 
     @Override

@@ -50,9 +50,8 @@ public class Pawn extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.PAWN_VALUE;
-        
-        value = worth;
+      value = Constant.PAWN_VALUE;
+      value += validMoves(game, at).size() * Constant.PAWN_SCOPE;
     }
     
     @Override

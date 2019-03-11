@@ -17,6 +17,19 @@ public class Constant{
     public static final double KNIGHT_VALUE = 3 - BISHOP_PREFERENCE;
     public static final double PAWN_VALUE = 1;
 
+    //Scope is the pieces posiable movement squares / the squares it controls
+    private static final double DEFAULT_SCOPE = 0.1;
+    private static final double KING_MAX_SCOPE = 8;
+    private static final double KNIGHT_MAX_SCOPE = 8;
+    private static final double PAWN_MAX_SCOPE = 4;
+
+    public static final double KING_SCOPE = 0.4 / KING_MAX_SCOPE;
+    public static final double QUEEN_SCOPE = DEFAULT_SCOPE / 3;
+    public static final double ROOK_SCOPE = DEFAULT_SCOPE;
+    public static final double BISHOP_SCOPE = DEFAULT_SCOPE;
+    public static final double KNIGHT_SCOPE = 2.5 / KNIGHT_MAX_SCOPE;
+    public static final double PAWN_SCOPE = 0.2 / PAWN_MAX_SCOPE;
+
     //Threathhold fo the game lossing or winning
     public static final double THRESHOLD = KING_VALUE / 2;
 
