@@ -26,8 +26,8 @@ import javax.sound.sampled.AudioFileFormat.Type;
 public class ChessGUI extends Application{
 
   private static Game game = new Game();
-  private static Player playerWhite = new Human(game);
-  private static Player playerBlack = new Human(game);
+  private static Player playerWhite = new AIMinMax(game);
+  private static Player playerBlack = new AIRandom(game);
   private static Label whosTurn = new Label("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
   private static Label turnNumber = new Label("Turn: " + game.getTurn());
   private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
@@ -89,6 +89,10 @@ public class ChessGUI extends Application{
   public void update(GridPane b){
     baseBoard(b);
     drawBoard(b);
+		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
+		fen.setText("FEN: " + GameHelper.toFEN(game));
+		turnNumber.setText("Turn: " + game.getTurn());
+		fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
   }
 
   public void start(Stage primaryStage) throws Exception{
@@ -96,74 +100,67 @@ public class ChessGUI extends Application{
 
 	  //VBox for the right side with the info diplays and the input.  The HBox is a inside this VBox.
 	  VBox infoDisplay = new VBox();
-      infoDisplay.getChildren().add(whosTurn);
-      infoDisplay.getChildren().add(turnNumber);
-      infoDisplay.getChildren().add(fiftyMove);
-      infoDisplay.getChildren().add(fen);
-      infoDisplay.setPadding(new Insets(200,100,20,100));
-      infoDisplay.setSpacing(10);
-      infoDisplay.setLayoutX(600);
-      infoDisplay.setLayoutY(100);
+		infoDisplay.getChildren().add(whosTurn);
+		infoDisplay.getChildren().add(turnNumber);
+		infoDisplay.getChildren().add(fiftyMove);
+		infoDisplay.getChildren().add(fen);
+		infoDisplay.setPadding(new Insets(200,100,20,100));
+		infoDisplay.setSpacing(10);
+		infoDisplay.setLayoutX(600);
+		infoDisplay.setLayoutY(100);
 
-      //Gets put into the VBox as the last element
-      HBox userInput = new HBox();
-      userInput.getChildren().add(new Label("Input Move: "));
-      TextField txtName = new TextField();
-      txtName.setPrefWidth(150);
-      userInput.getChildren().add(txtName);
-      userInput.setPadding(new Insets(0,0,40,50));
-      Button submit = new Button("Submit");
-      userInput.getChildren().add(submit);
-      infoDisplay.getChildren().add(userInput);
+		//Gets put into the VBox as the last element
+		HBox userInput = new HBox();
+		userInput.getChildren().add(new Label("Input Move: "));
+		TextField txtName = new TextField();
+		txtName.setPrefWidth(150);
+		userInput.getChildren().add(txtName);
+		userInput.setPadding(new Insets(0,0,40,50));
+		Button submit = new Button("Submit");
+		userInput.getChildren().add(submit);
+		infoDisplay.getChildren().add(userInput);
 
-      GridPane board = new GridPane();
+		GridPane board = new GridPane();
 	  board.setLayoutX(25);
 	  board.setLayoutY(25);
 
 	  for(int i=0; i<8; i++) {
-	        for(int j=0; j<8; j++) {
-	          int check_1= i+j;
-	          Rectangle square_s = new Rectangle(0, 0,80,80);
-	          if (check_1%2==0) {
-	            square_s.setFill(Color.WHITE);}
-	          else {
-	            square_s.setFill(Color.SILVER);}
-	          board.add(square_s, i, j, 1, 1);}
+			for(int j=0; j<8; j++) {
+				int check_1= i+j;
+				Rectangle square_s = new Rectangle(0, 0,80,80);
+				if (check_1%2==0) 
+					square_s.setFill(Color.WHITE);
+				else 
+					square_s.setFill(Color.SILVER);
+				board.add(square_s, i, j, 1, 1);
+			}
 	  }
 
 
 	  drawBoard(board);
 
 	  //Button Action Handler
-	  submit.setOnAction(new EventHandler<ActionEvent>(){
+		submit.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
 				String moveInput = txtName.getText();
-				if(playerWhite.move(moveInput)){
+				if(playerWhite.move()){
 					update(board);
-          whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
-          fen.setText("FEN: " + GameHelper.toFEN(game));
-          turnNumber.setText("Turn: " + game.getTurn());
-          fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
-					playerBlack.move(moveInput);
+					playerBlack.move();
 					update(board);
-          whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
-          fen.setText("FEN: " + GameHelper.toFEN(game));
-          turnNumber.setText("Turn: " + game.getTurn());
-          fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
 				}
 			}
 		});
 
 
-      root.getChildren().add(infoDisplay);
-      root.getChildren().add(board);
-	  int h = 700;
-	    int w = (int) (h * 1.6);
-	    Scene scene = new Scene(root, w, h);
-	    primaryStage.setTitle("Chess Game");
-	    primaryStage.setScene(scene);
-	    primaryStage.show();
+		root.getChildren().add(infoDisplay);
+		root.getChildren().add(board);
+		int h = 700;
+		int w = (int) (h * 16 / 9);
+		Scene scene = new Scene(root, w, h);
+		primaryStage.setTitle("Chess Game");
+		primaryStage.setScene(scene);
+		primaryStage.show();
   }
 
 }
