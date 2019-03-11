@@ -48,5 +48,5 @@ public class Constant{
 
     //default depth for ai
     public static final int DEFAULT_MINMAX = 2;
-    public static final int DEFAULT_ALPHABETA = 3;
+    public static final int DEFAULT_ALPHABETA = 2;
 }

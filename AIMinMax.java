@@ -16,6 +16,7 @@ public class AIMinMax extends Player{
 
     public Move minMax(int depth){
         if(depth < 1) return null;
+
         ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
         
         if(depth == 1){
