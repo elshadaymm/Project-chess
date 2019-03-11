@@ -25,7 +25,7 @@ public class ChessGUI extends Application{
 
   private static Game game = new Game(8, 8);
   private static Player playerWhite = new Human(game);
-  private static Player playerBlack = new Human(game);
+  private static Player playerBlack = new AIMinMax(game);
 
   public static void main(String[] args)
   {
@@ -39,8 +39,11 @@ public class ChessGUI extends Application{
       boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
       String picture;
       switch (game.getPiece(i,j).getType()) {
-        case Pawn:
-          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+        case King:
+          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+          break;
+        case Queen:
+          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
           break;
         case Rook:
           picture = !pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
@@ -51,11 +54,8 @@ public class ChessGUI extends Application{
         case Knight:
           picture = !pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
           break;
-        case Queen:
-          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
-          break;
-        case King:
-          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+        case Pawn:
+          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
           break;
         default:
           picture = null;
@@ -90,7 +90,7 @@ public class ChessGUI extends Application{
     root.setRight(rightPane);
 
     //bottomPane displays a text field to collect input from user
-    FlowPane bottomPane = new FlowPane();
+    VBox bottomPane = new VBox();
     bottomPane.getChildren().add(new Label("Input Move: "));
     TextField txtName = new TextField();
     txtName.setPrefWidth(150);
@@ -98,12 +98,12 @@ public class ChessGUI extends Application{
     bottomPane.setPadding(new Insets(0,0,40,50));
     Button submit = new Button("Submit");
     bottomPane.getChildren().add(submit);
-    root.setBottom(bottomPane);
+    rightPane.getChildren().add(bottomPane);
 
     //draws the board
 
 
-	Rectangle chessBoard = new Rectangle(10,90,580,580);
+	  Rectangle chessBoard = new Rectangle(10,90,580,580);
     chessBoard.setStroke(Color.BLACK);
     root.getChildren().add(chessBoard);
 
@@ -128,13 +128,19 @@ public class ChessGUI extends Application{
      @Override
      public void handle(ActionEvent event)
      {
-       String moveInput = txtName.getText();
-       playerWhite.move(moveInput);
+       String moveInput;
+       do{
+        moveInput = txtName.getText();
+       }while(!playerWhite.move(moveInput));
+       drawBoard(root);
+       playerBlack.move();
        drawBoard(root);
      }
     }
    );
-    Scene scene = new Scene(root, 1280, 800);
+    int h = 700;
+    int w = (int) (h * 1.6);
+    Scene scene = new Scene(root, w, h);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();
