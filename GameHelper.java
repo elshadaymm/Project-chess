@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class GameHelper{
-    private static String turnToString(boolean white){return white? "white" : "black";}
+    public static String turnToString(boolean white){return white? "white" : "black";}
 
     //checks if a king of a color is alive in a game
     public static boolean kingAlive(Game game, boolean color){
@@ -93,7 +93,6 @@ public class GameHelper{
         System.out.println("All Legal Moves: " + Move.movesToString(allLegalMoves(game)));
 
         System.out.println();
-        System.out.print("FEN: " + toFEN(game));
         //cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
         
         printBoard(game);
@@ -104,7 +103,7 @@ public class GameHelper{
         System.out.println("Turn " + game.getTurn() + ":");
         System.out.println("Fifty-move Rule: " + game.getPeace());
         System.out.println("Currently " + turnToString(game.getWhiteTurn()) + "'s turn.");
-        System.out.printf("White's Advantage: %.2f\n", game.getAdvantage());
+        System.out.print("FEN: " + toFEN(game));
     }
 
     public static void printBoard(Game game){

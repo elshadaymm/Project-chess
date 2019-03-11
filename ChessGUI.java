@@ -39,16 +39,13 @@ public class ChessGUI extends Application{
 
     //rightPane: displays info about the game. example whos turn it is.
     VBox rightPane = new VBox();
-    rightPane.getChildren().add(new Label("Who's Turn?: " + (game.getWhiteTurn() ? "White" : "Black")));
+    rightPane.getChildren().add(new Label("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn."));
     //whose turn will go here.
-    rightPane.getChildren().add(new Label("Turn Number: " + game.getTurn()));
+    rightPane.getChildren().add(new Label("Turn: " + game.getTurn()));
     //Turn Numberwill go here.
-    rightPane.getChildren().add(new Label("Advantage: " + game.getAdvantage()));
-    //Advantage will go here
-    rightPane.getChildren().add(new Label("50 Move: " + game.getPeace()));
+    rightPane.getChildren().add(new Label("Fifty-move Rule: " + game.getPeace()));
     //50 Move will go here
-    rightPane.getChildren().add(new Label("En Passent: " + game.getEnPassant()));
-    //En Passent will go here
+    rightPane.getChildren().add(new Label("FEN: " + GameHelper.toFEN(game)));
     rightPane.setPadding(new Insets(200,100,20,100));
     rightPane.setSpacing(10);
     root.setRight(rightPane);
@@ -134,7 +131,7 @@ public class ChessGUI extends Application{
     }
    );
 
-    Scene scene = new Scene(root, 800, 800);
+    Scene scene = new Scene(root, 1200, 800);
     primaryStage.setTitle("Chess Game");
     primaryStage.setScene(scene);
     primaryStage.show();

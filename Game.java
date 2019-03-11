@@ -166,12 +166,11 @@ public class Game{
         }
 
         double sum = 0;
-        Piece current;
-        Cord at;
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
-                at = new Cord(i,j);
-                current = getPiece(at);
+                Cord at = new Cord(i,j);
+                Piece current = getPiece(at);
+                current.updateValue(this, at);
                 sum += current.getValue() * (current.getColor()? Constant.POSITIVE: Constant.NEGATIVE);
             }
         advantage = sum;

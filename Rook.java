@@ -40,9 +40,8 @@ public class Rook extends Piece{
 
     @Override
     public void updateValue(Game game, Cord at){
-        double worth = Constant.ROOK_VALUE;
-        
-        value = worth;
+        value = Constant.ROOK_VALUE;
+        value += validMoves(game, at).size() * Constant.ROOK_SCOPE;
     }
 
     @Override
