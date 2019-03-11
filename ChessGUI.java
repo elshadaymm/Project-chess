@@ -28,7 +28,6 @@ public class ChessGUI extends Application{
   private static Game game = new Game();
   private static Player playerWhite = new Human(game);
   private static Player playerBlack = new AIMinMax(game);
-  private static int count = 0;
 
   public static void main(String[] args){
      launch(args);}
@@ -131,24 +130,20 @@ public class ChessGUI extends Application{
 	  drawBoard(board);
 	  
 	  //Button Action Handler
-	  submit.setOnAction(new EventHandler<ActionEvent>()
-	    {
-	     @Override
-	     public void handle(ActionEvent event)
-	     {
-	       String moveInput = txtName.getText();
-	       if(count%2==0){
-	       playerWhite.move(moveInput);
-	       baseBoard(board);
-	       drawBoard(board);}
-	       else if(count%2!=0){
-	         playerBlack.move(moveInput);
-	         baseBoard(board);
-	         drawBoard(board);}
-	         count+=count;
-	       }
-	     }
-	   );
+	  submit.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				String moveInput = txtName.getText();
+				if(playerWhite.move(moveInput)){
+					baseBoard(board);
+					drawBoard(board);
+						
+					playerBlack.move();
+					baseBoard(board);
+					drawBoard(board);
+				}
+			}
+		});
 	  
 	  
       root.getChildren().add(infoDisplay);
