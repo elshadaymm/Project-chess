@@ -36,6 +36,7 @@ public class ChessGUI extends Application{
   public void drawBoard(BorderPane b){
   for(int i=0; i<8; i++) {
     for(int j=0; j<8; j++) {
+
       boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
       String picture;
       switch (game.getPiece(i,j).getType()) {
@@ -129,12 +130,12 @@ public class ChessGUI extends Application{
      public void handle(ActionEvent event)
      {
        String moveInput;
-       do{
-        moveInput = txtName.getText();
-       }while(!playerWhite.move(moveInput));
-       drawBoard(root);
-       playerBlack.move();
-       drawBoard(root);
+       moveInput = txtName.getText();
+       if(playerWhite.move(moveInput)){
+        drawBoard(root);
+        playerBlack.move();
+        drawBoard(root);
+       }
      }
     }
    );
