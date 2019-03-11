@@ -14,6 +14,10 @@ public class Player{
             makeMove(legalMoves.get(rand.nextInt(legalMoves.size())));
     }
 
+    public boolean move(String move){
+        return false;
+    }
+
     protected void makeMove(Move move){
         game.makeMove(move);
     }

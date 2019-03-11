@@ -24,8 +24,8 @@ import javax.sound.sampled.AudioFileFormat.Type;
 public class ChessGUI extends Application{
 
   private static Game game = new Game(8, 8);
-  private static Human playerWhite = new Human(game);
-  private static Human playerBlack = new Human(game);
+  private static Player playerWhite = new Human(game);
+  private static Player playerBlack = new Human(game);
 
   public static void main(String[] args)
   {
@@ -128,7 +128,7 @@ public class ChessGUI extends Application{
      public void handle(ActionEvent event)
      {
        String moveInput = txtName.getText();
-       human.move(moveInput);
+       playerWhite.move(moveInput);
 
      }
     }
