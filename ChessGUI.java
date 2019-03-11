@@ -26,8 +26,8 @@ import javax.sound.sampled.AudioFileFormat.Type;
 public class ChessGUI extends Application{
 
   private static Game game = new Game();
-  private static Player playerWhite = new Human(game);
-  private static Player playerBlack = new AIMinMax(game);
+  private static Player playerWhite = new AIMinMax(game);
+  private static Player playerBlack = new AIRandom(game);
 
   public static void main(String[] args){
      launch(args);}
@@ -134,7 +134,7 @@ public class ChessGUI extends Application{
 			@Override
 			public void handle(ActionEvent event){
 				String moveInput = txtName.getText();
-				if(playerWhite.move(moveInput)){
+				if(playerWhite.move()){
 					baseBoard(board);
 					drawBoard(board);
 						

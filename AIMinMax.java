@@ -5,10 +5,11 @@ public class AIMinMax extends Player{
     public AIMinMax(Game game) {super(game);}
 
     @Override
-    public void move(){
+    public boolean move(){
         Move move = minMax();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
         makeMove(move);
+        return true;
     }
 
     public Move minMax(){return minMax(Constant.DEFAULT_MINMAX);}

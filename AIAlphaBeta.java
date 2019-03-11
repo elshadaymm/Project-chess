@@ -4,10 +4,11 @@ public class AIAlphaBeta extends Player{
     public AIAlphaBeta(Game game) {super(game);}
 
     @Override
-    public void move(){
+    public boolean move(){
         Move move = alphaBeta();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
         makeMove(move);
+        return true;
     }
     
     public Move alphaBeta(){return alphaBeta(Constant.DEFAULT_ALPHABETA);}

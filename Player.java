@@ -6,12 +6,13 @@ public class Player{
     public Player(Game game) {this.game = game;}
 
     //Player by default makes a random move by ai
-    public void move(){
+    public boolean move(){
         Random rand = new Random();
         ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
 
         if(legalMoves.size() != 0)
             makeMove(legalMoves.get(rand.nextInt(legalMoves.size())));
+        return true;
     }
 
     public boolean move(String move){

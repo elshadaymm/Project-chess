@@ -5,7 +5,7 @@ public class Human extends Player{
 
     //makes a move from input
     @Override
-    public void move(){
+    public boolean move(){
         Scanner sc = new Scanner(System.in);
         String move;
         Cord from, to;
@@ -24,10 +24,10 @@ public class Human extends Player{
             
             if(move.length() == 5 && move.charAt(4) == '*'){
                 makeMove(new Move(from, to));
-                return;
+                return true;
             }else if(GameHelper.legalMove(game, new Move(from, to))){
                 makeMove(new Move(from, to));
-                return;
+                return true;
             }else{
                 System.out.print("Invalid Move: Enter new move: ");
             }

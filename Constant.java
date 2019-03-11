@@ -26,7 +26,7 @@ public class Constant{
     public static final double KING_SCOPE = 0.4 / KING_MAX_SCOPE;
     public static final double QUEEN_SCOPE = DEFAULT_SCOPE / 3;
     public static final double ROOK_SCOPE = DEFAULT_SCOPE;
-    public static final double BISHOP_SCOPE = DEFAULT_SCOPE;
+    public static final double BISHOP_SCOPE = DEFAULT_SCOPE * 1.3;
     public static final double KNIGHT_SCOPE = 2.5 / KNIGHT_MAX_SCOPE;
     public static final double PAWN_SCOPE = 0.2 / PAWN_MAX_SCOPE;
 
