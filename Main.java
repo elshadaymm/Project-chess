@@ -24,6 +24,9 @@ public class Main{
                 case "AIMinMax":
                     white = new AIMinMax(game);
                     break;
+                case "AIAlphaBeta":
+                    white = new AIAlphaBeta(game);
+                    break;
                 default:
                     white = new AIRandom(game);
                     break;
@@ -37,6 +40,9 @@ public class Main{
                     break;
                 case "AIMinMax":
                     black = new AIMinMax(game);
+                    break;
+                case "AIAlphaBeta":
+                    black = new AIAlphaBeta(game);
                     break;
                 default:
                     black = new AIRandom(game);

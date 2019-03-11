@@ -136,35 +136,40 @@ public class Game{
                 board[i][j] = new Empty(GameHelper.cordColor(new Cord(i,j)));
     }
 
-    private void update(){
+    public boolean updateEnd(){
         switch (GameHelper.inMate(this)){
             case Constant.CHECK:
                 end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
                 advantage = whiteTurn? -Constant.THRESHOLD : Constant.THRESHOLD;
-                return;
+                return true;
             case Constant.STALE:
                 end = Constant.STALEMATE;
                 advantage = 0;
-                return;
+                return true;
             default:
                 break;
         }
         if(!GameHelper.kingAlive(this, Constant.WHITE)){
             end = Constant.BLACK_WIN;
             advantage = -Constant.THRESHOLD;
-            return;
+            return true;
         }
         if(!GameHelper.kingAlive(this, Constant.BLACK)){
             end = Constant.WHITE_WIN;
             advantage = Constant.THRESHOLD;
-            return;
+            return true;
         }
         
         if(peace >= 50){
             end = Constant.DRAW_BY_FIFTY_MOVE_RULE;
-            return;
+            advantage = 0;
+            return true;
         }
 
+        return false;
+    }
+
+    public void updateAdvantage(){
         double sum = 0;
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
@@ -174,6 +179,11 @@ public class Game{
                 sum += current.getValue() * (current.getColor()? Constant.POSITIVE: Constant.NEGATIVE);
             }
         advantage = sum;
+    }
+
+    public void update(){
+        if(!updateEnd())
+            updateAdvantage();
     }
 
     /*
