@@ -26,11 +26,33 @@ public class ChessGUI extends Application{
   private static Game game = new Game();
   private static Player playerWhite = new Human(game);
   private static Player playerBlack = new AIMinMax(game);
+  private static int count = 0;
 
   public static void main(String[] args)
   {
      launch(args);
   }
+
+  //draws the board
+  public void baseBoard(BorderPane b){
+    Rectangle chessBoard = new Rectangle(10,90,580,580);
+      chessBoard.setStroke(Color.BLACK);
+      b.getChildren().add(chessBoard);
+
+      for(int i=0; i<8; i++) {
+        for(int j=0; j<8; j++) {
+          int check_1= i+j;
+          Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
+          if (check_1%2==0) {
+            square_s.setFill(Color.WHITE);
+          }
+          else {
+            square_s.setFill(Color.SILVER);
+          }
+          b.getChildren().add(square_s);
+        }
+      }
+    }
 
   //looping through setting the pieces in place
   public void drawBoard(BorderPane b){
@@ -103,26 +125,7 @@ public class ChessGUI extends Application{
     rightPane.getChildren().add(bottomPane);
 
     //draws the board
-
-
-	  Rectangle chessBoard = new Rectangle(10,90,580,580);
-    chessBoard.setStroke(Color.BLACK);
-    root.getChildren().add(chessBoard);
-
-    for(int i = 0; i < game.getRankSize(); i++) {
-      for(int j = 0; j < game.getFileSize(); j++) {
-    		int check_1= i+j;
-    		Rectangle square_s = new Rectangle(10+(72.5*j),90+(72.5*i),72.5,72.5);
-    		if (check_1 % 2 == 0) {
-    			square_s.setFill(Color.WHITE);
-    		}
-    		else {
-    			square_s.setFill(Color.SILVER);
-    		}
-    		root.getChildren().add(square_s);
-    	}
-    }
-
+    baseBoard(root);
     drawBoard(root);
 
     submit.setOnAction(new EventHandler<ActionEvent>()
@@ -130,15 +133,18 @@ public class ChessGUI extends Application{
      @Override
      public void handle(ActionEvent event)
      {
-       String moveInput;
-       moveInput = txtName.getText();
-       if(playerWhite.move(moveInput)){
-        drawBoard(root);
-        playerBlack.move();
-        drawBoard(root);
+       String moveInput = txtName.getText();
+       if(count%2==0){
+       playerWhite.move(moveInput);
+       baseBoard(root);
+       drawBoard(root);}
+       else if(count%2!=0){
+         playerBlack.move(moveInput);
+         baseBoard(root);
+         drawBoard(root);}
+         count+=count;
        }
      }
-    }
    );
     int h = 700;
     int w = (int) (h * 1.6);
