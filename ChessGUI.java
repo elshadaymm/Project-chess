@@ -39,8 +39,11 @@ public class ChessGUI extends Application{
       boolean pieceColor = (game.getPiece(i, j).getColor() == Constant.WHITE) ? true : false;
       String picture;
       switch (game.getPiece(i,j).getType()) {
-        case Pawn:
-          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+        case King:
+          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+          break;
+        case Queen:
+          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
           break;
         case Rook:
           picture = !pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
@@ -51,11 +54,8 @@ public class ChessGUI extends Application{
         case Knight:
           picture = !pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
           break;
-        case Queen:
-          picture = !pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
-          break;
-        case King:
-          picture = !pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+        case Pawn:
+          picture = !pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
           break;
         default:
           picture = null;
