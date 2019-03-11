@@ -34,21 +34,19 @@ public class Human extends Player{
         }
     }
     
-    public void move(String input){
-        String move = input;
+    @Override
+    public boolean move(String move){
         Cord from, to;
-            while(!validInput(move));
-            move = move + " ";
-            move = Converter.UCIToCord(move) + move.charAt(4);
-            from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
-            to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
-            
-            if(move.length() == 5 && move.charAt(4) == '*'){
-                makeMove(new Move(from, to));
-                return;
-            }else if(GameHelper.legalMove(game, new Move(from, to))){
-                makeMove(new Move(from, to));
-                return;}
-            }
-    
+        move = move + " ";
+        move = Converter.UCIToCord(move) + move.charAt(4);
+        from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
+        to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
+        
+        if((move.length() == 5 && move.charAt(4) == '*')
+            || GameHelper.legalMove(game, new Move(from, to))){
+            makeMove(new Move(from, to));
+            return true;
+        }
+        return false;
+    }
 }
