@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
@@ -20,8 +21,8 @@ import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-
-import javax.sound.sampled.AudioFileFormat.Type;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 public class ChessGUI extends Application{
 
@@ -86,14 +87,38 @@ public class ChessGUI extends Application{
 	  }
 	 }
 
-  public void update(GridPane b){
-    baseBoard(b);
-    drawBoard(b);
+  public void update(GridPane board, Pane root){
+    baseBoard(board);
+    drawBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
 		fen.setText("FEN: " + GameHelper.toFEN(game));
 		turnNumber.setText("Turn: " + game.getTurn());
 		fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
-  }
+		int winner = game.getEnd();
+		if (winner == 0) {;
+		} else {
+			StackPane endDisplay = new StackPane();
+			Rectangle background = new Rectangle(0, 0, 320, 160);
+			background.setFill(Color.BLACK);
+			Text winnerText = new Text();
+			if (winner == 1) {
+				winnerText.setText("WHITE WINS!!!");
+			} else if (winner == 2) {
+				winnerText.setText("BLACK WINS!!!");
+			}	else if (winner == 3) {
+				winnerText.setText("50 MOVE DRAW!!!");
+			}	else if (winner == 4) {
+				winnerText.setText("STALEMATE!!!");
+			}
+			winnerText.setFont(Font.font("Comic Sans MS", 30));
+			winnerText.setFill(Color.WHITE);
+			endDisplay.getChildren().add(background);
+			endDisplay.getChildren().add(winnerText);
+			endDisplay.setLayoutX(700);
+			endDisplay.setLayoutY(10);
+			root.getChildren().add(endDisplay);
+		}
+	}
 
   public void start(Stage primaryStage) throws Exception{
 	  Pane root = new Pane();
@@ -143,13 +168,15 @@ public class ChessGUI extends Application{
 		submit.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				if (game.getEnd() == 0) {
 				String moveInput = txtName.getText();
 				if(playerWhite.move()){
-					update(board);
+					update(board, root);
 					playerBlack.move();
-					update(board);
+					update(board, root);
 				}
 			}
+		}
 		});
 
 
