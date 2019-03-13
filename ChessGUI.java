@@ -118,8 +118,8 @@ public class ChessGUI extends Application{
 		bottomLetterEdge.setSpacing(hspace);
 		root.getChildren().add(bottomLetterEdge);
 
-		for (int i = 0; i < 8; i++) {
-			int ntemp = (i + 1);
+		for (int i = 8; i > 0; i--) {
+			int ntemp = (i);
 			String number = "" + ntemp;
 			Text tempNumber = new Text();
 			tempNumber.setText(number);
@@ -132,8 +132,8 @@ public class ChessGUI extends Application{
 		leftNumberEdge.setSpacing(53);
 		root.getChildren().add(leftNumberEdge);
 
-		for (int i = 0; i < 8; i++) {
-			int ntemp = (i + 1);
+		for (int i = 8; i > 0; i--) {
+			int ntemp = (i);
 			String number = "" + ntemp;
 			Text tempNumber = new Text();
 			tempNumber.setText(number);
