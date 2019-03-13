@@ -215,14 +215,15 @@ public class ChessGUI extends Application{
 			@Override
 			public void handle(ActionEvent event){
 				if (game.getEnd() == 0) {
-				String moveInput = txtName.getText();
-				if(playerWhite.move()){
-					update(board, root);
-					playerBlack.move();
+					String moveInput = txtName.getText();
+					if(game.getWhiteTurn()){
+						playerWhite.move(moveInput);
+					}else{
+						playerBlack.move(moveInput);
+					}
 					update(board, root);
 				}
 			}
-		}
 		});
 
 

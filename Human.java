@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
 public class Human extends Player{
-    public Human(Game game) {super(game);}
+    public Human(Game game) {
+        super(game);
+        kind = Intelligence.Human;
+    }
 
     //makes a move from input
     @Override

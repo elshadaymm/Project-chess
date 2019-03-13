@@ -2,7 +2,10 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class AIMinMax extends Player{
-    public AIMinMax(Game game) {super(game);}
+    public AIMinMax(Game game) {
+        super(game);
+        kind = Intelligence.MinMax;
+    }
 
     @Override
     public boolean move(){

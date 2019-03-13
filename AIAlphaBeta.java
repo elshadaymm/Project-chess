@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
 public class AIAlphaBeta extends Player{
-    public AIAlphaBeta(Game game) {super(game);}
+    public AIAlphaBeta(Game game) {
+        super(game);
+        kind = Intelligence.AlphaBeta;
+    }
 
     @Override
     public boolean move(){

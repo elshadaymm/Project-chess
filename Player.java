@@ -1,9 +1,16 @@
 import java.util.Random;
 import java.util.ArrayList;
 
+enum Intelligence{
+    Human, Random, MinMax, AlphaBeta
+}
+
 public class Player{
     protected Game game;
-    public Player(Game game) {this.game = game;}
+    protected Intelligence kind = Intelligence.Random;
+    public Player(Game game) {
+        this.game = game;
+    }
 
     //Player by default makes a random move by ai
     public boolean move(){
@@ -16,7 +23,7 @@ public class Player{
     }
 
     public boolean move(String move){
-        return false;
+        return move();
     }
 
     protected void makeMove(Move move){
@@ -32,5 +39,12 @@ public class Player{
             || str.charAt(3) < '0' || str.charAt(3) > '8'){ return false;}
         
         return true;
+    }
+
+    /**
+     * @return the kind
+     */
+    public Intelligence getKind() {
+        return kind;
     }
 }
