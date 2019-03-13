@@ -133,7 +133,7 @@ public class ChessGUI extends Application{
 	  }
 	 }
 
-  public void update(GridPane board, Pane root){
+  public void update(GridPane board, Pane root, Stage primaryStage){
     baseBoard(board);
     drawBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
@@ -164,6 +164,9 @@ public class ChessGUI extends Application{
 			endDisplay.setLayoutY(10);
 			root.getChildren().add(endDisplay);
 		}
+
+		
+	  drawBoard(board);
 	}
 
   public void start(Stage primaryStage) throws Exception{
@@ -206,22 +209,38 @@ public class ChessGUI extends Application{
 				board.add(square_s, i, j, 1, 1);
 			}
 	  }
-
-
 	  drawBoard(board);
 
 	  //Button Action Handler
 		submit.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				if (game.getEnd() == 0) {
+				if (game.getEnd() == Constant.ONGOING) {
 					String moveInput = txtName.getText();
+					moveInput = moveInput + " ";
 					if(game.getWhiteTurn()){
 						playerWhite.move(moveInput);
+						if(playerBlack.getKind() != Intelligence.Human)
+							playerBlack.move();
 					}else{
 						playerBlack.move(moveInput);
+						if(playerWhite.getKind() != Intelligence.Human)
+							playerWhite.move();
 					}
-					update(board, root);
+					update(board, root, primaryStage);
+
+					
+					if(playerBlack.getKind() != Intelligence.Human
+						&& playerWhite.getKind() != Intelligence.Human){
+							while(game.getEnd() == Constant.ONGOING){
+									playerWhite.move();
+									update(board, root, primaryStage);
+									if(game.getEnd() == Constant.ONGOING){
+											playerBlack.move();
+											update(board, root, primaryStage);
+									}
+							}
+					}
 				}
 			}
 		});
