@@ -1,3 +1,3 @@
-java Main AIMinMax AIRandom
+java ChessGUI AIMinMax AIRandom
 
 PAUSE

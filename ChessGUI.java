@@ -27,63 +27,109 @@ import javafx.scene.text.Font;
 public class ChessGUI extends Application{
 
   private static Game game = new Game();
-  private static Player playerWhite = new AIMinMax(game);
-  private static Player playerBlack = new AIRandom(game);
+  private static Player playerWhite;
+  private static Player playerBlack;
   private static Label whosTurn = new Label("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
   private static Label turnNumber = new Label("Turn: " + game.getTurn());
   private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
   private static Label fen = new Label("FEN: " + GameHelper.toFEN(game));
 
   public static void main(String[] args){
-     launch(args);}
+		if(args.length == 2){
+			switch (args[0]){
+				case "Human": 
+					playerWhite = new Human(game);
+					break;
+				case "Engine": 
+					playerWhite = new Engine(game);
+					break;
+				case "AIMinMax":
+					playerWhite = new AIMinMax(game);
+					break;
+				case "AIAlphaBeta":
+					playerWhite = new AIAlphaBeta(game);
+					break;
+				case "AIRandom":
+					playerWhite = new AIRandom(game);
+					break;
+				default:
+					playerWhite = new Human(game);
+					break;
+			}
+			switch (args[1]){
+				case "Human": 
+					playerBlack = new Human(game);
+					break;
+				case "Engine": 
+					playerBlack = new Engine(game);
+					break;
+				case "AIMinMax":
+					playerBlack = new AIMinMax(game);
+					break;
+				case "AIAlphaBeta":
+					playerBlack = new AIAlphaBeta(game);
+					break;
+				case "AIRandom":
+					playerBlack = new AIRandom(game);
+					break;
+				default:
+					playerBlack = new Human(game);
+					break;
+			}
+		}else{
+				playerWhite = new Human(game);
+				playerBlack = new Human(game);
+		}
+		 launch(args);
+	}
 
-	 public void drawBoard(GridPane b){
-	    GameHelper.printState(game);
-	    for(int i = game.getRankSize() -1; i >= 0; i--) {
-	      for(int j = game.getFileSize() -1; j >= 0; j--) {
+	public void drawBoard(GridPane b){
+		GameHelper.printState(game);
+		for(int i = game.getRankSize() -1; i >= 0; i--) {
+			for(int j = game.getFileSize() -1; j >= 0; j--) {
 
-	        boolean pieceColor = game.getPiece(i, j).getColor();
-	        String picture;
-	        switch (game.getPiece(i,j).getType()) {
-	          case King:
-	            picture = pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
-	            break;
-	          case Queen:
-	            picture = pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
-	            break;
-	          case Rook:
-	            picture = pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
-	            break;
-	          case Bishop:
-	            picture = pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
-	            break;
-	          case Knight:
-	            picture = pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
-	            break;
-	          case Pawn:
-	            picture = pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
-	            break;
-	          default:
-	            picture = null;
-	            break;}
-	          if(picture == null) continue;
-	          Image pic = new Image(picture);
-	          ImageView toPlace = new ImageView(pic);
-	          toPlace.setPreserveRatio(true);
-	          b.add(toPlace, j, 7 - i, 1, 1);}  //7 - i is what makes the GridPane start from the bottom left and not top left
-	 	    }
-	  }
+				boolean pieceColor = game.getPiece(i, j).getColor();
+				String picture;
+				switch (game.getPiece(i,j).getType()) {
+					case King:
+						picture = pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+						break;
+					case Queen:
+						picture = pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
+						break;
+					case Rook:
+						picture = pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
+						break;
+					case Bishop:
+						picture = pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
+						break;
+					case Knight:
+						picture = pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
+						break;
+					case Pawn:
+						picture = pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+						break;
+					default:
+						picture = null;
+						break;}
+					if(picture == null) continue;
+					Image pic = new Image(picture);
+					ImageView toPlace = new ImageView(pic);
+					toPlace.setPreserveRatio(true);
+					b.add(toPlace, j, 7 - i, 1, 1);}  //7 - i is what makes the GridPane start from the bottom left and not top left
+			}
+	}
 
-	 public void baseBoard(GridPane board){
-		 for(int i=0; i<8; i++) {
-	        for(int j=0; j<8; j++) {
-	          int check_1= i+j;
-	          Rectangle square_s = new Rectangle(0, 0,80,80);
-	          if (check_1%2==0) {
-	            square_s.setFill(Color.WHITE);}
-	          else {
-	            square_s.setFill(Color.SILVER);}
-	          board.add(square_s, i, j, 1, 1);}
+	public void baseBoard(GridPane board){
+		for(int i=0; i<8; i++) {
+				for(int j=0; j<8; j++) {
+					int check_1= i+j;
+					Rectangle square_s = new Rectangle(0, 0,80,80);
+					if (check_1%2==0) {
+						square_s.setFill(Color.WHITE);}
+					else {
+						square_s.setFill(Color.SILVER);}
+					board.add(square_s, i, j, 1, 1);}
 	  }
 	 }
 
