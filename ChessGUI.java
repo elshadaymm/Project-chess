@@ -90,7 +90,7 @@ public class ChessGUI extends Application{
 		HBox topLetterEdge = new HBox();
 		HBox bottomLetterEdge = new HBox();
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < game.getFileSize(); i++) {
 			char ttemp = (char) ('a' + i);
 			String tfile = "" + ttemp;
 			Text tfileText = new Text();
@@ -104,7 +104,7 @@ public class ChessGUI extends Application{
 		topLetterEdge.setSpacing(hspace);
 		root.getChildren().add(topLetterEdge);
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < game.getFileSize(); i++) {
 			char btemp = (char) ('a' + i);
 			String bfile = "" + btemp;
 			Text bfileText = new Text();
@@ -118,7 +118,7 @@ public class ChessGUI extends Application{
 		bottomLetterEdge.setSpacing(hspace);
 		root.getChildren().add(bottomLetterEdge);
 
-		for (int i = 8; i > 0; i--) {
+		for (int i = game.getRankSize(); i > 0; i--) {
 			int ntemp = (i);
 			String number = "" + ntemp;
 			Text tempNumber = new Text();
@@ -132,7 +132,7 @@ public class ChessGUI extends Application{
 		leftNumberEdge.setSpacing(53);
 		root.getChildren().add(leftNumberEdge);
 
-		for (int i = 8; i > 0; i--) {
+		for (int i = game.getRankSize(); i > 0; i--) {
 			int ntemp = (i);
 			String number = "" + ntemp;
 			Text tempNumber = new Text();
@@ -185,8 +185,8 @@ public class ChessGUI extends Application{
 	}
 
 	public void baseBoard(GridPane board){
-		for(int i=0; i<8; i++) {
-				for(int j=0; j<8; j++) {
+		for(int i=0; i< game.getRankSize(); i++) {
+				for(int j=0; j<game.getFileSize(); j++) {
 					int check_1= i+j;
 					Rectangle square_s = new Rectangle(0, 0,80,80);
 					if (check_1%2==0) {
@@ -210,13 +210,13 @@ public class ChessGUI extends Application{
 			Rectangle background = new Rectangle(0, 0, 320, 160);
 			background.setFill(Color.BLACK);
 			Text winnerText = new Text();
-			if (winner == 1) {
+			if (winner == Constant.WHITE_WIN) {
 				winnerText.setText("White wins.");
-			} else if (winner == 2) {
+			} else if (winner == Constant.BLACK_WIN) {
 				winnerText.setText("Black wins.");
-			}	else if (winner == 3) {
+			}	else if (winner == Constant.DRAW_BY_FIFTY_MOVE_RULE) {
 				winnerText.setText("Draw by fifty-move rule.");
-			}	else if (winner == 4) {
+			}	else if (winner == Constant.STALEMATE) {
 				winnerText.setText("Stalemate.");
 			}
 			winnerText.setFont(Font.font("verdana", 30));
@@ -261,8 +261,8 @@ public class ChessGUI extends Application{
 	board.setLayoutX(50);
 	board.setLayoutY(50);
 
-	for(int i=0; i<8; i++) {
-		for(int j=0; j<8; j++) {
+	for(int i=0; i< game.getRankSize(); i++) {
+		for(int j=0; j<game.getFileSize(); j++) {
 			int check_1= i+j;
 			Rectangle square_s = new Rectangle(0, 0,80,80);
 			if (check_1%2==0) 

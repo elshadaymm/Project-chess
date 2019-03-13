@@ -8,7 +8,7 @@ public class Main{
         int row = 8;//Change row and col to change the board size
         int col = 8;//As long as both values are >= 8
 
-        Game game = new Game(row, col);
+        Game game = new Game();
         GameHelper.printState(game);
 
         Player white, black;
