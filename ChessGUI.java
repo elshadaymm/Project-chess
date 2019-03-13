@@ -211,15 +211,15 @@ public class ChessGUI extends Application{
 			background.setFill(Color.BLACK);
 			Text winnerText = new Text();
 			if (winner == 1) {
-				winnerText.setText("WHITE WINS!!!");
+				winnerText.setText("White wins.");
 			} else if (winner == 2) {
-				winnerText.setText("BLACK WINS!!!");
+				winnerText.setText("Black wins.");
 			}	else if (winner == 3) {
-				winnerText.setText("50 MOVE DRAW!!!");
+				winnerText.setText("Draw by fifty-move rule.");
 			}	else if (winner == 4) {
-				winnerText.setText("STALEMATE!!!");
+				winnerText.setText("Stalemate.");
 			}
-			winnerText.setFont(Font.font("Comic Sans MS", 30));
+			winnerText.setFont(Font.font("verdana", 30));
 			winnerText.setFill(Color.WHITE);
 			endDisplay.getChildren().add(background);
 			endDisplay.getChildren().add(winnerText);
@@ -293,7 +293,7 @@ public class ChessGUI extends Application{
 					}
 					update(board, root);
 
-					
+					/*
 					if(playerBlack.getKind() != Intelligence.Human
 						&& playerWhite.getKind() != Intelligence.Human){
 							while(game.getEnd() == Constant.ONGOING){
@@ -305,6 +305,7 @@ public class ChessGUI extends Application{
 									}
 							}
 					}
+					*/
 				}
 			}
 		});
