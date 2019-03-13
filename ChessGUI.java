@@ -83,6 +83,70 @@ public class ChessGUI extends Application{
 		 launch(args);
 	}
 
+	public void drawEdges(Pane root) {
+		int hspace = 67;
+		VBox leftNumberEdge = new VBox();
+		VBox rightNumberEdge = new VBox();
+		HBox topLetterEdge = new HBox();
+		HBox bottomLetterEdge = new HBox();
+
+		for (int i = 0; i < 8; i++) {
+			char ttemp = (char) ('a' + i);
+			String tfile = "" + ttemp;
+			Text tfileText = new Text();
+			tfileText.setText(tfile);
+			tfileText.setFont(Font.font("Verdana", 20));
+			topLetterEdge.getChildren().add(tfileText);
+		}
+		topLetterEdge.setPrefSize(600, 30);
+		topLetterEdge.setLayoutX(88);
+		topLetterEdge.setLayoutY(20);
+		topLetterEdge.setSpacing(hspace);
+		root.getChildren().add(topLetterEdge);
+
+		for (int i = 0; i < 8; i++) {
+			char btemp = (char) ('a' + i);
+			String bfile = "" + btemp;
+			Text bfileText = new Text();
+			bfileText.setText(bfile);
+			bfileText.setFont(Font.font("Verdana", 20));
+			bottomLetterEdge.getChildren().add(bfileText);
+		}
+		bottomLetterEdge.setPrefSize(560, 30);
+		bottomLetterEdge.setLayoutX(88);
+		bottomLetterEdge.setLayoutY(690);
+		bottomLetterEdge.setSpacing(hspace);
+		root.getChildren().add(bottomLetterEdge);
+
+		for (int i = 0; i < 8; i++) {
+			int ntemp = (i + 1);
+			String number = "" + ntemp;
+			Text tempNumber = new Text();
+			tempNumber.setText(number);
+			tempNumber.setFont(Font.font("Verdana", 20));
+			leftNumberEdge.getChildren().add(tempNumber);
+		}
+		leftNumberEdge.setPrefSize(560, 30);
+		leftNumberEdge.setLayoutX(15);
+		leftNumberEdge.setLayoutY(85);
+		leftNumberEdge.setSpacing(53);
+		root.getChildren().add(leftNumberEdge);
+
+		for (int i = 0; i < 8; i++) {
+			int ntemp = (i + 1);
+			String number = "" + ntemp;
+			Text tempNumber = new Text();
+			tempNumber.setText(number);
+			tempNumber.setFont(Font.font("Verdana", 20));
+			rightNumberEdge.getChildren().add(tempNumber);
+		}
+		rightNumberEdge.setPrefSize(560, 30);
+		rightNumberEdge.setLayoutX(705);
+		rightNumberEdge.setLayoutY(85);
+		rightNumberEdge.setSpacing(53);
+		root.getChildren().add(rightNumberEdge);
+	}
+
 	public void drawBoard(GridPane b){
 		GameHelper.printState(game);
 		for(int i = game.getRankSize() -1; i >= 0; i--) {
@@ -133,9 +197,8 @@ public class ChessGUI extends Application{
 	  }
 	 }
 
-  public void update(GridPane board, Pane root, Stage primaryStage){
+  public void update(GridPane board, Pane root){
     baseBoard(board);
-    drawBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
 		fen.setText("FEN: " + GameHelper.toFEN(game));
 		turnNumber.setText("Turn: " + game.getTurn());
@@ -160,7 +223,7 @@ public class ChessGUI extends Application{
 			winnerText.setFill(Color.WHITE);
 			endDisplay.getChildren().add(background);
 			endDisplay.getChildren().add(winnerText);
-			endDisplay.setLayoutX(700);
+			endDisplay.setLayoutX(750);
 			endDisplay.setLayoutY(10);
 			root.getChildren().add(endDisplay);
 		}
@@ -180,7 +243,7 @@ public class ChessGUI extends Application{
 		infoDisplay.getChildren().add(fen);
 		infoDisplay.setPadding(new Insets(200,100,20,100));
 		infoDisplay.setSpacing(10);
-		infoDisplay.setLayoutX(600);
+		infoDisplay.setLayoutX(750);
 		infoDisplay.setLayoutY(100);
 
 		//Gets put into the VBox as the last element
@@ -195,8 +258,8 @@ public class ChessGUI extends Application{
 		infoDisplay.getChildren().add(userInput);
 
 		GridPane board = new GridPane();
-	  board.setLayoutX(25);
-	  board.setLayoutY(25);
+	  board.setLayoutX(50);
+	  board.setLayoutY(50);
 
 	  for(int i=0; i<8; i++) {
 			for(int j=0; j<8; j++) {
@@ -210,6 +273,7 @@ public class ChessGUI extends Application{
 			}
 	  }
 	  drawBoard(board);
+	  drawEdges(root);
 
 	  //Button Action Handler
 		submit.setOnAction(new EventHandler<ActionEvent>(){
@@ -227,17 +291,17 @@ public class ChessGUI extends Application{
 						if(playerWhite.getKind() != Intelligence.Human)
 							playerWhite.move();
 					}
-					update(board, root, primaryStage);
+					update(board, root);
 
 					
 					if(playerBlack.getKind() != Intelligence.Human
 						&& playerWhite.getKind() != Intelligence.Human){
 							while(game.getEnd() == Constant.ONGOING){
 									playerWhite.move();
-									update(board, root, primaryStage);
+									update(board, root);
 									if(game.getEnd() == Constant.ONGOING){
 											playerBlack.move();
-											update(board, root, primaryStage);
+											update(board, root);
 									}
 							}
 					}
@@ -248,7 +312,7 @@ public class ChessGUI extends Application{
 
 		root.getChildren().add(infoDisplay);
 		root.getChildren().add(board);
-		int h = 700;
+		int h = 750;
 		int w = (int) (h * 16 / 9);
 		Scene scene = new Scene(root, w, h);
 		primaryStage.setTitle("Chess Game");
