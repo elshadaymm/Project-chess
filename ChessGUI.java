@@ -248,9 +248,9 @@ public class ChessGUI extends Application{
 
 		//Gets put into the VBox as the last element
 		HBox userInput = new HBox();
-		userInput.getChildren().add(new Label("Input Move: "));
+		userInput.getChildren().add(new Label("Input Move of Format \"a1h8\": "));
 		TextField txtName = new TextField();
-		txtName.setPrefWidth(150);
+		txtName.setPrefWidth(50);
 		userInput.getChildren().add(txtName);
 		userInput.setPadding(new Insets(0,0,40,50));
 		Button submit = new Button("Submit");
@@ -283,13 +283,15 @@ public class ChessGUI extends Application{
 					String moveInput = txtName.getText();
 					moveInput = moveInput + " ";
 					if(game.getWhiteTurn()){
-						playerWhite.move(moveInput);
-						if(playerBlack.getKind() != Intelligence.Human)
-							playerBlack.move();
+						if(playerWhite.move(moveInput))
+							if(playerBlack.getKind() != Intelligence.Human)
+								if(game.getEnd() == Constant.ONGOING)
+									playerBlack.move();
 					}else{
-						playerBlack.move(moveInput);
-						if(playerWhite.getKind() != Intelligence.Human)
-							playerWhite.move();
+						if(playerBlack.move(moveInput))
+							if(playerWhite.getKind() != Intelligence.Human)
+								if(game.getEnd() == Constant.ONGOING)
+									playerWhite.move();
 					}
 					update(board, root);
 
