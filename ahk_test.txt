@@ -10,3 +10,7 @@ The final board state for the ahk_test should look like this
 2 P P P - + P P P 2
 1 R + - + - + - R 1
   a b c d e f g h
+
+
+Temp
+1yHtBrTS93P7fn2F5TfYcAZF0T5Z1JS9
