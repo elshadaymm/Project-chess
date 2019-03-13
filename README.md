@@ -12,7 +12,7 @@ Input your move into the field marked "Input Move:" in standard chess algebraic 
 A GUI has been implemented.  It currently works by input moves manually (not via point and click on the board).  The AI has been improved and now includes an AI that plays random moves, an AI that uses minmax decision making, and a minmax AI that uses alpha and beta prunning.  The game is now able to recognize checkmate and stalemate and ends the game at that position.  The code has been cleaned up, with constants being moved to a Constant class.
 
 
-v0.2 (Demo 1)
+v0.2 (Demo 2)
 Tut10G01
 Elvis Chen
 Elshaday Moges
