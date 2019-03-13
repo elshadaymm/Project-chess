@@ -233,94 +233,93 @@ public class ChessGUI extends Application{
 	}
 
   public void start(Stage primaryStage) throws Exception{
-	  Pane root = new Pane();
+	Pane root = new Pane();
 
-	  //VBox for the right side with the info diplays and the input.  The HBox is a inside this VBox.
-	  VBox infoDisplay = new VBox();
-		infoDisplay.getChildren().add(whosTurn);
-		infoDisplay.getChildren().add(turnNumber);
-		infoDisplay.getChildren().add(fiftyMove);
-		infoDisplay.getChildren().add(fen);
-		infoDisplay.setPadding(new Insets(200,100,20,100));
-		infoDisplay.setSpacing(10);
-		infoDisplay.setLayoutX(750);
-		infoDisplay.setLayoutY(100);
+	//VBox for the right side with the info diplays and the input.  The HBox is a inside this VBox.
+	VBox infoDisplay = new VBox();
+	infoDisplay.getChildren().add(whosTurn);
+	infoDisplay.getChildren().add(turnNumber);
+	infoDisplay.getChildren().add(fiftyMove);
+	infoDisplay.getChildren().add(fen);
+	infoDisplay.setPadding(new Insets(200,100,20,100));
+	infoDisplay.setSpacing(10);
+	infoDisplay.setLayoutX(750);
+	infoDisplay.setLayoutY(100);
 
-		//Gets put into the VBox as the last element
-		HBox userInput = new HBox();
-		userInput.getChildren().add(new Label("Input Move of Format \"a1h8\": "));
-		TextField txtName = new TextField();
-		txtName.setPrefWidth(50);
-		userInput.getChildren().add(txtName);
-		userInput.setPadding(new Insets(0,0,40,50));
-		Button submit = new Button("Submit");
-		userInput.getChildren().add(submit);
-		infoDisplay.getChildren().add(userInput);
+	//Gets put into the VBox as the last element
+	HBox userInput = new HBox();
+	userInput.getChildren().add(new Label("Input Move of Format \"a1h8\": "));
+	TextField txtName = new TextField();
+	txtName.setPrefWidth(50);
+	userInput.getChildren().add(txtName);
+	userInput.setPadding(new Insets(0,0,40,50));
+	Button submit = new Button("Submit");
+	userInput.getChildren().add(submit);
+	infoDisplay.getChildren().add(userInput);
 
-		GridPane board = new GridPane();
-	  board.setLayoutX(50);
-	  board.setLayoutY(50);
+	GridPane board = new GridPane();
+	board.setLayoutX(50);
+	board.setLayoutY(50);
 
-	  for(int i=0; i<8; i++) {
-			for(int j=0; j<8; j++) {
-				int check_1= i+j;
-				Rectangle square_s = new Rectangle(0, 0,80,80);
-				if (check_1%2==0) 
-					square_s.setFill(Color.WHITE);
-				else 
-					square_s.setFill(Color.SILVER);
-				board.add(square_s, i, j, 1, 1);
-			}
-	  }
-	  drawBoard(board);
-	  drawEdges(root);
+	for(int i=0; i<8; i++) {
+		for(int j=0; j<8; j++) {
+			int check_1= i+j;
+			Rectangle square_s = new Rectangle(0, 0,80,80);
+			if (check_1%2==0) 
+				square_s.setFill(Color.WHITE);
+			else 
+				square_s.setFill(Color.SILVER);
+			board.add(square_s, i, j, 1, 1);
+		}
+	}
+	drawBoard(board);
+	drawEdges(root);
 
-	  //Button Action Handler
-		submit.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				if (game.getEnd() == Constant.ONGOING) {
-					String moveInput = txtName.getText();
-					moveInput = moveInput + " ";
-					if(game.getWhiteTurn()){
-						if(playerWhite.move(moveInput))
-							if(playerBlack.getKind() != Intelligence.Human)
-								if(game.getEnd() == Constant.ONGOING)
-									playerBlack.move();
-					}else{
-						if(playerBlack.move(moveInput))
-							if(playerWhite.getKind() != Intelligence.Human)
-								if(game.getEnd() == Constant.ONGOING)
-									playerWhite.move();
-					}
-					update(board, root);
-
-					/*
-					if(playerBlack.getKind() != Intelligence.Human
-						&& playerWhite.getKind() != Intelligence.Human){
-							while(game.getEnd() == Constant.ONGOING){
-									playerWhite.move();
-									update(board, root);
-									if(game.getEnd() == Constant.ONGOING){
-											playerBlack.move();
-											update(board, root);
-									}
-							}
-					}
-					*/
+	//Button Action Handler
+	submit.setOnAction(new EventHandler<ActionEvent>(){
+		@Override
+		public void handle(ActionEvent event){
+			if (game.getEnd() == Constant.ONGOING) {
+				String moveInput = txtName.getText();
+				moveInput = moveInput + " ";
+				if(game.getWhiteTurn()){
+					if(playerWhite.move(moveInput))
+						if(playerBlack.getKind() != Intelligence.Human)
+							if(game.getEnd() == Constant.ONGOING)
+								playerBlack.move();
+				}else{
+					if(playerBlack.move(moveInput))
+						if(playerWhite.getKind() != Intelligence.Human)
+							if(game.getEnd() == Constant.ONGOING)
+								playerWhite.move();
 				}
+				update(board, root);
+
+				/*
+				if(playerBlack.getKind() != Intelligence.Human
+					&& playerWhite.getKind() != Intelligence.Human){
+						while(game.getEnd() == Constant.ONGOING){
+								playerWhite.move();
+								update(board, root);
+								if(game.getEnd() == Constant.ONGOING){
+										playerBlack.move();
+										update(board, root);
+								}
+						}
+				}
+				*/
 			}
-		});
-
-
-		root.getChildren().add(infoDisplay);
-		root.getChildren().add(board);
-		int h = 750;
-		int w = (int) (h * 16 / 9);
-		Scene scene = new Scene(root, w, h);
-		primaryStage.setTitle("Chess Game");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		}
+	});
+	
+	root.getChildren().add(infoDisplay);
+	root.getChildren().add(board);
+	int h = 750;
+	int w = (int) (h * 16 / 9);
+	Scene scene = new Scene(root, w, h);
+	primaryStage.setTitle("Chess Game");
+	primaryStage.setScene(scene);
+	primaryStage.show();
   }
 
 }
