@@ -94,65 +94,37 @@ public class Game{
         int fileIndex = 0;
         for(int i = 0; i < rank.length(); i++){
             Piece copy;
+            boolean color = 'A' <= rank.charAt(i) && rank.charAt(i) <= 'Z' ? Constant.WHITE : Constant.BLACK;
             switch (rank.charAt(i)){
-                case 'K':
-                    copy = new King(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
+                case 'K': case 'k':
+                    copy = new King(color);
                     break;
-                case 'k':
-                    copy = new King(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
+                case 'Q': case 'q':
+                    copy = new Queen(color);
                     break;
-                case 'Q':
-                    copy = new Queen(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
+                case 'R': case 'r':
+                    copy = new Rook(color);
                     break;
-                case 'q':
-                    copy = new Queen(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
+                case 'B': case 'b':
+                    copy = new Bishop(color);
                     break;
-                case 'R':
-                    copy = new Rook(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
+                case 'N': case 'n':
+                    copy = new Knight(color);
                     break;
-                case 'r':
-                    copy = new Rook(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'B':
-                    copy = new Bishop(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'b':
-                    copy = new Bishop(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'N':
-                    copy = new Knight(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'n':
-                    copy = new Knight(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'P':
-                    copy = new Pawn(Constant.WHITE);
-                    board[atRank][fileIndex] = copy;
-                    break;
-                case 'p':
-                    copy = new Pawn(Constant.BLACK);
-                    board[atRank][fileIndex] = copy;
+                case 'P': case 'p':
+                    copy = new Pawn(color);
                     break;
                 default:
                     int num = Integer.parseInt("" + rank.charAt(i));
-                    for(int j = 0; j < num; j++){
+                    for(int j = 0; j < num - 1; j++){
                         copy = new Empty(GameHelper.cordColor(new Cord(atRank, fileIndex)));
                         board[atRank][fileIndex] = copy;
                         fileIndex++;
                     }
-                    fileIndex--;
+                    copy = new Empty(GameHelper.cordColor(new Cord(atRank, fileIndex)));
                     break;
             }
+            board[atRank][fileIndex] = copy;
             fileIndex++;
         }
     }
