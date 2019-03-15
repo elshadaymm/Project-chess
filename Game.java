@@ -67,7 +67,14 @@ public class Game{
         setBoard(game.getBoard());
     }
 
+    private boolean FENFormat(String FEN){
+        if(FEN.length() < 10 + rankSize - 1) return false;
+        return true;
+    }
+
     public void setBoard(String FEN){
+        if(!FENFormat(FEN)) return;
+
         int cut; 
         cut = FEN.indexOf(" ");
         String board = FEN.substring(0, cut);
