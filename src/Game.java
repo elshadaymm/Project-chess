@@ -77,6 +77,9 @@ public class Game{
     public void setBoard(String FEN){
         if(!FENFormat(FEN)) return;
 
+        while(FEN.charAt(0) == ' ')
+            FEN = FEN.substring(1);
+
         int cut; 
         cut = FEN.indexOf(" ");
         String board = FEN.substring(0, cut);

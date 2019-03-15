@@ -151,7 +151,7 @@ public class ChessGUI extends Application{
 	TextField FEN = new TextField();
 	FEN.setPrefWidth(400);
 	loadGame.getChildren().add(FEN);
-	Button load = new Button("Load");
+	Button load = new Button("Load from FEN");
 	loadGame.getChildren().add(load);
 	infoDisplay.getChildren().add(loadGame);
 
