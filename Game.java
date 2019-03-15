@@ -78,15 +78,58 @@ public class Game{
             board = board.substring(cut + 1, board.length());
             setRank(rank, rankSize - 1 - i);
         }
-        
         setRank(board, 0);
 
-        info = info.substring(1);
+        String turn, castle, enPassant, halfMove, fullMove; 
+        turn = info.substring(1, 2);//w or b
+        info = info.substring(3);
+        
+        cut = info.indexOf(" ");
+        castle = info.substring(0, cut);//KQkq or - or ect
+        info = info.substring(cut + 1);
 
-        whiteTurn = info.charAt(0) == 'w';
+        cut = info.indexOf(" ");
+        enPassant = info.substring(0, cut);
+        info = info.substring(cut + 1);
 
-        info = info.substring(2);
-        //todo "KQkq - 0 1"
+        cut = info.indexOf(" ");
+        halfMove = info.substring(0, cut);
+        info = info.substring(cut + 1);
+
+        fullMove = info;
+
+
+        whiteTurn = turn.charAt(0) == 'w';
+        setCastle(castle);
+
+        if(enPassant.charAt(0) == '-')
+            this.enPassant = null;
+        else
+            this.enPassant = Converter.StringToCord(enPassant);
+
+        peace = Integer.parseInt(halfMove);
+        this.turn = Integer.parseInt(fullMove);
+    }
+
+    private void setCastle(String castle){
+        whiteKingCastle = false;
+        blackKingCastle = false;
+        whiteQueenCastle = false;
+        blackQueenCastle = false;
+        for(int i = 0; i < castle.length(); i++){
+            switch (castle.charAt(i)){
+                case 'K':
+                    whiteKingCastle = true;
+                case 'k':
+                    blackKingCastle = true;
+                case 'Q':
+                    whiteQueenCastle = true;
+                case 'q':
+                    blackQueenCastle = true;
+                default:
+                    break;
+            }
+        }
     }
 
     //used for setBord

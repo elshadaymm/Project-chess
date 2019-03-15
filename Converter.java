@@ -17,4 +17,8 @@ public class Converter{
             + ""
             + (cord.getRank() + 1);
     }
+
+    public static Cord StringToCord(String str){
+        return new Cord(str.charAt(0) - 'a', Integer.parseInt("" + str.charAt(3)) - 1);
+    }
 }
