@@ -69,16 +69,17 @@ public class Game{
 
     public void setBoard(String FEN){
         int cut; 
-        cut = FEN.indexOf(' ');
+        cut = FEN.indexOf(" ");
         String board = FEN.substring(0, cut);
         String info = FEN.substring(cut, FEN.length());
         for(int i = 0; i < rankSize - 1; i++){
-            cut = board.indexOf('/');
+            cut = board.indexOf("/");
             String rank = board.substring(0, cut);
             board = board.substring(cut + 1, board.length());
-            setRank(rank, i);
+            setRank(rank, rankSize - 1 - i);
         }
-        setRank(board, rankSize - 1);
+        
+        setRank(board, 0);
 
         info = info.substring(1);
 
@@ -144,7 +145,12 @@ public class Game{
                     break;
                 default:
                     int num = Integer.parseInt("" + rank.charAt(i));
-                    fileIndex += num - 1;
+                    for(int j = 0; j < num; j++){
+                        copy = new Empty(GameHelper.cordColor(new Cord(atRank, fileIndex)));
+                        board[atRank][fileIndex] = copy;
+                        fileIndex++;
+                    }
+                    fileIndex--;
                     break;
             }
             fileIndex++;

@@ -335,7 +335,8 @@ public class ChessGUI extends Application{
 	load.setOnAction(new EventHandler<ActionEvent>(){
 		@Override
 		public void handle(ActionEvent event){
-			game.setBoard(load.getText());
+			game.setBoard(FEN.getText());
+			update(board, root);
 		}
 	});
 	
