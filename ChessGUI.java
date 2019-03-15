@@ -254,7 +254,7 @@ public class ChessGUI extends Application{
 	move.setPrefWidth(50);
 	userInput.getChildren().add(move);
 
-	userInput.setPadding(new Insets(0,0,40,50));
+	//userInput.setPadding(new Insets(0,0,40,50));
 	Button submit = new Button("Turn");
 	userInput.getChildren().add(submit);
 
@@ -262,13 +262,12 @@ public class ChessGUI extends Application{
 
 	//load game button
 	HBox loadGame = new HBox();
-	loadGame.getChildren().add(new Label("Load Game: "));
 
 	TextField FEN = new TextField();
-	FEN.setPrefWidth(200);
+	FEN.setPrefWidth(400);
 	loadGame.getChildren().add(FEN);
 
-	loadGame.setPadding(new Insets(0,0,40,50));
+	//loadGame.setPadding(new Insets(0,0,40,50));
 	Button load = new Button("Load");
 	loadGame.getChildren().add(load);
 
