@@ -67,6 +67,90 @@ public class Game{
         setBoard(game.getBoard());
     }
 
+    public void setBoard(String FEN){
+        int cut; 
+        cut = FEN.indexOf(' ');
+        String board = FEN.substring(0, cut);
+        String info = FEN.substring(cut, FEN.length());
+        for(int i = 0; i < rankSize - 1; i++){
+            cut = board.indexOf('/');
+            String rank = board.substring(0, cut);
+            board = board.substring(cut + 1, board.length());
+            setRank(rank, i);
+        }
+        setRank(board, rankSize - 1);
+
+        info = info.substring(1);
+
+        whiteTurn = info.charAt(0) == 'w';
+
+        info = info.substring(2);
+        //todo "KQkq - 0 1"
+    }
+
+    //used for setBord
+    private void setRank(String rank, int atRank){
+        int fileIndex = 0;
+        for(int i = 0; i < rank.length(); i++){
+            Piece copy;
+            switch (rank.charAt(i)){
+                case 'K':
+                    copy = new King(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'k':
+                    copy = new King(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'Q':
+                    copy = new Queen(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'q':
+                    copy = new Queen(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'R':
+                    copy = new Rook(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'r':
+                    copy = new Rook(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'B':
+                    copy = new Bishop(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'b':
+                    copy = new Bishop(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'N':
+                    copy = new Knight(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'n':
+                    copy = new Knight(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'P':
+                    copy = new Pawn(Constant.WHITE);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                case 'p':
+                    copy = new Pawn(Constant.BLACK);
+                    board[atRank][fileIndex] = copy;
+                    break;
+                default:
+                    int num = Integer.parseInt("" + rank.charAt(i));
+                    fileIndex += num - 1;
+                    break;
+            }
+            fileIndex++;
+        }
+    }
+
     //copies a board
     private void setBoard(final Piece[][] board){
         for(int i = 0; i < rankSize; i++)

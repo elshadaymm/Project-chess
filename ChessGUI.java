@@ -249,14 +249,33 @@ public class ChessGUI extends Application{
 	//Gets put into the VBox as the last element
 	HBox userInput = new HBox();
 	userInput.getChildren().add(new Label("Input Move of Format \"a1h8\": "));
-	TextField txtName = new TextField();
-	txtName.setPrefWidth(50);
-	userInput.getChildren().add(txtName);
+
+	TextField move = new TextField();
+	move.setPrefWidth(50);
+	userInput.getChildren().add(move);
+
 	userInput.setPadding(new Insets(0,0,40,50));
-	Button submit = new Button("Submit");
+	Button submit = new Button("Turn");
 	userInput.getChildren().add(submit);
+
 	infoDisplay.getChildren().add(userInput);
 
+	//load game button
+	HBox loadGame = new HBox();
+	loadGame.getChildren().add(new Label("Load Game: "));
+
+	TextField FEN = new TextField();
+	FEN.setPrefWidth(200);
+	loadGame.getChildren().add(FEN);
+
+	loadGame.setPadding(new Insets(0,0,40,50));
+	Button load = new Button("Load");
+	loadGame.getChildren().add(load);
+
+	infoDisplay.getChildren().add(loadGame);
+
+
+	//the board
 	GridPane board = new GridPane();
 	board.setLayoutX(50);
 	board.setLayoutY(50);
@@ -280,7 +299,7 @@ public class ChessGUI extends Application{
 		@Override
 		public void handle(ActionEvent event){
 			if (game.getEnd() == Constant.ONGOING) {
-				String moveInput = txtName.getText();
+				String moveInput = move.getText();
 				moveInput = moveInput + " ";
 				if(game.getWhiteTurn()){
 					if(playerWhite.move(moveInput))
@@ -309,6 +328,14 @@ public class ChessGUI extends Application{
 				}
 				*/
 			}
+		}
+	});
+
+	//load game
+	load.setOnAction(new EventHandler<ActionEvent>(){
+		@Override
+		public void handle(ActionEvent event){
+			game.setBoard(load.getText());
 		}
 	});
 	
