@@ -2,8 +2,10 @@
 An OOP based chess program written in the java programming language.  Created as a project for CPSC233 at the University of Calgary for the winter 2019 semester.
 
 # How To Run
-*****NEED TO UPDATE!!! TO DO THE DAY OF*****
-You must first run the complie.bat file to compile the code.  Thereafter the human_vs_human.bat/human_vs_computer.bat/ect file can be used to run the compiled game.
+Compile ChessGui and revelant files. Then run "java ChessGUI Human AIMinMax". first argument is white. second is black. Options are "Human", "AIRandom", "AIMinMax" for now
+
+# Run from .bat
+You must first run the complie.bat file in the src folder to compile the code.  Thereafter the human_vs_human.bat or human_vs_minmax.bat or ect file can be used to run the compiled game.
 
 # How To Play
 Input your move into the field marked "Input Move:" in standard chess algebraic notation with the square you're moving from and the square you're moving to.  For example, to start the game by moving the left most pawn one space forward for the white player, input "a2a3" where "a2" is the starting position of the pawn and "a3" is the desired position to move the pawn.  Note that the labels for ranks and files are around the outside of the board to assist you to find the coordinates of each space.
