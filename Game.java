@@ -72,6 +72,8 @@ public class Game{
         return true;
     }
 
+    public void reset(){setBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
+
     public void setBoard(String FEN){
         if(!FENFormat(FEN)) return;
 
@@ -116,6 +118,8 @@ public class Game{
 
         peace = Integer.parseInt(halfMove);
         this.turn = Integer.parseInt(fullMove);
+
+        update();
     }
 
     private void setCastle(String castle){
@@ -249,6 +253,7 @@ public class Game{
     }
 
     public boolean updateEnd(){
+        end = Constant.ONGOING;
         switch (GameHelper.inMate(this)){
             case Constant.CHECK:
                 end = whiteTurn? Constant.BLACK_WIN : Constant.WHITE_WIN;
