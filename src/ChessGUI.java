@@ -39,9 +39,6 @@ public class ChessGUI extends Application{
 				case "Human": 
 					playerWhite = new Human(game);
 					break;
-				case "Engine": 
-					playerWhite = new Engine(game);
-					break;
 				case "AIMinMax":
 					playerWhite = new AIMinMax(game);
 					break;
@@ -58,9 +55,6 @@ public class ChessGUI extends Application{
 			switch (args[1]){
 				case "Human": 
 					playerBlack = new Human(game);
-					break;
-				case "Engine": 
-					playerBlack = new Engine(game);
 					break;
 				case "AIMinMax":
 					playerBlack = new AIMinMax(game);
@@ -322,31 +316,32 @@ public class ChessGUI extends Application{
 		  for(int j = game.getFileSize() -1; j >= 0; j--) {
 
 			  boolean pieceColor = game.getPiece(i, j).getColor();
+			  String base = "file:../pictures/80/";
 			  String picture;
 			  switch (game.getPiece(i,j).getType()) {
 				  case King:
-					  picture = pieceColor ? "/pictures/80/WhiteKing.png" : "/pictures/80/BlackKing.png";
+					  picture = pieceColor ? "WhiteKing.png" : "BlackKing.png";
 					  break;
 				  case Queen:
-					  picture = pieceColor ? "/pictures/80/WhiteQueen.png" : "/pictures/80/BlackQueen.png";
+					  picture = pieceColor ? "WhiteQueen.png" : "BlackQueen.png";
 					  break;
 				  case Rook:
-					  picture = pieceColor ? "/pictures/80/WhiteRook.png" : "/pictures/80/BlackRook.png";
+					  picture = pieceColor ? "WhiteRook.png" : "BlackRook.png";
 					  break;
 				  case Bishop:
-					  picture = pieceColor ? "/pictures/80/WhiteBishop.png" : "/pictures/80/BlackBishop.png";
+					  picture = pieceColor ? "WhiteBishop.png" : "BlackBishop.png";
 					  break;
 				  case Knight:
-					  picture = pieceColor ? "/pictures/80/WhiteKnight.png" : "/pictures/80/BlackKnight.png";
+					  picture = pieceColor ? "WhiteKnight.png" : "BlackKnight.png";
 					  break;
 				  case Pawn:
-					  picture = pieceColor ? "/pictures/80/WhitePawn.png" : "/pictures/80/BlackPawn.png";
+					  picture = pieceColor ? "WhitePawn.png" : "BlackPawn.png";
 					  break;
 				  default:
 					  picture = null;
 					  break;}
 				  if(picture == null) continue;
-				  Image pic = new Image(picture);
+				  Image pic = new Image(base + picture);
 				  ImageView toPlace = new ImageView(pic);
 				  toPlace.setPreserveRatio(true);
 				  b.add(toPlace, j, 7 - i, 1, 1);}  //7 - i is what makes the GridPane start from the bottom left and not top left
