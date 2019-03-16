@@ -59,17 +59,7 @@ public abstract class Piece{
         return true;
     }
 
-    //if a move is legal
-    public boolean isLegal(Game game, Move move){
-        return isValid(game, move) && !GameHelper.sucide(game, move);
-    }
-
-    public abstract void updateValue(); //Default value of a piece
-    public abstract void updateValue(Game game, Cord at);
-
-    //Returns all valid moves
-    public abstract ArrayList<Cord> validMoves(Game game, Cord from);
-
+    //returns all legal moves
     public ArrayList<Cord> legalMoves(Game game, Cord from){
         ArrayList<Cord> moves = validMoves(game, from);
         
@@ -82,6 +72,17 @@ public abstract class Piece{
         }
         return moves;
     }
+
+    //if a move is legal
+    public boolean isLegal(Game game, Move move){
+        return isValid(game, move) && !GameHelper.sucide(game, move);
+    }
+
+    public abstract void updateValue(); //Default value of a piece
+    public abstract void updateValue(Game game, Cord at);
+
+    //Returns all valid moves
+    public abstract ArrayList<Cord> validMoves(Game game, Cord from);
 
     public boolean getColor() {return isWhite;}
     public Type getType() {return type;}
