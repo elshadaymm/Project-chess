@@ -30,7 +30,7 @@ public class Pawn extends Piece{
           return true;
 
       //taking diag
-      else if(dy == 1 && dx == 1)
+      if(dx == 1 && dy == 1)
         if(board[to.getRank()][to.getFile()].getType() != Type.Empty)
           return true;
         else if(game.getEnPassant() != null && to == game.getEnPassant())
@@ -53,11 +53,25 @@ public class Pawn extends Piece{
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
-        
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++)
-                if(isValid(game, new Move(from, new Cord(i, j))))
-                    moves.add(new Cord(i, j));
+        int mody = getColor()? Constant.POSITIVE : Constant.NEGATIVE;
+        Cord test;
+
+        test = new Cord(from.getRank() + mody, from.getFile());
+        if(isValid(game, new Move(from, test)))
+          moves.add(test);
+
+        test = new Cord(from.getRank() + (2 * mody), from.getFile());
+        if(isValid(game, new Move(from, test)))
+          moves.add(test);
+
+        test = new Cord(from.getRank() + mody, from.getFile() + 1);
+        if(isValid(game, new Move(from, test)))
+          moves.add(test);
+
+        test = new Cord(from.getRank() + mody, from.getFile() - 1);
+        if(isValid(game, new Move(from, test)))
+          moves.add(test);
+
         return moves;
     }
     

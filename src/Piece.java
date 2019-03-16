@@ -71,14 +71,15 @@ public abstract class Piece{
     public abstract ArrayList<Cord> validMoves(Game game, Cord from);
 
     public ArrayList<Cord> legalMoves(Game game, Cord from){
-        ArrayList<Cord> moves = new ArrayList<Cord>();
-        if(game.getPiece(from).getType() == Type.Empty)
-            return moves;
+        ArrayList<Cord> moves = validMoves(game, from);
         
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++)
-                if(isLegal(game, new Move(from, new Cord(i, j))))
-                    moves.add(new Cord(i, j));
+        int index = 0;
+        while(index < moves.size()){
+            if(GameHelper.sucide(game, new Move(from, moves.get(index))))
+                moves.remove(index);
+            else
+                index++;
+        }
         return moves;
     }
 
