@@ -15,12 +15,10 @@ public class King extends Piece{
 
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        boolean valid = false;
         int dx = Math.abs(from.getFile() - to.getFile());
         int dy = Math.abs(from.getRank() - to.getRank());
-        if(dx == 1 && dy <= 1) valid = true;
-        if(dy == 1 && dx == 0) valid = true;
-        return valid;
+        if(dx > 1 || dy > 1) return false;
+        return true;
     }
 
     @Override
@@ -37,13 +35,26 @@ public class King extends Piece{
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
-        if(game.getPiece(from).getType() == Type.Empty)
-            return moves;
-        
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++)
-                if(isValid(game, new Move(from, new Cord(i, j))))
-                    moves.add(new Cord(i, j));
+        Cord test;
+
+        for(int i = 0; i < 2; i++){
+            int mod1 = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+            for(int j = 0; j < 2; j++){
+                int mod2 = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+                    
+                test = new Cord(from.getRank() + mod1, from.getFile() + mod2);
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
+            }
+            test = new Cord(from.getRank() + mod1, from.getFile());
+            if(isValid(game, new Move(from, test)))
+                moves.add(test);
+
+            test = new Cord(from.getRank(), from.getFile() + mod1);
+            if(isValid(game, new Move(from, test)))
+                moves.add(test);
+        }
+
         return moves;
     }
     
