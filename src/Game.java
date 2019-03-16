@@ -31,6 +31,8 @@ public class Game{
     //Larger the value, more the game faves white
     private double advantage = 0;
 
+    private FischerClock whiteTime, blackTime;
+
     public Game(int rank, int file){
         rankSize = rank;
         fileSize = file;
