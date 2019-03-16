@@ -44,11 +44,11 @@ public class Knight extends Piece{
                 int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
                 test = new Cord(from.getRank() + modx, from.getFile() + (2 * mody));
                 if(isValid(game, new Move(from, test)))
-                moves.add(test);
+                    moves.add(test);
 
                 test = new Cord(from.getRank() + (2 * modx), from.getFile() + mody);
                 if(isValid(game, new Move(from, test)))
-                moves.add(test);
+                    moves.add(test);
             }
 
         return moves;
