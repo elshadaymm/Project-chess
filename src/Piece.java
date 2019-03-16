@@ -11,7 +11,7 @@ enum Type{
     Empty;
 }
 
-public class Piece{
+public abstract class Piece{
     protected boolean isWhite;
     private Type type;
     protected double value;
@@ -39,6 +39,15 @@ public class Piece{
      *
      */
     public boolean isValid(Game game, Move move){
+        if(move.getFrom().getRank() < 0
+            || move.getFrom().getFile() < 0
+            || move.getTo().getRank() < 0
+            || move.getTo().getFile() < 0
+            || move.getFrom().getRank() > game.getRankSize() - 1
+            || move.getFrom().getFile() > game.getFileSize() - 1
+            || move.getTo().getRank() > game.getRankSize() - 1
+            || move.getTo().getFile() > game.getFileSize() - 1)
+            return false;
         if(game.getPiece(move.getFrom()) == null) 
             return false;
         if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()) 
@@ -50,33 +59,18 @@ public class Piece{
         return true;
     }
 
+    //if a move is legal
     public boolean isLegal(Game game, Move move){
         return isValid(game, move) && !GameHelper.sucide(game, move);
     }
 
-    //Default value of a piece
-    public void updateValue(){
-        value = 0;
-    }
+    public abstract void updateValue(); //Default value of a piece
+    public abstract void updateValue(Game game, Cord at);
 
-    //Default value of a piece
-    public void updateValue(Game game, Cord at){
-        value = 0;
-    }
+    //Returns all valid moves
+    public abstract ArrayList<Cord> validMoves(Game game, Cord from);
 
-    public ArrayList<Cord> validMoves(final Game game, final Cord from){
-        ArrayList<Cord> moves = new ArrayList<Cord>();
-        if(game.getPiece(from).getType() == Type.Empty)
-            return moves;
-        
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++)
-                if(isValid(game, new Move(from, new Cord(i, j))))
-                    moves.add(new Cord(i, j));
-        return moves;
-    }
-
-    public ArrayList<Cord> legalMoves(final Game game, final Cord from){
+    public ArrayList<Cord> legalMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
         if(game.getPiece(from).getType() == Type.Empty)
             return moves;

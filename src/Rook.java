@@ -11,6 +11,8 @@ public class Rook extends Piece{
 
     @Override
     public boolean isValid(Game game, Move move){
+        if(!super.isValid(game, move)) return false;
+
         Cord from = move.getFrom();
         Cord to = move.getTo();
         boolean valid = false;
@@ -30,7 +32,7 @@ public class Rook extends Piece{
                 if(game.getPiece(new Cord(from.getRank() + i * mod, from.getFile())).getType() != Type.Empty)
                     valid = false;
         }
-        return valid && super.isValid(game, move);
+        return valid;
     }
 
     @Override
@@ -42,6 +44,19 @@ public class Rook extends Piece{
     public void updateValue(Game game, Cord at){
         value = Constant.ROOK_VALUE;
         value += validMoves(game, at).size() * Constant.ROOK_SCOPE;
+    }
+
+    @Override
+    public ArrayList<Cord> validMoves(Game game, Cord from){
+        ArrayList<Cord> moves = new ArrayList<Cord>();
+        if(game.getPiece(from).getType() == Type.Empty)
+            return moves;
+        
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++)
+                if(isValid(game, new Move(from, new Cord(i, j))))
+                    moves.add(new Cord(i, j));
+        return moves;
     }
 
     @Override
