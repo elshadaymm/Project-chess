@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class GameHelper{
     public static String turnToString(boolean white){return white? "white" : "black";}
+    private static ArrayList<String> moveHistory;
 
     //checks if a king of a color is alive in a game
     public static boolean kingAlive(Game game, boolean color){
@@ -50,6 +51,7 @@ public class GameHelper{
         }
         return false;
     }
+
 
     /**
      * Checks a pieces move rules to decide if a move is allowed.
@@ -238,4 +240,41 @@ public class GameHelper{
     		game.setBlackKingCastle(false);}
     	
     }
-}
+
+    /**
+     * checks if any board state has occured three times (Threefold Repetition)
+     * records boardstate as FEN and stores it into an arraylist
+     * iterates through the arraylist and checks if there are three identiacal board states
+     * @param game
+     * @param move holds all previous state of game as FEN
+     * @return true if a board state has occured three times, else false
+     */
+
+    public static boolean threefoldRepetition(Game game, ArrayList<String> move){
+        moveHistory.add(toFEN(game));
+        int size = moveHistory.size();
+        if(size >= 3){
+            for (int i = 0; i < size; i++) {
+                for (int k = i + 1; k < size; k++) {
+                    for(int j = i + 2; j < size; j++){
+                        if(move.get(i) == move.get(k) && move.get(k) == move.get(j)){
+                            return(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        else{return false;}
+        return false;
+    }
+        
+
+    }
+
+
+
+
+
+
+
