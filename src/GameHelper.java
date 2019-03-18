@@ -250,14 +250,14 @@ public class GameHelper{
      * @return true if a board state has occured three times, else false
      */
 
-    public static boolean threefoldRepetition(Game game, ArrayList<String> move){
+    public static boolean threefoldRepetition(Game game){
         moveHistory.add(toFEN(game));
         int size = moveHistory.size();
         if(size >= 3){
             for (int i = 0; i < size; i++) {
                 for (int k = i + 1; k < size; k++) {
                     for(int j = i + 2; j < size; j++){
-                        if(move.get(i) == move.get(k) && move.get(k) == move.get(j)){
+                        if(moveHistory.get(i) == moveHistory.get(k) && moveHistory.get(k) == moveHistory.get(j)){
                             return(true);
                         }
                     }
