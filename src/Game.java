@@ -385,6 +385,7 @@ public class Game{
     public int getPeace() {return peace;}
     
     public int getEnd() {return end;}
+    public int setEnd(int value) {this.end = value;}
 
     public boolean getWhiteKingCastle() {return whiteKingCastle;}
     public void setWhiteKingCastle(boolean value) {whiteKingCastle = value;}
