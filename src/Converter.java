@@ -19,6 +19,6 @@ public class Converter{
     }
 
     public static Cord StringToCord(String str){
-        return new Cord(str.charAt(0) - 'a', Integer.parseInt("" + str.charAt(1)) - 1);
+        return new Cord(Integer.parseInt("" + str.charAt(1)) - 1, str.charAt(0) - 'a');
     }
 }

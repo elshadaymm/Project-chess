@@ -25,7 +25,7 @@ public class Game{
     //@Jeremy @Elvis
     //shows the piece that can be enpassented this turn
     //used for en passent, currently unused. also used for FEN
-    private Cord enPassant = null;
+    private Cord enPassant = new Cord(-1, -1);
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
@@ -117,7 +117,7 @@ public class Game{
         setCastle(castle);
 
         if(enPassant.charAt(0) == '-')
-            this.enPassant = null;
+            this.enPassant = new Cord(-1, -1);
         else
             this.enPassant = Converter.StringToCord(enPassant);
 
@@ -334,23 +334,24 @@ public class Game{
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
 
+
+        //removes the enpassanted piece
+        if(to.equals(this.enPassant))
+            if(whiteTurn) board[to.getRank() - 1][to.getFile()] = new Empty(GameHelper.cordColor(from));
+            else board[to.getRank() + 1][to.getFile()] = new Empty(GameHelper.cordColor(from));
+
+        //updates the en passant variable to the coordinate of the square behind the pawn that has moved two squares from its starting position 
+        enPassant = new Cord(-1, -1);
+        if(getPiece(from).getType() == Type.Pawn){
+            if(from.getRank() == 1 && to.getRank() == 3)
+                enPassant = new Cord(2, from.getFile());
+            else if(from.getRank() == 6 && to.getRank() == 4)
+                enPassant = new Cord(5, from.getFile());
+        }
+
         board[to.getRank()][to.getFile()] = getPiece(from);
         board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
 
-
-        //updates the en passant variable to the coordinate of the square behind the pawn that has moved two squares from its starting position 
-
-        //White can be enpassanted
-        if(getPiece(from).getType() == Type.Pawn){
-            if(from.getFile() == 2 && to.getFile() == 4){
-                enPassant = new Cord(from.getRank(), to.getFile() - 1);
-            }
-
-        //Black can be enpassanted
-            else if(from.getFile() == 7 && to.getFile() == 5){
-                enPassant = new Cord(from.getRank(), to.getFile() + 1);
-            }
-        }
 
         changeTurn();
         update();

@@ -17,7 +17,12 @@ public class Cord{
     public int getRank(){return rank;}
     public int getFile(){return file;}
 
+    public boolean equals(Cord other) {
+        return this.getRank() == other.getRank() && this.getFile() == other.getFile();
+    }
+
     public String toString(){
+        if(rank < 0 || file < 0) return "-";
         return Converter.CordToUCI(this);
     }
 }

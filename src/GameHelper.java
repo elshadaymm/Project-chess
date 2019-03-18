@@ -208,7 +208,7 @@ public class GameHelper{
             && !game.getBlackKingCastle() 
             && !game.getBlackQueenCastle()) {gameState.append("-");}
 
-        gameState.append(game.getEnPassant() == null? " - " : " " + game.getEnPassant().toString() + " ");
+        gameState.append(" " + game.getEnPassant().toString() + " ");
             
         gameState.append(game.getPeace());
         gameState.append(" ");

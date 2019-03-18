@@ -31,9 +31,8 @@ public class Pawn extends Piece{
 
       //taking diag
       if(dx == 1 && dy == 1)
-        if(board[to.getRank()][to.getFile()].getType() != Type.Empty)
-          return true;
-        else if(game.getEnPassant() != null && to == game.getEnPassant())
+        if(game.getPiece(to).getType() != Type.Empty
+          || to.equals(game.getEnPassant()))
           return true;
 
       return false;
@@ -55,7 +54,7 @@ public class Pawn extends Piece{
         ArrayList<Cord> moves = new ArrayList<Cord>();
         int mody = getColor()? Constant.POSITIVE : Constant.NEGATIVE;
         Cord test;
-
+        
         test = new Cord(from.getRank() + mody, from.getFile());
         if(isValid(game, new Move(from, test)))
           moves.add(test);
