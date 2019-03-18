@@ -3,16 +3,18 @@ import java.util.TimerTask;
 import java.time.Clock;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.StringBuilder;
 
 public class FischerClock{
 
     private int whiteTime = 120000; //2 minutes, could reference something in Constant?  or be set in GUI?
     private int blackTime = 120000; //2 minutes, could reference something in Constant?  or be set in GUI?
     private int increment = 12000; // in ms, default to 12 seconds
-    private boolean currentPlayer = false; //starts as false so that switchTurns starts on white's turn    
+    private boolean currentPlayer = true;   
     
     public FischerClock(){
     	Timer mechanism = new Timer(1000, tictoc);  //this is the part that takes time off every second
+    	mechanism.start();
     }
     
     public int getWhiteTime() {return whiteTime;}
@@ -25,17 +27,24 @@ public class FischerClock{
     
     public void switchTurns() { //this method switches between the players and adds 12 seconds every turn
     	currentPlayer = !currentPlayer;	
-    	if(currentPlayer) { whiteTime += increment;
-    	} else { blackTime += increment;
-    	}
+    	if(currentPlayer) { whiteTime += increment;}
+    	else { blackTime += increment;}
     }
     
-    public String whiteTime() { //toString for display in the GUI
-    	return (whiteTime / 1000) / 60 + ":" + (whiteTime / 1000) % 60;
+    public String whiteTime() { //call this to display time remaining for white
+    	String minutes = Integer.toString((whiteTime / 1000) / 60);
+    	StringBuilder seconds = new StringBuilder();
+    	int currentSeconds = (whiteTime / 1000) % 60;
+    	seconds = (currentSeconds < 10) ? seconds.append("0" + currentSeconds) : seconds.append(currentSeconds);
+    	return(minutes + ":" + seconds);
     }
     
-    public String blackTime() { //toString for display in the GUI
-    	return (blackTime / 1000) / 60 + ":" + (blackTime / 1000) % 60;
+    public String blackTime() { //call this to display time remaining for black
+    	String minutes = Integer.toString((blackTime / 1000) / 60);
+    	StringBuilder seconds = new StringBuilder();
+    	int currentSeconds = (blackTime / 1000) % 60;
+    	seconds = (currentSeconds < 10) ? seconds.append("0" + currentSeconds) : seconds.append(currentSeconds);
+    	return(minutes + ":" + seconds);
     }
     
     
@@ -43,13 +52,9 @@ public class FischerClock{
         public void actionPerformed(ActionEvent evt) {
             if(currentPlayer){
             	whiteTime -= 1000;
-            	System.out.println(whiteTime);
             } else {
             	blackTime -= 1000;
-            	System.out.println(blackTime);
             }
-            if(whiteTime <= 0) {Game.setEnd(2);} //ends the game when white runs out of time
-            if(blackTime <= 0) {Game.setEnd(1);} //ends the game when black runs out of time
         }
     };
     

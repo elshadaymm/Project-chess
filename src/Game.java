@@ -31,7 +31,7 @@ public class Game{
     //Larger the value, more the game faves white
     private double advantage = 0;
 
-    private FischerClock chessClock;
+    private FischerClock chessClock = new FischerClock();
 
     public Game(int rank, int file){
         rankSize = rank;
@@ -315,6 +315,11 @@ public class Game{
     //To do
     public void makeMove(Move move){
         move(move);
+        chessClock.switchTurns();
+    	System.out.println("white Time Remaining: " + chessClock.whiteTime());
+    	System.out.println("Black Time Reamining: " + chessClock.blackTime());
+    	if(chessClock.getWhiteTime() <= 0) {end = Constant.BLACK_WIN;}
+        if(chessClock.getBlackTime() <= 0) {end = Constant.WHITE_WIN;}
     }
 
     /**
@@ -354,7 +359,6 @@ public class Game{
 
 
         changeTurn();
-        FischerClock.switchTurns();
         update();
     }
 
@@ -387,7 +391,6 @@ public class Game{
     public int getPeace() {return peace;}
     
     public int getEnd() {return end;}
-    public int setEnd(int value) {this.end = value;}
 
     public boolean getWhiteKingCastle() {return whiteKingCastle;}
     public void setWhiteKingCastle(boolean value) {whiteKingCastle = value;}
