@@ -41,16 +41,17 @@ public class FischerClock{
     
     ActionListener tictoc = new ActionListener() {  //this is what the timer runs every second, and this takes 1 second off the time
         public void actionPerformed(ActionEvent evt) {
-            if(currentPlayer){whiteTime -= 1000;}
-            else blackTime -= 1000;
+            if(currentPlayer){
+            	whiteTime -= 1000;
+            	System.out.println(whiteTime);
+            } else {
+            	blackTime -= 1000;
+            	System.out.println(blackTime);
+            }
             if(whiteTime <= 0) {Game.setEnd(2);} //ends the game when white runs out of time
             if(blackTime <= 0) {Game.setEnd(1);} //ends the game when black runs out of time
         }
     };
-    
-    
-    public static void main(String[] args) {
-    }
     
     
 }

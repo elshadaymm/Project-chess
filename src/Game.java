@@ -31,7 +31,7 @@ public class Game{
     //Larger the value, more the game faves white
     private double advantage = 0;
 
-    private FischerClock whiteTime, blackTime;
+    private FischerClock chessClock;
 
     public Game(int rank, int file){
         rankSize = rank;
@@ -354,6 +354,7 @@ public class Game{
 
 
         changeTurn();
+        FischerClock.switchTurns();
         update();
     }
 
