@@ -333,18 +333,24 @@ public class Game{
 
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
-        
-        //updates the en passant variable with the coordinated of the square behind the pawn that moved two spaces
-        if(from.getRank() == 1 && to.getRank() == 3 && getPiece(from).getType() == Type.Pawn) {
-        	Cord temp = new Cord(2, from.getFile());
-        	enPassant = temp;
-        } else if(from.getRank() == 6 && to.getRank() == 4 && getPiece(from).getType() == Type.Pawn) {
-        	Cord temp = new Cord(5, from.getFile());
-        	enPassant = temp;
-        } else {enPassant = null;}
 
         board[to.getRank()][to.getFile()] = getPiece(from);
         board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+
+
+        //updates the en passant variable to the coordinate of the square behind the pawn that has moved two squares from its starting position 
+
+        //White can be enpassanted
+        if(getPiece(from).getType() == Type.Pawn){
+            if(from.getFile() == 2 && to.getFile() == 4){
+                enPassant = new Cord(from.getRank(), to.getFile() - 1);
+            }
+
+        //Black can be enpassanted
+            else if(from.getFile() == 7 && to.getFile() == 5){
+                enPassant = new Cord(from.getRank(), to.getFile() + 1);
+            }
+        }
 
         changeTurn();
         update();
