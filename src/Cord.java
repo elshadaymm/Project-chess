@@ -11,6 +11,11 @@ public class Cord{
         this.file = file;
     }
 
+    public Cord(Cord other){
+        this.rank = other.getRank();
+        this.file = other.getFile();
+    }
+
     public void setRank(int rank){this.rank = rank;}
     public void setFile(int file){this.file = file;}
 

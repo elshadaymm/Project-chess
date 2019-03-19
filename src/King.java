@@ -20,14 +20,16 @@ public class King extends Piece{
 
         //checks for castle
         if(game.getPiece(to).getType() == Type.Rook
-            && game.getPiece(to).getColor() == getColor())
-            if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()
-                && GameHelper.leftOfKing(game, to))
-                return castleLineOfSight(game, move);
-            else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()
-                && GameHelper.rightOfKing(game, to))
-                return castleLineOfSight(game, move);
-            else return false;
+            && game.getPiece(to).getColor() == getColor()){
+                move.setCastle(true);
+                if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()
+                    && GameHelper.leftOfKing(game, to))
+                    return castleLineOfSight(game, move);
+                else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()
+                    && GameHelper.rightOfKing(game, to))
+                    return castleLineOfSight(game, move);
+                else return false;
+            }
 
         if(dx > 1 || dy > 1) return false;
         return true;
@@ -89,7 +91,6 @@ public class King extends Piece{
                     moves.add(test);
             }
         }
-
         return moves;
     }
 

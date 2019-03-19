@@ -82,7 +82,18 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        return isValid(game, move) && !GameHelper.sucide(game, move);
+        Cord from = move.getFrom();
+        Cord to = new Cord(move.getTo());
+        if(game.getPiece(from).getType() == Type.King)//shit logic will fix
+            if(game.getPiece(to).getType() == Type.Rook){
+                if(game.getPiece(from).getColor() == Constant.WHITE){
+                    if(GameHelper.rightOfKing(game, to)){ to = new Cord(0, 6);}
+                    else {to = new Cord(0, 2);}}
+                else{
+                    if(GameHelper.rightOfKing(game, to)){ to = new Cord(7, 6);}
+                    else{ to = new Cord(7, 2);}}
+            }
+        return isValid(game, move) && !GameHelper.sucide(game, new Move(from, to));
     }
 
     public abstract void updateValue(); //Default value of a piece
