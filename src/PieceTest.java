@@ -9,7 +9,7 @@ public class PieceTest{
     @Test
     public void testKing(){
         Game game = new Game();
-        game.setBoard("8/8/4k3/8/8/4K3/8/8 w KQkq - 0 1");
+        game.setBoard("8/8/4k3/8/8/4K3/8/8 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 8; //the king
@@ -22,7 +22,7 @@ public class PieceTest{
     @Test
     public void testKingSuicide(){
         Game game = new Game();
-        game.setBoard("8/8/4k3/R7/7r/4K3/8/8 w KQkq - 0 1");
+        game.setBoard("8/8/4k3/R7/7r/4K3/8/8 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //the king
@@ -36,7 +36,7 @@ public class PieceTest{
     @Test
     public void testQueen(){
         Game game = new Game();
-        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK b KQkq - 0 1");
+        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 24;//othagnal moves
@@ -50,7 +50,7 @@ public class PieceTest{
     @Test
     public void testRook(){
         Game game = new Game();
-        game.setBoard("kr6/rr6/8/8/8/8/6RR/6RK w KQkq - 0 1");
+        game.setBoard("kr6/rr6/8/8/8/8/6RR/6RK w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 24; //the rooks
@@ -89,7 +89,7 @@ public class PieceTest{
     @Test
     public void testBishop(){
         Game game = new Game();
-        game.setBoard("kb6/bb6/2b5/8/8/5B2/6BB/6BK b KQkq - 0 1");
+        game.setBoard("kb6/bb6/2b5/8/8/5B2/6BB/6BK b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 9 + 12;
@@ -102,7 +102,7 @@ public class PieceTest{
     @Test
     public void testKnight(){
         Game game = new Game();
-        game.setBoard("kn6/n7/8/3n4/4N3/8/7N/6NK w KQkq - 0 1");
+        game.setBoard("kn6/n7/8/3n4/4N3/8/7N/6NK w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 6; //knights corner
@@ -117,7 +117,7 @@ public class PieceTest{
 	@Test
 	public void testPawnAdvance(){
         Game game = new Game();
-        game.setBoard("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w KQkq - 0 1");
+        game.setBoard("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 16; //pawns

@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class Move{
     private Cord from, to;
     private double value = 0;
-    private boolean castle = false;
 
     public Move(Cord from, Cord to) {
         this.from = from;
@@ -24,9 +23,6 @@ public class Move{
 
     public Cord getFrom() {return from;}
     public Cord getTo() {return to;}
-
-    public boolean getCastle(){return castle;}
-    public void setCastle(boolean ahhhhhhhhhhhh){castle = ahhhhhhhhhhhh;}
     
     public String toString(){
         return Converter.CordToUCI(from) + Converter.CordToUCI(to);

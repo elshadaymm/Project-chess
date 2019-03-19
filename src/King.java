@@ -19,17 +19,23 @@ public class King extends Piece{
         int dy = Math.abs(from.getRank() - to.getRank());
 
         //checks for castle
-        if(game.getPiece(to).getType() == Type.Rook
-            && game.getPiece(to).getColor() == getColor()){
-                move.setCastle(true);
-                if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()
-                    && GameHelper.leftOfKing(game, to))
-                    return castleLineOfSight(game, move);
-                else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()
-                    && GameHelper.rightOfKing(game, to))
-                    return castleLineOfSight(game, move);
+        if(to.getRank() == 0 || to.getRank() == 7){
+            if(to.getFile() == 6 || to.getFile() == 2){
+                if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
+                    for(int i = from.getFile() - 1; i > 0; i--)
+                        if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                            return false;
+                    return true;
+                }
+                else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
+                    for(int i = from.getFile() + 1; i < game.getFileSize(); i++)
+                        if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                            return false;
+                    return true;
+                }
                 else return false;
             }
+        }
 
         if(dx > 1 || dy > 1) return false;
         return true;

@@ -52,13 +52,6 @@ public abstract class Piece{
             return false;
         if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()) 
             return false;
-
-        //Castle
-        if(game.getPiece(move.getFrom()).getType() == Type.King
-            && game.getPiece(move.getTo()).getType() == Type.Rook)
-            return true;
-            
-        //else
         if(game.getPiece(move.getTo()).getType() != Type.Empty 
             && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()) 
             return false;
@@ -82,18 +75,7 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        Cord from = move.getFrom();
-        Cord to = new Cord(move.getTo());
-        if(game.getPiece(from).getType() == Type.King)//shit logic will fix
-            if(game.getPiece(to).getType() == Type.Rook){
-                if(game.getPiece(from).getColor() == Constant.WHITE){
-                    if(GameHelper.rightOfKing(game, to)){ to = new Cord(0, 6);}
-                    else {to = new Cord(0, 2);}}
-                else{
-                    if(GameHelper.rightOfKing(game, to)){ to = new Cord(7, 6);}
-                    else{ to = new Cord(7, 2);}}
-            }
-        return isValid(game, move) && !GameHelper.sucide(game, new Move(from, to));
+        return isValid(game, move) && !GameHelper.sucide(game, move);
     }
 
     public abstract void updateValue(); //Default value of a piece
