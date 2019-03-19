@@ -27,6 +27,9 @@ public class ChessGUI extends Application{
 	private static Label turnNumber = new Label("Turn: " + game.getTurn());
 	private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
 	private static Label fen = new Label("FEN: " + GameHelper.toFEN(game));
+	private static Label whiteTime = new Label("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
+	private static Label blackTime = new Label("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds");
+	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
 	
 	public static void main(String[] args){
 		if(args.length == 2){
@@ -74,9 +77,12 @@ public class ChessGUI extends Application{
 	public void update(GridPane board, Pane root){
 		baseBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
-		fen.setText("FEN: " + GameHelper.toFEN(game));
 		turnNumber.setText("Turn: " + game.getTurn());
 		fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
+		fen.setText("FEN: " + GameHelper.toFEN(game));
+		whiteTime.setText("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
+		blackTime.setText(("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds"));
+		repetition.setText("Repetition: " + GameHelper.repetition(game));
 		if(true){//temp need to optimize
 			StackPane endDisplay = new StackPane();
 			Rectangle background = new Rectangle(0, 0, 320, 160);
@@ -135,6 +141,9 @@ public class ChessGUI extends Application{
 	infoDisplay.getChildren().add(turnNumber);
 	infoDisplay.getChildren().add(fiftyMove);
 	infoDisplay.getChildren().add(fen);
+	infoDisplay.getChildren().add(whiteTime);
+	infoDisplay.getChildren().add(blackTime);
+	infoDisplay.getChildren().add(repetition);
 	infoDisplay.setPadding(new Insets(190,100,20,50));
 	infoDisplay.setSpacing(10);
 	infoDisplay.setLayoutX(750);

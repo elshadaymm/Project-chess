@@ -1,15 +1,12 @@
 import javax.swing.Timer;
-import java.util.TimerTask;
-import java.time.Clock;
-import java.awt.*;
 import java.awt.event.*;
 import java.lang.StringBuilder;
 
 public class FischerClock{
 
-    private int whiteTime = 120000; //2 minutes, could reference something in Constant?  or be set in GUI?
-    private int blackTime = 120000; //2 minutes, could reference something in Constant?  or be set in GUI?
-    private int increment = 12000; // in ms, default to 12 seconds
+    private int whiteTime = 60 * 1000; //2 minutes, could reference something in Constant?  or be set in GUI?
+    private int blackTime = 60 * 1000; //2 minutes, could reference something in Constant?  or be set in GUI?
+    private int increment = 0; // in ms, default to 12 seconds
     private boolean currentPlayer = true;   
     
     public FischerClock(){
