@@ -65,7 +65,7 @@ public abstract class Piece{
         
         int index = 0;
         while(index < moves.size()){
-            if(GameHelper.sucide(game, new Move(from, moves.get(index))))
+            if(!isLegal(game, new Move(from, moves.get(index))))//shit logic
                 moves.remove(index);
             else
                 index++;
@@ -75,7 +75,23 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        return isValid(game, move) && !GameHelper.sucide(game, move);
+        if(game.getPiece(move.getFrom()).getType() == Type.King){//shit logic
+            Cord from = move.getFrom();
+            Cord to = move.getTo();
+            if(to.getFile() - from.getFile() == 2){
+                if(GameHelper.inCheck(game)) return false;
+                if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() - 1))))
+                    return false;
+            }
+            else if(to.getFile() - from.getFile() == -2){
+                if(GameHelper.inCheck(game)) return false;
+                if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() + 1))))
+                    return false;
+            }
+        }
+
+        if(GameHelper.sucide(game, move)) return false;
+        return isValid(game, move);
     }
 
     public abstract void updateValue(); //Default value of a piece

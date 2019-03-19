@@ -38,27 +38,6 @@ public class King extends Piece{
         return true;
     }
 
-    private boolean castleLineOfSightWithLegal(Game game, Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
-        int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-        for(int i = from.getFile() + mod; mod > 0? (i <= 6):(i >= 2); i += mod)
-            if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty
-                || GameHelper.sucide(game, new Move(from, new Cord(from.getRank(), i))))
-                return false;
-        return true;
-    }
-
-    private boolean castleLineOfSight(Game game, Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
-        int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-        for(int i = from.getFile() + mod; mod > 0? (i <= 6):(i >= 2); i += mod)
-            if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
-                return false;
-        return true;
-    }
-
     @Override
     public void updateValue(){
         value = Constant.KING_VALUE;

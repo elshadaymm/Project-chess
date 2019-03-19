@@ -87,7 +87,33 @@ public class PieceTest{
     }
     
     @Test
-    public void testWhiteKingCastle(){
+    public void testInCheckWhiteCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/4r3/8/8/8/8/8/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 0; //rooks
+        numOfLegalMoves += 0; //rooks
+        numOfLegalMoves += 4; //the king
+        numOfLegalMoves += 0; //2 castle moves
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testInCheckBlackCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/8/8/8/8/8/4R3/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 0; //rooks
+        numOfLegalMoves += 0; //rooks
+        numOfLegalMoves += 4; //the king
+        numOfLegalMoves += 0; //2 castle moves
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteQueenCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
@@ -109,7 +135,7 @@ public class PieceTest{
     }
     
     @Test
-    public void testBlackKingCastle(){
+    public void testBlackQueenCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
@@ -131,7 +157,7 @@ public class PieceTest{
     }
     
     @Test
-    public void testWhiteQueenCastle(){
+    public void testWhiteKingCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
@@ -153,7 +179,7 @@ public class PieceTest{
     }
     
     @Test
-    public void testBlackQueenCastle(){
+    public void testBlackKingCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
@@ -170,6 +196,94 @@ public class PieceTest{
         numOfLegalMoves = 0;
         numOfLegalMoves += 8 + 7; //rooks
         numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteQueenCastleCheck(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(0,4), new Cord(0,2)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 1; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testBlackQueenCastleCheck(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(7,4), new Cord(7,2)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 1; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteKingCastleCheck(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(0,4), new Cord(0,6)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 1; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testBlackKingCastleCheck(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(7,4), new Cord(7,6)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 1; //2 castle moves
         numOfLegalMoves += 4; //pawns
         assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }

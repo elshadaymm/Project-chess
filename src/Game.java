@@ -336,6 +336,7 @@ public class Game{
         Cord to = move.getTo();
         int dx = to.getFile() - from.getFile();
         boolean temp = false;//lazy logic will replace later
+        boolean temp2 = getPiece(from).getColor();//again shit logic
         if(getPiece(from).getType() == Type.King){
             if(getPiece(from).getColor() == Constant.WHITE){
                 if(dx == 2 && whiteKingCastle){
@@ -366,26 +367,25 @@ public class Game{
                     temp = true;
                 }
             }
-        }
-
-        if(getPiece(from).getColor() == Constant.WHITE){
-            whiteKingCastle = false;
-            whiteQueenCastle = false;
-        }else{
-            blackKingCastle = false;
-            blackQueenCastle = false;
+            if(temp2 == Constant.WHITE){
+                whiteKingCastle = false;
+                whiteQueenCastle = false;
+            }else{
+                blackKingCastle = false;
+                blackQueenCastle = false;
+            }
         }
     
         if(getPiece(from).getType() == Type.Rook){
             if(getPiece(from).getColor() == Constant.WHITE){
-                if(whiteKingCastle == true)
+                if(whiteKingCastle)
                     whiteKingCastle = GameHelper.rightOfKing(this, from)? false : true;
-                if(whiteQueenCastle == true)
+                if(whiteQueenCastle)
                     whiteQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
             }else{
-                if(blackKingCastle == true)
+                if(blackKingCastle)
                     blackKingCastle = GameHelper.rightOfKing(this, from)? false : true;
-                if(blackQueenCastle == true)
+                if(blackQueenCastle)
                     blackQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
             }
         }

@@ -60,8 +60,7 @@ public class GameHelper{
      * move rules that are evaluated based on the x,y coordinates that the piece is on and can move to.
      * .is_legal() returns true if the piece is allowed to make that move, false otherwise
      */
-    public static boolean legalMove(Game game, Move move){//disabled for casteling
-        /*
+    public static boolean legalMove(Game game, Move move){
         if(game.getEnd() != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
@@ -81,7 +80,7 @@ public class GameHelper{
         if(sucide(game, move)){
             System.out.println("Error: Can't put self in check.");
             return false;
-        }*/
+        }
         return game.getPiece(move.getFrom()).isLegal(game, move);
     }
 
