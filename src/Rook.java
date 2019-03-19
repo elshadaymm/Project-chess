@@ -57,11 +57,11 @@ public class Rook extends Piece{
                 int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
 
                 for(int k = 1; k < game.getRankSize() || k < game.getFileSize(); k++){
-                    test = new Cord(from.getRank() + (k * modx), from.getFile());
+                    test = new Cord(from.getRank() + (k * mody), from.getFile());
                     if(isValid(game, new Move(from, test)))
                         moves.add(test);
                         
-                    test = new Cord(from.getRank(), from.getFile() + (k * mody));
+                    test = new Cord(from.getRank(), from.getFile() + (k * modx));
                     if(isValid(game, new Move(from, test)))
                         moves.add(test);
                 }

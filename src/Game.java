@@ -321,12 +321,75 @@ public class Game{
 
         updateEnpassant(move);
 
-        board[to.getRank()][to.getFile()] = getPiece(from);
-        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+        if(!updateCastle(move)){
+            board[to.getRank()][to.getFile()] = getPiece(from);
+            board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+        }
 
         history.add(GameHelper.FENBoard(this));
         changeTurn();
         update();
+    }
+
+    private boolean updateCastle(Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
+        boolean temp = false;//lazy logic will replace later
+        if(getPiece(from).getType() == Type.King){
+            if(getPiece(to).getType() == Type.Rook){
+                if(getPiece(from).getColor() == Constant.WHITE){
+                    if(whiteKingCastle && GameHelper.rightOfKing(this, to)){
+                        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[to.getRank()][to.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[0][6] = new King(Constant.WHITE);
+                        board[0][5] = new Rook(Constant.WHITE);
+                        temp = true;
+                    }else if(whiteQueenCastle && GameHelper.leftOfKing(this, to)){
+                        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[to.getRank()][to.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[0][2] = new King(Constant.WHITE);
+                        board[0][3] = new Rook(Constant.WHITE);
+                        temp = true;
+                    }
+                }else{
+                    if(blackKingCastle && GameHelper.rightOfKing(this, to)){
+                        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[to.getRank()][to.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[7][6] = new King(Constant.BLACK);
+                        board[7][5] = new Rook(Constant.BLACK);
+                        temp = true;
+                    }else if(blackQueenCastle && GameHelper.leftOfKing(this, to)){
+                        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[to.getRank()][to.getFile()] = new Empty(GameHelper.cordColor(from));
+                        board[7][2] = new King(Constant.BLACK);
+                        board[7][3] = new Rook(Constant.BLACK);
+                        temp = true;
+                    }
+                }
+            }
+
+            if(getPiece(from).getColor() == Constant.WHITE){
+                whiteKingCastle = false;
+                whiteQueenCastle = false;
+            }else{
+                blackKingCastle = false;
+                blackQueenCastle = false;
+            }
+        }
+        if(getPiece(from).getType() == Type.Rook){
+            if(getPiece(from).getColor() == Constant.WHITE){
+                if(whiteKingCastle == true)
+                    whiteKingCastle = GameHelper.rightOfKing(this, from)? false : true;
+                if(whiteQueenCastle == true)
+                    whiteQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
+            }else{
+                if(blackKingCastle == true)
+                    blackKingCastle = GameHelper.rightOfKing(this, from)? false : true;
+                if(blackQueenCastle == true)
+                    blackQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
+            }
+        }
+        return temp;
     }
 
     private void updateEnpassant(Move move){

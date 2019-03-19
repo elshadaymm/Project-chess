@@ -3,9 +3,9 @@ import java.awt.event.*;
 import java.lang.StringBuilder;
 
 public class FischerClock{
-
-    private int whiteTime = 60 * 1000; //2 minutes, could reference something in Constant?  or be set in GUI?
-    private int blackTime = 60 * 1000; //2 minutes, could reference something in Constant?  or be set in GUI?
+    private static int defaultTime = Integer.MAX_VALUE / 2; // temp instant variable will remove later
+    private int whiteTime = defaultTime; //2 minutes, could reference something in Constant?  or be set in GUI?
+    private int blackTime = defaultTime; //2 minutes, could reference something in Constant?  or be set in GUI?
     private int increment = 0; // in ms, default to 12 seconds
     private boolean currentPlayer = true;   
     

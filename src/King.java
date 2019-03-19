@@ -17,7 +17,40 @@ public class King extends Piece{
         Cord to = move.getTo();
         int dx = Math.abs(from.getFile() - to.getFile());
         int dy = Math.abs(from.getRank() - to.getRank());
+
+        //checks for castle
+        if(game.getPiece(to).getType() == Type.Rook
+            && game.getPiece(to).getColor() == getColor())
+            if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()
+                && GameHelper.leftOfKing(game, to))
+                return castleLineOfSight(game, move);
+            else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()
+                && GameHelper.rightOfKing(game, to))
+                return castleLineOfSight(game, move);
+            else return false;
+
         if(dx > 1 || dy > 1) return false;
+        return true;
+    }
+
+    private boolean castleLineOfSightWithLegal(Game game, Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
+        int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        for(int i = from.getFile() + mod; mod > 0? (i <= 6):(i >= 2); i += mod)
+            if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty
+                || GameHelper.sucide(game, new Move(from, new Cord(from.getRank(), i))))
+                return false;
+        return true;
+    }
+
+    private boolean castleLineOfSight(Game game, Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
+        int mod = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        for(int i = from.getFile() + mod; mod > 0? (i <= 6):(i >= 2); i += mod)
+            if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                return false;
         return true;
     }
 
@@ -50,13 +83,17 @@ public class King extends Piece{
             if(isValid(game, new Move(from, test)))
                 moves.add(test);
 
-            test = new Cord(from.getRank(), from.getFile() + mod1);
-            if(isValid(game, new Move(from, test)))
-                moves.add(test);
+            for(int k = 1; k < game.getFileSize(); k++){
+                test = new Cord(from.getRank(), from.getFile() + (k * mod1));
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
+            }
         }
 
         return moves;
     }
+
+
     
     @Override
     public char toCharacter(){

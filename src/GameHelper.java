@@ -72,11 +72,11 @@ public class GameHelper{
         if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()){
             System.out.println("Error: It's not " + turnToString(!game.getWhiteTurn()) + "'s turn.");
             return false;
-        }
+        }/*
         if(game.getPiece(move.getTo()).getType() != Type.Empty && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()){
             System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
             return false;
-        }
+        }*///disabled for casteling
         if(sucide(game, move)){
             System.out.println("Error: Can't put self in check.");
             return false;
@@ -242,5 +242,21 @@ public class GameHelper{
             if(position.equals(current))
                 repetition++;
         return repetition;
+    }
+
+    //if a piece is to the right of a king, used for casteling
+    public static boolean leftOfKing(Game game, Cord at){
+        for(int i = at.getFile() + 1; i < game.getFileSize(); i++)
+            if(game.getPiece(new Cord(at.getRank(), i)).getType() == Type.King)
+                return true;
+        return false;
+    }
+
+    //if a piece is to the right of a king, used for casteling
+    public static boolean rightOfKing(Game game, Cord at){
+        for(int i = at.getFile() - 1; i >=0; i--)
+            if(game.getPiece(new Cord(at.getRank(), i)).getType() == Type.King)
+                return true;
+        return false;
     }
 }

@@ -52,6 +52,13 @@ public abstract class Piece{
             return false;
         if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()) 
             return false;
+
+        //Castle
+        if(game.getPiece(move.getFrom()).getType() == Type.King
+            && game.getPiece(move.getTo()).getType() == Type.Rook)
+            return true;
+            
+        //else
         if(game.getPiece(move.getTo()).getType() != Type.Empty 
             && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()) 
             return false;
