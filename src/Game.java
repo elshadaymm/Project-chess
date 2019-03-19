@@ -295,10 +295,12 @@ public class Game{
         chessClock.switchTurns();
     	if(chessClock.getWhiteTime() <= 0) {
             end = Constant.WHITE_TIMEOUT;
+            advantage = -Constant.THRESHOLD;
             return;
         }
         if(chessClock.getBlackTime() <= 0) {
             end = Constant.BLACK_TIMEOUT;
+            advantage = Constant.THRESHOLD;
             return;
         }
         move(move);
