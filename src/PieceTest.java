@@ -34,6 +34,12 @@ public class PieceTest
         numOfLegalMoves += 2; //pawn
         numOfLegalMoves += 5; //the king
         assertEquals("White En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.makeMove(new Move(new Cord(4, 4), new Cord(5, 3)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 4; //king
+        assertEquals("White En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
     
 	@Test
@@ -46,6 +52,12 @@ public class PieceTest
         numOfLegalMoves += 2; //pawn
         numOfLegalMoves += 5; //the king
         assertEquals("Black En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.makeMove(new Move(new Cord(3, 4), new Cord(2, 3)));
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 4; //king
+        assertEquals("White En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
     
 }

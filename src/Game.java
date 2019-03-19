@@ -17,16 +17,11 @@ public class Game{
 
     private int end = Constant.ONGOING;
 
-    //@Jeremy @Elvis
-    //used for castleing, currently unused. also used for FEN
     private boolean whiteKingCastle = true;
     private boolean whiteQueenCastle = true;
     private boolean blackKingCastle = true;
     private boolean blackQueenCastle = true;
 
-    //@Jeremy @Elvis
-    //shows the piece that can be enpassented this turn
-    //used for en passent, currently unused. also used for FEN
     private Cord enPassant = new Cord(-1, -1);
     
     // Who's winning? white if its positive. black if its negative
@@ -132,8 +127,9 @@ public class Game{
         peace = Integer.parseInt(halfMove);
         this.turn = Integer.parseInt(fullMove);
 
-        history = new ArrayList<String>();
+        chessClock = new FischerClock();
 
+        history = new ArrayList<String>();
         history.add(GameHelper.FENBoard(this));
 
         update();
@@ -323,7 +319,19 @@ public class Game{
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
 
+        updateEnpassant(move);
 
+        board[to.getRank()][to.getFile()] = getPiece(from);
+        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+
+        history.add(GameHelper.FENBoard(this));
+        changeTurn();
+        update();
+    }
+
+    private void updateEnpassant(Move move){
+        Cord from = move.getFrom();
+        Cord to = move.getTo();
         //removes the enpassanted piece
         if(to.equals(this.enPassant))
             if(whiteTurn) board[to.getRank() - 1][to.getFile()] = new Empty(GameHelper.cordColor(from));
@@ -337,13 +345,6 @@ public class Game{
             else if(from.getRank() == 6 && to.getRank() == 4)
                 enPassant = new Cord(5, from.getFile());
         }
-
-        board[to.getRank()][to.getFile()] = getPiece(from);
-        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
-
-        history.add(GameHelper.FENBoard(this));
-        changeTurn();
-        update();
     }
 
     //makes a simple move without updating anything
