@@ -15,29 +15,26 @@ public class King extends Piece{
 
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        int dx = Math.abs(from.getFile() - to.getFile());
-        int dy = Math.abs(from.getRank() - to.getRank());
+        int dx = to.getFile() - from.getFile();
+        int dy = to.getRank() - from.getRank();
 
         //checks for castle
-        if(to.getRank() == 0 || to.getRank() == 7){
-            if(to.getFile() == 6 || to.getFile() == 2){
-                if(getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                    for(int i = from.getFile() - 1; i > 0; i--)
-                        if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
-                            return false;
-                    return true;
-                }
-                else if(getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                    for(int i = from.getFile() + 1; i < game.getFileSize(); i++)
-                        if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
-                            return false;
-                    return true;
-                }
-                else return false;
+        if(from.getFile() == 4 && (to.getRank() == 0 || to.getRank() == 7)){
+            if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
+                for(int i = from.getFile() - 1; i > 0; i--)
+                    if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                        return false;
+                return true;
+            }
+            else if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
+                for(int i = from.getFile() + 1; i < game.getFileSize(); i++)
+                    if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                        return false;
+                return true;
             }
         }
 
-        if(dx > 1 || dy > 1) return false;
+        if(Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
         return true;
     }
 
@@ -91,11 +88,13 @@ public class King extends Piece{
             if(isValid(game, new Move(from, test)))
                 moves.add(test);
 
-            for(int k = 1; k < game.getFileSize(); k++){
-                test = new Cord(from.getRank(), from.getFile() + (k * mod1));
-                if(isValid(game, new Move(from, test)))
-                    moves.add(test);
-            }
+            test = new Cord(from.getRank(), from.getFile() + mod1);
+            if(isValid(game, new Move(from, test)))
+                moves.add(test);
+
+            test = new Cord(from.getRank(), from.getFile() + (mod1 * 2));
+            if(isValid(game, new Move(from, test)))
+                moves.add(test);
         }
         return moves;
     }

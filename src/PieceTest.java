@@ -61,7 +61,7 @@ public class PieceTest{
     }
     
     @Test
-    public void testWhiteCastle(){
+    public void testBasicWhiteCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
         
@@ -74,7 +74,7 @@ public class PieceTest{
     }
     
     @Test
-    public void testBlackCastle(){
+    public void testBasicBlackCastle(){
         Game game = new Game();
         game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
         
@@ -83,6 +83,94 @@ public class PieceTest{
         numOfLegalMoves += 5; //rooks
         numOfLegalMoves += 5; //the king
         numOfLegalMoves += 2; //2 castle moves
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteKingCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(0,4), new Cord(0,2)));
+        game.changeTurn();
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 6 + 7; //rooks
+        numOfLegalMoves += 4; //the king
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testBlackKingCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(7,4), new Cord(7,2)));
+        game.changeTurn();  
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 6 + 7; //rooks
+        numOfLegalMoves += 4; //the king
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteQueenCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(0,4), new Cord(0,6)));
+        game.changeTurn();
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 8 + 7; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 4; //pawns
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testBlackQueenCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        numOfLegalMoves += 4; //pawns
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.move(new Move(new Cord(7,4), new Cord(7,6)));
+        game.changeTurn();  
+
+        numOfLegalMoves = 0;
+        numOfLegalMoves += 8 + 7; //rooks
+        numOfLegalMoves += 3; //the king
+        numOfLegalMoves += 4; //pawns
         assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
 
