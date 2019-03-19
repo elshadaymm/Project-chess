@@ -60,7 +60,8 @@ public class GameHelper{
      * move rules that are evaluated based on the x,y coordinates that the piece is on and can move to.
      * .is_legal() returns true if the piece is allowed to make that move, false otherwise
      */
-    public static boolean legalMove(Game game, Move move){
+    public static boolean legalMove(Game game, Move move){//disabled for casteling
+        /*
         if(game.getEnd() != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
@@ -72,15 +73,15 @@ public class GameHelper{
         if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()){
             System.out.println("Error: It's not " + turnToString(!game.getWhiteTurn()) + "'s turn.");
             return false;
-        }/*
+        }
         if(game.getPiece(move.getTo()).getType() != Type.Empty && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()){
             System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
             return false;
-        }*///disabled for casteling
+        }
         if(sucide(game, move)){
             System.out.println("Error: Can't put self in check.");
             return false;
-        }
+        }*/
         return game.getPiece(move.getFrom()).isLegal(game, move);
     }
 

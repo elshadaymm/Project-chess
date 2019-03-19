@@ -51,21 +51,19 @@ public class Rook extends Piece{
         ArrayList<Cord> moves = new ArrayList<Cord>();
         Cord test;
 
-        for(int i = 0; i < 2; i++)
-            for(int j = 0; j < 2; j++){
-                int modx = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
-                int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+        for(int i = 0; i < 2; i++){
+            int mod = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
 
-                for(int k = 1; k < game.getRankSize() || k < game.getFileSize(); k++){
-                    test = new Cord(from.getRank() + (k * mody), from.getFile());
-                    if(isValid(game, new Move(from, test)))
-                        moves.add(test);
-                        
-                    test = new Cord(from.getRank(), from.getFile() + (k * modx));
-                    if(isValid(game, new Move(from, test)))
-                        moves.add(test);
-                }
+            for(int k = 1; k < game.getRankSize() || k < game.getFileSize(); k++){
+                test = new Cord(from.getRank() + (k * mod), from.getFile());
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
+                    
+                test = new Cord(from.getRank(), from.getFile() + (k * mod));
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
             }
+        }
 
         return moves;
     }

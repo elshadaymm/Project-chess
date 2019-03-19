@@ -6,7 +6,113 @@ import java.beans.Transient;
 import java.util.*;
 
 public class PieceTest{
-    public static final String CLASSNAME = "CreditHistory";
+    @Test
+    public void testKing(){
+        Game game = new Game();
+        game.setBoard("8/8/4k3/8/8/4K3/8/8 w KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 8; //the king
+        assertEquals("King test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("King test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testKingSuicide(){
+        Game game = new Game();
+        game.setBoard("8/8/4k3/R7/7r/4K3/8/8 w KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 14;// rook
+        assertEquals("King suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("King suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testQueen(){
+        Game game = new Game();
+        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK b KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 24;//othagnal moves
+        numOfLegalMoves += 12 + 5;//diagnal moves
+        assertEquals("Queen suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("Queen suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testRook(){
+        Game game = new Game();
+        game.setBoard("kr6/rr6/8/8/8/8/6RR/6RK w KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 24; //the rooks
+        assertEquals("Rook test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("Rook test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testWhiteCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 14; //rooks
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+    
+    @Test
+    public void testBlackCastle(){
+        Game game = new Game();
+        game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
+        
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 14; //rooks
+        numOfLegalMoves += 5; //rooks
+        numOfLegalMoves += 5; //the king
+        numOfLegalMoves += 2; //2 castle moves
+        assertEquals("Black Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testBishop(){
+        Game game = new Game();
+        game.setBoard("kb6/bb6/2b5/8/8/5B2/6BB/6BK b KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 9 + 12;
+        assertEquals("Bishop test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("Bishop test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testKnight(){
+        Game game = new Game();
+        game.setBoard("kn6/n7/8/3n4/4N3/8/7N/6NK w KQkq - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 6; //knights corner
+        numOfLegalMoves += 8; //center knight
+        numOfLegalMoves += 1; //the king
+        assertEquals("Knight test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+
+        game.changeTurn();
+        assertEquals("knight test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
     
 	@Test
 	public void testPawnAdvance(){
@@ -54,17 +160,5 @@ public class PieceTest{
         numOfLegalMoves = 0;
         numOfLegalMoves += 4; //king
         assertEquals("Black En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
-    }
-    
-    @Test
-    public void testWhiteCastle(){
-        Game game = new Game();
-        game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
-        
-        int numOfLegalMoves = 0;
-        numOfLegalMoves += 17; //rooks
-        numOfLegalMoves += 5; //the king
-        numOfLegalMoves += 2; //2 castle moves
-        assertEquals("White Castle Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
 }
