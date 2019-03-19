@@ -39,8 +39,9 @@ public class Constant{
     public static final int BLACK_WIN = 2;
     public static final int DRAW_BY_FIFTY_MOVE_RULE = 3;
     public static final int STALEMATE = 4;
-    public static final int WHITETIMEDEATH = 5;
-    public static final int BLACKTIMEDEATH = 6;
+    public static final int WHITE_TIMEOUT = 5;
+    public static final int BLACK_TIMEOUT = 6;
+    public static final int DRAW_BY_THREEFOLD_REPETITION = 7;
 
     //Used for inMate fuction in Game class
     public static final int NO = 0;

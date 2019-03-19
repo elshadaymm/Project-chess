@@ -3,6 +3,8 @@
  * sets up the board, and runs the main interface for the player.
  *
  */
+import java.util.ArrayList;
+
 public class Game{
     private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
     private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
@@ -33,20 +35,19 @@ public class Game{
 
     private FischerClock chessClock = new FischerClock();
 
+    private ArrayList<String> history = new ArrayList<String>();
+
     public Game(int rank, int file){
         rankSize = rank;
         fileSize = file;
         board = new Piece[fileSize][rankSize];
-        nullBoard();
-        setUpBoard();
+        reset();
     }
 
-    public Game(){
-        this(Constant.DEFAULT_RANK_SIZE, Constant.DEFAULT_FILE_SIZE);
-    }
+    public Game(){this(Constant.DEFAULT_RANK_SIZE, Constant.DEFAULT_FILE_SIZE);}
 
     //copies a game
-    public Game(final Game game){
+    public Game(Game game){
         rankSize = game.getRankSize();
         fileSize = game.getFileSize();
 
@@ -66,7 +67,14 @@ public class Game{
         enPassant = game.getEnPassant();
         
         advantage = game.getAdvantage();
+
+        chessClock = new FischerClock(game.getChessClock());
+        
         setBoard(game.getBoard());
+
+        history = new ArrayList<String>();
+        history.addAll(game.getHistory());
+        history.add(GameHelper.FENBoard(this));
     }
 
     private boolean FENFormat(String FEN){
@@ -124,9 +132,14 @@ public class Game{
         peace = Integer.parseInt(halfMove);
         this.turn = Integer.parseInt(fullMove);
 
+        history = new ArrayList<String>();
+
+        history.add(GameHelper.FENBoard(this));
+
         update();
     }
 
+    //used by setBoard(String FEN)
     private void setCastle(String castle){
         whiteKingCastle = false;
         blackKingCastle = false;
@@ -148,7 +161,7 @@ public class Game{
         }
     }
 
-    //used for setBord
+    //used by setBoard(String FEN)
     private void setRank(String rank, int atRank){
         int fileIndex = 0;
         for(int i = 0; i < rank.length(); i++){
@@ -189,7 +202,7 @@ public class Game{
     }
 
     //copies a board
-    private void setBoard(final Piece[][] board){
+    private void setBoard(Piece[][] board){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
                 Piece original = board[i][j];
@@ -219,42 +232,6 @@ public class Game{
                 }
                 this.board[i][j] = copy;
             }
-    }
-
-    //sets up the default board for chess
-    private void setUpBoard(){
-        boolean side = Constant.WHITE;
-        board[0][0] = new Rook(side);
-        board[0][1] = new Knight(side);
-        board[0][2] = new Bishop(side);
-        board[0][3] = new Queen(side);
-        board[0][4] = new King(side);
-        board[0][5] = new Bishop(side);
-        board[0][6] = new Knight(side);
-        board[0][7] = new Rook(side);
-        for(int i = 0; i < fileSize; i++)
-            board[1][i] = new Pawn(side);
-
-        side = Constant.BLACK;
-        board[7][0] = new Rook(side);
-        board[7][1] = new Knight(side);
-        board[7][2] = new Bishop(side);
-        board[7][3] = new Queen(side);
-        board[7][4] = new King(side);
-        board[7][5] = new Bishop(side);
-        board[7][6] = new Knight(side);
-        board[7][7] = new Rook(side);
-        for(int i = 0; i < fileSize; i++)
-            board[6][i] = new Pawn(side);
-    }
-
-    /**
-     * Creates the spaces on the board, the bottom left corner is 0,0 and the top right is 7,7
-    */
-    private void nullBoard(){
-        for(int i = 0; i < rankSize; i++)
-            for(int j = 0; j < fileSize; j++)
-                board[i][j] = new Empty(GameHelper.cordColor(new Cord(i,j)));
     }
 
     public boolean updateEnd(){
@@ -288,6 +265,12 @@ public class Game{
             return true;
         }
 
+        if(GameHelper.threefoldRepetition(this)){
+            end = Constant.DRAW_BY_THREEFOLD_REPETITION;
+            advantage = 0;
+            return true;
+        }
+
         return false;
     }
 
@@ -308,18 +291,17 @@ public class Game{
             updateAdvantage();
     }
 
-    /*
-    START OF GAME INTERFACE!!!!!!!!!!!!!!!
-    */
-
-    //To do
     public void makeMove(Move move){
-        move(move);
         chessClock.switchTurns();
-    	System.out.println("white Time Remaining: " + chessClock.whiteTime());
-    	System.out.println("Black Time Reamining: " + chessClock.blackTime());
-    	if(chessClock.getWhiteTime() <= 0) {end = Constant.BLACK_WIN;}
-        if(chessClock.getBlackTime() <= 0) {end = Constant.WHITE_WIN;}
+    	if(chessClock.getWhiteTime() <= 0) {
+            end = Constant.WHITE_TIMEOUT;
+            return;
+        }
+        if(chessClock.getBlackTime() <= 0) {
+            end = Constant.BLACK_TIMEOUT;
+            return;
+        }
+        move(move);
     }
 
     /**
@@ -357,11 +339,12 @@ public class Game{
         board[to.getRank()][to.getFile()] = getPiece(from);
         board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
 
-
+        history.add(GameHelper.FENBoard(this));
         changeTurn();
         update();
     }
 
+    //makes a simple move without updating anything
     public void simpleMove(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
@@ -369,9 +352,8 @@ public class Game{
         board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
     }
 
-    public void changeTurn(){
-        whiteTurn = whiteTurn ? false : true;
-    }
+    //alternates turn
+    public void changeTurn(){whiteTurn = whiteTurn ? false : true;}
 
     /**
      * Function to determine which piece occupies this space on the board.
@@ -404,4 +386,8 @@ public class Game{
     public Cord getEnPassant() {return enPassant;}
 
     public double getAdvantage() {return advantage;}
+
+    public FischerClock getChessClock() {return chessClock;}
+
+    public ArrayList<String> getHistory(){return history;}
 }

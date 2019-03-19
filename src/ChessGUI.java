@@ -1,24 +1,19 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.io.FileInputStream;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
@@ -99,10 +94,19 @@ public class ChessGUI extends Application{
 					win = "Black wins.";
 					break;
 				case Constant.DRAW_BY_FIFTY_MOVE_RULE:
-					win = "Draw by fifty-move rule.";
+					win = "Draw by 50 move";
 					break;
 				case Constant.STALEMATE:
 					win = "Stalemate";
+					break;
+				case Constant.WHITE_TIMEOUT:
+					win = "White Timeout";
+					break;
+				case Constant.BLACK_TIMEOUT:
+					win = "Black Timeout";
+					break;
+				case Constant.DRAW_BY_THREEFOLD_REPETITION:
+					win = "Draw by 3-fold rep";
 					break;
 				default:
 					win = "Error";

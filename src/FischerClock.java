@@ -16,6 +16,14 @@ public class FischerClock{
     	Timer mechanism = new Timer(1000, tictoc);  //this is the part that takes time off every second
     	mechanism.start();
     }
+
+    public FischerClock(FischerClock other){
+        this();
+        whiteTime = other.getWhiteTime();
+        blackTime = other.getBlackTime();
+        increment = other.getIncrement();
+        currentPlayer = other.getCurrentPlayer();
+    }
     
     public int getWhiteTime() {return whiteTime;}
     public void setWhiteTime(int value) {this.whiteTime = value;}

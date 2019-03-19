@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class GameHelper{
     public static String turnToString(boolean white){return white? "white" : "black";}
-    private static ArrayList<String> moveHistory;
 
     //checks if a king of a color is alive in a game
     public static boolean kingAlive(Game game, boolean color){
@@ -95,7 +94,9 @@ public class GameHelper{
         System.out.println("All Legal Moves: " + Move.movesToString(allLegalMoves(game)));
 
         System.out.println();
-        //cancelCastle(game); 						 //!!!!!!!!!!!!! THIS PROBABLY SHOULDN'T BE HERE!  WAS JUST FOR TESTING !!!!!!!!!!!!
+
+        //printHistory(game);
+        //System.out.println();
         
         printBoard(game);
     }
@@ -105,7 +106,8 @@ public class GameHelper{
         System.out.println("Turn " + game.getTurn() + ":");
         System.out.println("Fifty-move Rule: " + game.getPeace());
         System.out.println("Currently " + turnToString(game.getWhiteTurn()) + "'s turn.");
-        System.out.print("FEN: " + toFEN(game));
+        System.out.println("FEN: " + toFEN(game));
+        System.out.println("Repetition: " + repetition(game));
     }
 
     public static void printBoard(Game game){
@@ -130,6 +132,11 @@ public class GameHelper{
 
         System.out.println();
         System.out.println();
+    }
+
+    public static void printHistory(Game game){
+        for(int i = 0; i < game.getHistory().size(); i++)
+            System.out.println(game.getHistory().get(i));
     }
 
     public static ArrayList<Move> allValidMoves(Game game){
@@ -218,63 +225,22 @@ public class GameHelper{
 
         return gameState.toString();
     }
-    
-    /**
-     * Checks to see if the kings or rooks have moved, and if so changes their ability to castle to false
-     * @param game
-     */
-    public static void cancelCastle(Game game) {
-    	if(game.getBoard()[0][4].toCharacter() != 'K') {
-    		game.setWhiteKingCastle(false);
-    		game.setWhiteQueenCastle(false);}
-    	if(game.getBoard()[7][4].toCharacter() != 'k') {
-    		game.setBlackKingCastle(false);
-    		game.setBlackQueenCastle(false);}
-    	if(game.getBoard()[0][0].toCharacter() != 'R') {
-    		game.setWhiteQueenCastle(false);}
-    	if(game.getBoard()[0][7].toCharacter() != 'R') {
-    		game.setWhiteKingCastle(false);}
-    	if(game.getBoard()[7][0].toCharacter() != 'r') {
-    		game.setBlackQueenCastle(false);}
-    	if(game.getBoard()[7][7].toCharacter() != 'r') {
-    		game.setBlackKingCastle(false);}
-    	
-    }
 
     /**
      * checks if any board state has occured three times (Threefold Repetition)
      * records boardstate as FEN and stores it into an arraylist
      * iterates through the arraylist and checks if there are three identiacal board states
      * @param game
-     * @param move holds all previous state of game as FEN
-     * @return true if a board state has occured three times, else false
+     * @return true if a board state has occured more then three times, else false
      */
-
-    public static boolean threefoldRepetition(Game game){
-        moveHistory.add(toFEN(game));
-        int size = moveHistory.size();
-        if(size >= 3){
-            for (int i = 0; i < size; i++) {
-                for (int k = i + 1; k < size; k++) {
-                    for(int j = i + 2; j < size; j++){
-                        if(moveHistory.get(i) == moveHistory.get(k) && moveHistory.get(k) == moveHistory.get(j)){
-                            return(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        else{return false;}
-        return false;
+    public static boolean threefoldRepetition(Game game){return repetition(game) >= 3;}
+    public static int repetition(Game game){
+        ArrayList<String> history = game.getHistory();
+        String current = FENBoard(game);
+        int repetition = 0;
+        for(String position: history)
+            if(position.equals(current))
+                repetition++;
+        return repetition;
     }
-        
-
-    }
-
-
-
-
-
-
-
+}
