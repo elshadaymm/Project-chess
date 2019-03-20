@@ -38,45 +38,6 @@ public class ChessGUI extends Application{
 	private static Scene startScene, mainScene, endScene;
 
 	public static void main(String[] args){
-		if(args.length == 2){
-			switch (args[0]){
-				case "Human":
-					playerWhite = new Human(game);
-					break;
-				case "AIMinMax":
-					playerWhite = new AIMinMax(game);
-					break;
-				case "AIAlphaBeta":
-					playerWhite = new AIAlphaBeta(game);
-					break;
-				case "AIRandom":
-					playerWhite = new AIRandom(game);
-					break;
-				default:
-					playerWhite = new Human(game);
-					break;
-			}
-			switch (args[1]){
-				case "Human":
-					playerBlack = new Human(game);
-					break;
-				case "AIMinMax":
-					playerBlack = new AIMinMax(game);
-					break;
-				case "AIAlphaBeta":
-					playerBlack = new AIAlphaBeta(game);
-					break;
-				case "AIRandom":
-					playerBlack = new AIRandom(game);
-					break;
-				default:
-					playerBlack = new Human(game);
-					break;
-			}
-		}else{
-				playerWhite = new Human(game);
-				playerBlack = new Human(game);
-		}
 		 launch(args);
 	}
 
