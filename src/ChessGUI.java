@@ -213,85 +213,85 @@ public class ChessGUI extends Application{
 	}
 //drawStartingPage is the startscene
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
-	  Pane surface = new Pane();
+		Pane surface = new Pane();
 
-	  HBox title = new HBox();
+		HBox title = new HBox();
 		title.setAlignment(Pos.CENTER);
-	  title.setPadding(new Insets(100,0,0,510));
-		Text t = new Text("GAME OF CHESS");
+		title.setPadding(new Insets(100,0,0,550));
+		Text t = new Text("Chess");
 		t.setTextAlignment(TextAlignment.CENTER);
-    t.setFont(Font.font ("Verdana", 40));
-    t.setFill(Color.BLACK);
-	  title.getChildren().add(t);
+		t.setFont(Font.font ("Verdana", 80));
+		t.setFill(Color.BLACK);
+		title.getChildren().add(t);
 
 
-	  VBox modes = new VBox();
-	  modes.setAlignment(Pos.CENTER);
-	  Text txt = new Text("Choose Game Mode");
-	  txt.setTextAlignment(TextAlignment.CENTER);
-    txt.setFont(Font.font ("Verdana", 40));
-    txt.setFill(Color.BLACK);
-	  modes.getChildren().add(txt);
-	  Button hVSh = new Button("human vs human");
+		VBox modes = new VBox();
+		modes.setAlignment(Pos.CENTER);
+		Text txt = new Text("Choose Game Mode");
+		txt.setTextAlignment(TextAlignment.CENTER);
+		txt.setFont(Font.font ("Verdana", 40));
+		txt.setFill(Color.BLACK);
+		modes.getChildren().add(txt);
+		Button hVSh = new Button("human vs human");
 		hVSh.setStyle("-fx-background-color: #824b00; ");
-	  Button hVSm = new Button("human vs minmax");
-	  Button mVSr = new Button("minmax vs random");
-	  Button rVSr = new Button("random vs random");
-	  modes.getChildren().add(hVSh);
-	  modes.getChildren().add(hVSm);
-	  modes.getChildren().add(mVSr);
-	  modes.getChildren().add(rVSr);
-	  modes.setPadding(new Insets(300,0,0,490));
-	  modes.setSpacing(10);
+		Button hVSm = new Button("human vs minmax");
+		Button mVSr = new Button("minmax vs random");
+		Button rVSr = new Button("random vs random");
+		modes.getChildren().add(hVSh);
+		modes.getChildren().add(hVSm);
+		modes.getChildren().add(mVSr);
+		modes.getChildren().add(rVSr);
+		modes.setPadding(new Insets(300,0,0,490));
+		modes.setSpacing(10);
 
-	  modes.setPrefWidth(350);
-	  hVSh.setMinWidth(modes.getPrefWidth());
-	  hVSh.setMinHeight((modes.getPrefWidth() / 7));
-	  hVSm.setMinWidth(modes.getPrefWidth());
-	  hVSm.setMinHeight((modes.getPrefWidth() / 7));
-	  mVSr.setMinWidth(modes.getPrefWidth());
-	  mVSr.setMinHeight((modes.getPrefWidth() / 6));
-	  rVSr.setMinWidth(modes.getPrefWidth());
-	  rVSr.setMinHeight((modes.getPrefWidth() / 6));
+		modes.setPrefWidth(350);
+		hVSh.setMinWidth(modes.getPrefWidth());
+		hVSh.setMinHeight((modes.getPrefWidth() / 7));
+		hVSm.setMinWidth(modes.getPrefWidth());
+		hVSm.setMinHeight((modes.getPrefWidth() / 7));
+		mVSr.setMinWidth(modes.getPrefWidth());
+		mVSr.setMinHeight((modes.getPrefWidth() / 6));
+		rVSr.setMinWidth(modes.getPrefWidth());
+		rVSr.setMinHeight((modes.getPrefWidth() / 6));
 
-	  hVSh.setOnAction(new EventHandler<ActionEvent>(){
-	    @Override
-	    public void handle(ActionEvent event){
-	      playerWhite = new Human(game);
-	      playerBlack = new Human(game);
+		hVSh.setOnAction(new EventHandler<ActionEvent>(){
+		@Override
+		public void handle(ActionEvent event){
+			playerWhite = new Human(game);
+			playerBlack = new Human(game);
 				primaryStage.setScene(mainScene);
-	    }
-	  });
-	  hVSm.setOnAction(new EventHandler<ActionEvent>(){
-	    @Override
-	    public void handle(ActionEvent event){
-	      playerWhite = new Human(game);
-	      playerBlack = new AIMinMax(game);
-				primaryStage.setScene(mainScene);
-	    }
-	  });
-	  mVSr.setOnAction(new EventHandler<ActionEvent>(){
-	    @Override
-	    public void handle(ActionEvent event){
-	      playerWhite = new AIMinMax(game);
-	      playerBlack = new AIRandom(game);
-				primaryStage.setScene(mainScene);
-	    }
-	  });
-	  rVSr.setOnAction(new EventHandler<ActionEvent>(){
-	    @Override
-	    public void handle(ActionEvent event){
-	      playerWhite = new AIRandom(game);
-	      playerBlack = new AIRandom(game);
-				primaryStage.setScene(mainScene);
-	    }
-	  });
+		}
+		});
+		hVSm.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				playerWhite = new Human(game);
+				playerBlack = new AIMinMax(game);
+					primaryStage.setScene(mainScene);
+			}
+		});
+		mVSr.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				playerWhite = new AIMinMax(game);
+				playerBlack = new AIRandom(game);
+					primaryStage.setScene(mainScene);
+			}
+		});
+		rVSr.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				playerWhite = new AIRandom(game);
+				playerBlack = new AIRandom(game);
+					primaryStage.setScene(mainScene);
+			}
+		});
 
-	  surface.getChildren().add(title);
-	  surface.getChildren().add(modes);
-	  int h = 750;
-	  int w = (int) (h * 16 / 9);
-	  s = new Scene(surface, w, h);
+		surface.getChildren().add(title);
+		surface.getChildren().add(modes);
+		int h = 750;
+		int w = (int) (h * 16 / 9);
+		s = new Scene(surface, w, h);
 		return s;
 
 	}
