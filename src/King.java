@@ -27,7 +27,7 @@ public class King extends Piece{
                 return true;
             }
             else if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                for(int i = from.getFile() + 1; i < game.getFileSize(); i++)
+                for(int i = from.getFile() + 1; i < game.getFileSize() - 1; i++)
                     if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
                         return false;
                 return true;

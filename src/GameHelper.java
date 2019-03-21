@@ -155,6 +155,7 @@ public class GameHelper{
         return moves;
     }
 
+    //todo improve logic with allvalidomoves. remove dupe code
     public static ArrayList<Move> allLegalMoves(Game game){
         ArrayList<Move> moves = new ArrayList<Move>();
         Cord from;
@@ -258,5 +259,10 @@ public class GameHelper{
             if(game.getPiece(new Cord(at.getRank(), i)).getType() == Type.King)
                 return true;
         return false;
+    }
+    
+    public static boolean FENFormat(String FEN){
+        if(FEN.length() < 10) return false;
+        return true;
     }
 }

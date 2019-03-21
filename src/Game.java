@@ -9,26 +9,32 @@ public class Game{
     private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
     private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
 
+    //the chess board. 2d array of piecese
     private Piece[][] board;
 
+    //the turn number, if its whites turn or not
     private int turn = 1;
     private boolean whiteTurn = true;
     private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
 
+    //if the game has ended. check the Constant class for detales
     private int end = Constant.ONGOING;
-
+ 
+    //ifeach side can castle
     private boolean whiteKingCastle = true;
     private boolean whiteQueenCastle = true;
     private boolean blackKingCastle = true;
     private boolean blackQueenCastle = true;
 
+    //the piece that can be enpassanted 
     private Cord enPassant = new Cord(-1, -1);
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
     private double advantage = 0;
 
-    private FischerClock chessClock = new FischerClock();
+    //thes clock for the game
+    private FischerClock clock = new FischerClock();
 
     private ArrayList<String> history = new ArrayList<String>();
 
@@ -43,6 +49,7 @@ public class Game{
 
     //copies a game
     public Game(Game game){
+        
         rankSize = game.getRankSize();
         fileSize = game.getFileSize();
 
@@ -63,24 +70,22 @@ public class Game{
         
         advantage = game.getAdvantage();
 
-        chessClock = new FischerClock(game.getChessClock());
+        clock = new FischerClock(game.getChessClock());
         
         setBoard(game.getBoard());
 
         history = new ArrayList<String>();
         history.addAll(game.getHistory());
         history.add(GameHelper.FENBoard(this));
-    }
-
-    private boolean FENFormat(String FEN){
-        if(FEN.length() < 10 + rankSize - 1) return false;
-        return true;
+        
+        //setBoard(GameHelper.toFEN(game));
     }
 
     public void reset(){setBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
 
+    //Sets the board using an FEN string
     public void setBoard(String FEN){
-        if(!FENFormat(FEN)) return;
+        if(!GameHelper.FENFormat(FEN)) return;
 
         while(FEN.charAt(0) == ' ')
             FEN = FEN.substring(1);
@@ -97,11 +102,22 @@ public class Game{
         }
         setRank(board, 0);
 
+        setInfo(info);
+
+        clock = new FischerClock();
+
+        history = new ArrayList<String>();
+        history.add(GameHelper.FENBoard(this));
+
+        update();
+    }
+
+    private void setInfo(String info){
         String turn, castle, enPassant, halfMove, fullMove; 
         turn = info.substring(1, 2);//w or b
         info = info.substring(3);
         
-        cut = info.indexOf(" ");
+        int cut = info.indexOf(" ");
         castle = info.substring(0, cut);//KQkq or - or ect
         info = info.substring(cut + 1);
 
@@ -126,13 +142,6 @@ public class Game{
 
         peace = Integer.parseInt(halfMove);
         this.turn = Integer.parseInt(fullMove);
-
-        chessClock = new FischerClock();
-
-        history = new ArrayList<String>();
-        history.add(GameHelper.FENBoard(this));
-
-        update();
     }
 
     //used by setBoard(String FEN)
@@ -288,13 +297,13 @@ public class Game{
     }
 
     public void makeMove(Move move){
-        chessClock.switchTurns();
-    	if(chessClock.getWhiteTime() <= 0) {
+        clock.switchTurns();
+    	if(clock.getWhiteTime() <= 0) {
             end = Constant.WHITE_TIMEOUT;
             advantage = -Constant.THRESHOLD;
             return;
         }
-        if(chessClock.getBlackTime() <= 0) {
+        if(clock.getBlackTime() <= 0) {
             end = Constant.BLACK_TIMEOUT;
             advantage = Constant.THRESHOLD;
             return;
@@ -453,7 +462,7 @@ public class Game{
 
     public double getAdvantage() {return advantage;}
 
-    public FischerClock getChessClock() {return chessClock;}
+    public FischerClock getChessClock() {return clock;}
 
     public ArrayList<String> getHistory(){return history;}
 }
