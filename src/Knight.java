@@ -13,10 +13,10 @@ public class Knight extends Piece{
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
-        int dx = Math.abs(move.dx());
-        int dy = Math.abs(move.dy());
-        if(dx == 1 && dy == 2) return true;
-        if(dx == 2 && dy == 1) return true;
+        int adx = move.adx();
+        int ady = move.ady();
+        if(adx == 1 && ady == 2) return true;
+        if(adx == 2 && ady == 1) return true;
         return false;
     }
 

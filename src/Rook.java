@@ -15,20 +15,20 @@ public class Rook extends Piece{
 
         Cord from = move.from();
         Cord to = move.to();
-        int dx = Math.abs(move.dx());
-        int dy = Math.abs(move.dy());
+        int adx = move.adx();//absolute value of delta x
+        int ady = move.ady();
 
-        if(dx != 0 && dy != 0) return false;
+        if(adx != 0 && ady != 0) return false;
 
-        if (dy == 0){
+        if (ady == 0){
             int mod = to.file() - from.file() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-            for(int i = 1; i < dx; i++)
+            for(int i = 1; i < adx; i++)
                 if(game.getPiece(new Cord(from.rank(), from.file() + i * mod)).getType() != Type.Empty)
                     return false;
         }
-        else if (dx == 0){ 
+        else if (adx == 0){ 
             int mod = move.dy() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-            for(int i = 1; i < dy; i++)
+            for(int i = 1; i < ady; i++)
                 if(game.getPiece(new Cord(from.rank() + i * mod, from.file())).getType() != Type.Empty)
                     return false;
         }

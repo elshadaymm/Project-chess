@@ -14,24 +14,23 @@ public class Queen extends Piece{
         if(!super.isValid(game, move)) return false;
 
         Cord from = move.from();
-        Cord to = move.to();
-        int dx = Math.abs(move.dx());
-        int dy = Math.abs(move.dy());
+        int adx = move.adx();//absoult value of delta x
+        int ady = move.ady();
         int modX = move.dx() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         int modY = move.dy() > 0? Constant.POSITIVE : Constant.NEGATIVE;
 
-        if(dx != dy && dx != 0 && dy != 0) return false;
+        if(adx != ady && adx != 0 && ady != 0) return false;
 
-        if (dy == 0){
-            for(int i = 1; i < dx; i++)
+        if (ady == 0){
+            for(int i = 1; i < adx; i++)
                 if(game.getPiece(new Cord(from.rank(), from.file() + i * modX)).getType() != Type.Empty)
                     return false;
-        }else if (dx == 0){ 
-            for(int i = 1; i < dy; i++)
+        }else if (adx == 0){ 
+            for(int i = 1; i < ady; i++)
                 if(game.getPiece(new Cord(from.rank() + i * modY, from.file())).getType() != Type.Empty)
                     return false;
         }else{
-            for(int i = 1; i < dx; i++) // dx == dy
+            for(int i = 1; i < adx; i++) // dx == dy
                 if(game.getPiece(new Cord(from.rank() + i * modY, from.file() + i * modX)).getType() != Type.Empty)
                     return false;
         }

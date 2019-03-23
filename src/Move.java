@@ -24,6 +24,9 @@ public class Move{
         this.value = value;
     }
 
+    public int adx(){return Math.abs(dx());}//absolute value of delta x
+    public int ady(){return Math.abs(dy());}//absolute value of delta y
+
     public int dx(){return to.file() - from.file();}
     public int dy(){return to.rank() - from.rank();}
 

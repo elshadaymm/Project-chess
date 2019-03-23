@@ -17,11 +17,11 @@ public class Pawn extends Piece{
       Cord to = move.to();
       Piece[][] board = game.getBoard();
       int mod = getColor()? Constant.POSITIVE : Constant.NEGATIVE;
-      int dx = Math.abs(move.dx());
+      int adx = move.adx();//absoult value of delta x
       int dy = mod * move.dy();
 
       //moveing straight
-      if(dx == 0 && board[to.rank()][to.file()].getType() == Type.Empty)
+      if(adx == 0 && board[to.rank()][to.file()].getType() == Type.Empty)
         if(dy == 1)
           return true;
         else if(dy == 2
@@ -30,7 +30,7 @@ public class Pawn extends Piece{
           return true;
 
       //taking diag
-      if(dx == 1 && dy == 1)
+      if(adx == 1 && dy == 1)
         if(game.getPiece(to).getType() != Type.Empty
           || to.equals(game.getEnPassant()))
           return true;
