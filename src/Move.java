@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Move{
     private Cord from, to;
+    private char promotion = '-';
     private double value = 0;
 
     public Move(Cord from, Cord to) {
@@ -12,6 +13,11 @@ public class Move{
     public Move(Cord from, Cord to, double value){
         this(from, to);
         this.value = value;
+    }
+
+    public Move(Cord from, Cord to, char promotion){
+        this(from, to);
+        this.promotion = promotion;
     }
 
     public Move(double value){

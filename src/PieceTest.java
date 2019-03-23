@@ -367,4 +367,26 @@ public class PieceTest{
         numOfLegalMoves += 4; //king
         assertEquals("Black En Passant test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
+
+    @Test
+    public void testWhitePromotion(){
+        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N w - - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 3 * 4; // knight
+        numOfLegalMoves += 2; //knight
+        numOfLegalMoves += 4; //king
+        assertEquals("White promotion test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testBlackPromotion(){
+        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N w - - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 3 * 4; // knight
+        numOfLegalMoves += 2; //knight
+        numOfLegalMoves += 4; //king
+        assertEquals("Black promotion test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
 }
