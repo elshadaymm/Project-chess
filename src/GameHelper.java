@@ -34,6 +34,7 @@ public class GameHelper{
         return moves;
     }
     
+    //if Constant.WHITE return "white" otherwise
     public static String turnToString(boolean white){return white? "white" : "black";}
 
     //checks if a king of a color is alive in a game

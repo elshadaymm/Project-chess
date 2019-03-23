@@ -15,8 +15,8 @@ public class Rook extends Piece{
 
         Cord from = move.from();
         Cord to = move.to();
-        int dx = Math.abs(from.file() - to.file());
-        int dy = Math.abs(from.rank() - to.rank());
+        int dx = Math.abs(move.dx());
+        int dy = Math.abs(move.dy());
 
         if(dx != 0 && dy != 0) return false;
 
@@ -27,7 +27,7 @@ public class Rook extends Piece{
                     return false;
         }
         else if (dx == 0){ 
-            int mod = to.rank() - from.rank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+            int mod = move.dy() > 0? Constant.POSITIVE : Constant.NEGATIVE;
             for(int i = 1; i < dy; i++)
                 if(game.getPiece(new Cord(from.rank() + i * mod, from.file())).getType() != Type.Empty)
                     return false;

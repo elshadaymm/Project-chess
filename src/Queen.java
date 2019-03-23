@@ -15,10 +15,10 @@ public class Queen extends Piece{
 
         Cord from = move.from();
         Cord to = move.to();
-        int dx = Math.abs(from.file() - to.file());
-        int dy = Math.abs(from.rank() - to.rank());
-        int modX = to.file() - from.file() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-        int modY = to.rank() - from.rank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int dx = Math.abs(move.dx());
+        int dy = Math.abs(move.dy());
+        int modX = move.dx() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int modY = move.dy() > 0? Constant.POSITIVE : Constant.NEGATIVE;
 
         if(dx != dy && dx != 0 && dy != 0) return false;
 
