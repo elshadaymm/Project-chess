@@ -82,8 +82,7 @@ public abstract class Piece{
                 if(GameHelper.inCheck(game)) return false;
                 if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() - 1))))
                     return false;
-            }
-            else if(to.getFile() - from.getFile() == -2){
+            }else if(to.getFile() - from.getFile() == -2){
                 if(GameHelper.inCheck(game)) return false;
                 if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() + 1))))
                     return false;

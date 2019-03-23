@@ -29,7 +29,7 @@ public class ChessGUI extends Application{
 	private static Label whosTurn = new Label("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
 	private static Label turnNumber = new Label("Turn: " + game.getTurn());
 	private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
-	private static Label fen = new Label("FEN: " + GameHelper.toFEN(game));
+	private static Label fen = new Label("FEN: " + GameInfo.toFEN(game));
 	private static Label whiteTime = new Label("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
 	private static Label blackTime = new Label("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds");
 	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
@@ -239,7 +239,7 @@ public class ChessGUI extends Application{
 
 	//draws the board
 	public void drawBoard(GridPane b){
-		GameHelper.printState(game);
+		GameInfo.printState(game);
 		for(int i = game.getRankSize() -1; i >= 0; i--) {
 			for(int j = game.getFileSize() -1; j >= 0; j--) {
 
@@ -282,7 +282,7 @@ public class ChessGUI extends Application{
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
 		turnNumber.setText("Turn: " + game.getTurn());
 		fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
-		fen.setText("FEN: " + GameHelper.toFEN(game));
+		fen.setText("FEN: " + GameInfo.toFEN(game));
 		whiteTime.setText("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
 		blackTime.setText(("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds"));
 		repetition.setText("Repetition: " + GameHelper.repetition(game));

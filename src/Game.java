@@ -76,7 +76,7 @@ public class Game{
 
         history = new ArrayList<String>();
         history.addAll(game.getHistory());
-        history.add(GameHelper.FENBoard(this));
+        history.add(GameInfo.FENBoard(this));
         
         //setBoard(GameHelper.toFEN(game));
     }
@@ -107,7 +107,7 @@ public class Game{
         clock = new FischerClock();
 
         history = new ArrayList<String>();
-        history.add(GameHelper.FENBoard(this));
+        history.add(GameInfo.FENBoard(this));
 
         update();
     }
@@ -335,7 +335,7 @@ public class Game{
             board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
         }
 
-        history.add(GameHelper.FENBoard(this));
+        history.add(GameInfo.FENBoard(this));
         changeTurn();
         update();
     }
