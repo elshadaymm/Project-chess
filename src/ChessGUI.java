@@ -21,8 +21,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 
+import java.util.concurrent.TimeUnit;
 
-public class ChessGUI extends Application{
+public class ChessGUI extends Application {
 	private static Game game = new Game();
 	private static Player playerWhite;
 	private static Player playerBlack;
@@ -30,19 +31,22 @@ public class ChessGUI extends Application{
 	private static Label turnNumber = new Label("Turn: " + game.getTurn());
 	private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
 	private static Label fen = new Label("FEN: " + GameInfo.toFEN(game));
-	private static Label whiteTime = new Label("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
-	private static Label blackTime = new Label("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds");
+	private static Label whiteTime = new Label(
+			"White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
+	private static Label blackTime = new Label(
+			"Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds");
 	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
 	private static Scene startScene, mainScene;
 
-	public static void main(String[] args){
-		 launch(args);
+	public static void main(String[] args) {
+		launch(args);
 	}
 
-	public void start(Stage primaryStage){
-		//  start of main scene
+	public void start(Stage primaryStage) {
+		// start of main scene
 		Pane root = new Pane();
-		//VBox for the right side with the info diplays and the input.  The HBox is a inside this VBox.
+		// VBox for the right side with the info diplays and the input. The HBox is a
+		// inside this VBox.
 		VBox infoDisplay = new VBox();
 		infoDisplay.getChildren().add(whosTurn);
 		infoDisplay.getChildren().add(turnNumber);
@@ -51,12 +55,12 @@ public class ChessGUI extends Application{
 		infoDisplay.getChildren().add(whiteTime);
 		infoDisplay.getChildren().add(blackTime);
 		infoDisplay.getChildren().add(repetition);
-		infoDisplay.setPadding(new Insets(190,100,20,50));
+		infoDisplay.setPadding(new Insets(190, 100, 20, 50));
 		infoDisplay.setSpacing(10);
 		infoDisplay.setLayoutX(750);
 		infoDisplay.setLayoutY(100);
 
-		//Gets put into the VBox as the last element
+		// Gets put into the VBox as the last element
 		HBox userInput = new HBox();
 		userInput.getChildren().add(new Label("Input Move of Format \"a1h8\": "));
 		TextField move = new TextField();
@@ -66,7 +70,7 @@ public class ChessGUI extends Application{
 		userInput.getChildren().add(submit);
 		infoDisplay.getChildren().add(userInput);
 
-		//load game button
+		// load game button
 		HBox loadGame = new HBox();
 		TextField FEN = new TextField();
 		FEN.setPrefWidth(400);
@@ -80,8 +84,7 @@ public class ChessGUI extends Application{
 		newGame.getChildren().add(newStandard);
 		infoDisplay.getChildren().add(newGame);
 
-
-		//the board
+		// the board
 		GridPane board = new GridPane();
 		board.setLayoutX(50);
 		board.setLayoutY(50);
@@ -90,41 +93,39 @@ public class ChessGUI extends Application{
 		drawBoard(board);
 		drawEdges(root);
 
-		//draws the starting page
+		// draws the starting page
 
-		//move input Button Action Handler
-		submit.setOnAction(new EventHandler<ActionEvent>(){
+		// move input Button Action Handler
+		submit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event) {
 				if (game.getEnd() == Constant.ONGOING) {
 					String moveInput = move.getText();
 					moveInput = moveInput + " ";
-					if(game.getWhiteTurn()){
-						if(playerWhite.move(moveInput))
-							if(playerBlack.getKind() != Intelligence.Human)
-								if(game.getEnd() == Constant.ONGOING)
+					if (game.getWhiteTurn()) {
+						if (playerWhite.move(moveInput))
+							if (playerBlack.getKind() != Intelligence.Human)
+								if (game.getEnd() == Constant.ONGOING)
 									playerBlack.move();
-					}else{
-						if(playerBlack.move(moveInput))
-							if(playerWhite.getKind() != Intelligence.Human)
-								if(game.getEnd() == Constant.ONGOING)
+					} else {
+						if (playerBlack.move(moveInput))
+							if (playerWhite.getKind() != Intelligence.Human)
+								if (game.getEnd() == Constant.ONGOING)
 									playerWhite.move();
 					}
 					update(board, root);
-
-					/*
-					if(playerBlack.getKind() != Intelligence.Human
-						&& playerWhite.getKind() != Intelligence.Human){
-							while(game.getEnd() == Constant.ONGOING){
-									playerWhite.move();
-									update(board, root);
-									if(game.getEnd() == Constant.ONGOING){
-											playerBlack.move();
-											update(board, root);
-									}
+/*
+					if (playerBlack.getKind() != Intelligence.Human && playerWhite.getKind() != Intelligence.Human) {
+						while (game.getEnd() == Constant.ONGOING) {
+							playerWhite.move();
+							update(board, root);
+							if (game.getEnd() == Constant.ONGOING) {
+								playerBlack.move();
+								update(board, root);
 							}
-					}
-					*/
+						}
+					}*/
+					
 				}
 			}
 		});

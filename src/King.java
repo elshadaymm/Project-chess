@@ -15,8 +15,8 @@ public class King extends Piece{
 
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        int dx = to.getFile() - from.getFile();
-        int dy = to.getRank() - from.getRank();
+        int dx = move.dx();
+        int dy = move.dy();
 
         //checks for castle
         if(from.getFile() == 4 && (to.getRank() == 0 || to.getRank() == 7)){

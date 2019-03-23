@@ -39,7 +39,7 @@ public abstract class Piece{
      *
      */
     public boolean isValid(Game game, Move move){
-        if(move.getFrom().getRank() < 0
+        if(move.getFrom().getRank() < 0//move this check to Move class
             || move.getFrom().getFile() < 0
             || move.getTo().getRank() < 0
             || move.getTo().getFile() < 0
@@ -76,13 +76,11 @@ public abstract class Piece{
     //if a move is legal
     public boolean isLegal(Game game, Move move){
         if(game.getPiece(move.getFrom()).getType() == Type.King && move.dy() == 0){//shit logic
-            Cord from = move.getFrom();
-            Cord to = move.getTo();
-            if(to.getFile() - from.getFile() == 2){
+            if(move.dx() == 2){
                 if(GameHelper.inCheck(game)) return false;
                 if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() - 1))))
                     return false;
-            }else if(to.getFile() - from.getFile() == -2){
+            }else if(move.dx() == -2){
                 if(GameHelper.inCheck(game)) return false;
                 if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() + 1))))
                     return false;
