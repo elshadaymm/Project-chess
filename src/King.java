@@ -21,13 +21,13 @@ public class King extends Piece{
         //checks for castle
         if(from.getFile() == 4 && (to.getRank() == 0 || to.getRank() == 7)){
             if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                for(int i = from.getFile() - 1; i > 0; i--)
+                for(int i = from.getFile() - 1; i >= 1; i--)
                     if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
                         return false;
                 return true;
             }
             else if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                for(int i = from.getFile() + 1; i < game.getFileSize() - 1; i++)
+                for(int i = from.getFile() + 1; i <= game.getFileSize() - 2; i++)
                     if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
                         return false;
                 return true;

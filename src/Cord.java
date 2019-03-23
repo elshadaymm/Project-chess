@@ -28,6 +28,6 @@ public class Cord{
 
     public String toString(){
         if(rank < 0 || file < 0) return "-";
-        return Converter.CordToUCI(this);
+        return Converter.cordToUCI(this);
     }
 }

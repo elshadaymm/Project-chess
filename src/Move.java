@@ -18,6 +18,9 @@ public class Move{
         this.value = value;
     }
 
+    public int dx(){return to.getFile() - from.getFile();}
+    public int dy(){return to.getRank() - from.getRank();}
+
     public void setValue(double n) {value = n;}
     public double getValue() {return value;}
 
@@ -25,7 +28,7 @@ public class Move{
     public Cord getTo() {return to;}
     
     public String toString(){
-        return Converter.CordToUCI(from) + Converter.CordToUCI(to);
+        return Converter.cordToUCI(from) + Converter.cordToUCI(to);
     }
 
     public static String movesToString(ArrayList<Move> moves){

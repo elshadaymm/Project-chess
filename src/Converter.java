@@ -11,14 +11,18 @@ public class Converter{
             + (UCI.charAt(2) - 'a') ;
     }
 
-    public static String CordToUCI(Cord cord){
+    public static String cordToUCI(Cord cord){
         return ""
             + (char) (cord.getFile() + 'a')
             + ""
             + (cord.getRank() + 1);
     }
 
-    public static Cord StringToCord(String str){
+    public static Cord stringToCord(String str){
         return new Cord(Integer.parseInt("" + str.charAt(1)) - 1, str.charAt(0) - 'a');
+    }
+
+    public static Move stringToMove(String str){
+        return new Move(stringToCord(str.substring(0,2)), stringToCord(str.substring(2)));
     }
 }

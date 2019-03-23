@@ -138,7 +138,7 @@ public class Game{
         if(enPassant.charAt(0) == '-')
             this.enPassant = new Cord(-1, -1);
         else
-            this.enPassant = Converter.StringToCord(enPassant);
+            this.enPassant = Converter.stringToCord(enPassant);
 
         peace = Integer.parseInt(halfMove);
         this.turn = Integer.parseInt(fullMove);
@@ -343,7 +343,7 @@ public class Game{
     private boolean updateCastle(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
-        int dx = to.getFile() - from.getFile();
+        int dx = move.dx();
         boolean temp = false;//lazy logic will replace later
         boolean temp2 = getPiece(from).getColor();//again shit logic
         if(getPiece(from).getType() == Type.King){
@@ -388,14 +388,14 @@ public class Game{
         if(getPiece(from).getType() == Type.Rook){
             if(getPiece(from).getColor() == Constant.WHITE){
                 if(whiteKingCastle)
-                    whiteKingCastle = GameHelper.rightOfKing(this, from)? false : true;
+                    whiteKingCastle = !GameHelper.rightOfKing(this, from);
                 if(whiteQueenCastle)
-                    whiteQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
+                    whiteQueenCastle = !GameHelper.leftOfKing(this, from);
             }else{
                 if(blackKingCastle)
-                    blackKingCastle = GameHelper.rightOfKing(this, from)? false : true;
+                    blackKingCastle = !GameHelper.rightOfKing(this, from);
                 if(blackQueenCastle)
-                    blackQueenCastle = GameHelper.leftOfKing(this, from)? false : true;
+                    blackQueenCastle = !GameHelper.leftOfKing(this, from);
             }
         }
         return temp;

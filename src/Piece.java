@@ -75,7 +75,7 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        if(game.getPiece(move.getFrom()).getType() == Type.King){//shit logic
+        if(game.getPiece(move.getFrom()).getType() == Type.King && move.dy() == 0){//shit logic
             Cord from = move.getFrom();
             Cord to = move.getTo();
             if(to.getFile() - from.getFile() == 2){

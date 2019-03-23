@@ -283,6 +283,21 @@ public class PieceTest{
     }
 
     @Test
+    public void testCastleGeneral(){
+        game.setBoard("r3k2r/8/6N1/8/8/2n5/8/R3K2R w KQkq - 0 1");
+
+        game.makeMove(Converter.stringToMove("e1d1"));//should fail
+        game.makeMove(Converter.stringToMove("e1c1"));//should fail
+        game.makeMove(Converter.stringToMove("e1g1"));//should work
+        
+        game.makeMove(Converter.stringToMove("e8g8"));//should fail
+        game.makeMove(Converter.stringToMove("e8f8"));//should fail
+        game.makeMove(Converter.stringToMove("e8c8"));//should work
+
+        assertEquals("Castle General failed", "2kr3r/8/6N1/8/8/2n5/8/R4RK1 w - - 2 2", GameInfo.toFEN(game));
+    }
+
+    @Test
     public void testBishop(){
         game.setBoard("kb6/bb6/2b5/8/8/5B2/6BB/6BK b - - 0 1");
 

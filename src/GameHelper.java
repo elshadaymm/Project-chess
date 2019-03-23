@@ -1,6 +1,39 @@
 import java.util.ArrayList;
 
 public class GameHelper{
+    public static ArrayList<Move> allValidMoves(Game game){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Cord from;
+        ArrayList<Cord> current;
+
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++){
+                from = new Cord(i, j);
+                current = game.getPiece(from).validMoves(game, from);
+                for(Cord to : current)
+                    moves.add(new Move(from, to));
+            }
+
+        return moves;
+    }
+
+    //todo improve logic with allvalidomoves. remove dupe code
+    public static ArrayList<Move> allLegalMoves(Game game){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Cord from;
+        ArrayList<Cord> current;
+
+        for(int i = 0; i < game.getRankSize(); i++)
+            for(int j = 0; j < game.getFileSize(); j++){
+                from = new Cord(i, j);
+                current = game.getPiece(from).legalMoves(game, from);
+                for(Cord to : current)
+                    moves.add(new Move(from, to));
+            }
+
+        return moves;
+    }
+    
     public static String turnToString(boolean white){return white? "white" : "black";}
 
     //checks if a king of a color is alive in a game
@@ -83,39 +116,6 @@ public class GameHelper{
             return false;
         }
         return game.getPiece(move.getFrom()).isLegal(game, move);
-    }
-
-    public static ArrayList<Move> allValidMoves(Game game){
-        ArrayList<Move> moves = new ArrayList<Move>();
-        Cord from;
-        ArrayList<Cord> current;
-
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++){
-                from = new Cord(i, j);
-                current = game.getPiece(from).validMoves(game, from);
-                for(Cord to : current)
-                    moves.add(new Move(from, to));
-            }
-
-        return moves;
-    }
-
-    //todo improve logic with allvalidomoves. remove dupe code
-    public static ArrayList<Move> allLegalMoves(Game game){
-        ArrayList<Move> moves = new ArrayList<Move>();
-        Cord from;
-        ArrayList<Cord> current;
-
-        for(int i = 0; i < game.getRankSize(); i++)
-            for(int j = 0; j < game.getFileSize(); j++){
-                from = new Cord(i, j);
-                current = game.getPiece(from).legalMoves(game, from);
-                for(Cord to : current)
-                    moves.add(new Move(from, to));
-            }
-
-        return moves;
     }
 
     /**
