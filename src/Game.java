@@ -9,34 +9,25 @@ public class Game{
     private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
     private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
 
-    //the chess board. 2d array of piecese
-    private Piece[][] board;
-
-    //the turn number, if its whites turn or not
-    private int turn = 1;
+    //in order of FEN
+    private Piece[][] board;//the chess board. 2d array of piecese
     private boolean whiteTurn = true;
-    private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
-
-    //if the game has ended. check the Constant class for detales
-    private int end = Constant.ONGOING;
- 
-    //ifeach side can castle
     private boolean whiteKingCastle = true;
     private boolean whiteQueenCastle = true;
     private boolean blackKingCastle = true;
     private boolean blackQueenCastle = true;
-
-    //the piece that can be enpassanted 
     private Cord enPassant = new Cord(-1, -1);
+    private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
+    private int turn = 1; //the turn number, if its whites turn or not
+
+    //extra info for the game
+    private FischerClock clock = new FischerClock();//thes clock for the game
+    private ArrayList<String> history = new ArrayList<String>();
     
     // Who's winning? white if its positive. black if its negative
     //Larger the value, more the game faves white
     private double advantage = 0;
-
-    //thes clock for the game
-    private FischerClock clock = new FischerClock();
-
-    private ArrayList<String> history = new ArrayList<String>();
+    private int end = Constant.ONGOING; //if the game has ended. check the Constant class for detales
 
     public Game(int rank, int file){
         rankSize = rank;
@@ -47,38 +38,34 @@ public class Game{
 
     public Game(){this(Constant.DEFAULT_RANK_SIZE, Constant.DEFAULT_FILE_SIZE);}
 
-    //copies a game
-    public Game(Game game){
-        
-        rankSize = game.getRankSize();
-        fileSize = game.getFileSize();
+    public Game(Game other){
+        rankSize = other.getRankSize();
+        fileSize = other.getFileSize();
 
         board = new Piece[rankSize][fileSize];
 
-        turn = game.getTurn();
-        whiteTurn = game.getWhiteTurn();
-        peace = game.getPeace();
+        turn = other.getTurn();
+        whiteTurn = other.getWhiteTurn();
+        peace = other.getPeace();
         
-        end = game.getEnd();
+        end = other.getEnd();
 
-        whiteKingCastle = game.getWhiteKingCastle();
-        whiteQueenCastle = game.getWhiteQueenCastle();
-        blackKingCastle = game.getBlackKingCastle();
-        blackQueenCastle = game.getBlackQueenCastle();
+        whiteKingCastle = other.getWhiteKingCastle();
+        whiteQueenCastle = other.getWhiteQueenCastle();
+        blackKingCastle = other.getBlackKingCastle();
+        blackQueenCastle = other.getBlackQueenCastle();
 
-        enPassant = game.getEnPassant();
+        enPassant = other.getEnPassant();
         
-        advantage = game.getAdvantage();
+        advantage = other.getAdvantage();
 
-        clock = new FischerClock(game.getChessClock());
+        clock = new FischerClock(other.getClock());
         
-        setBoard(game.getBoard());
+        setBoard(other.getBoard());
 
         history = new ArrayList<String>();
-        history.addAll(game.getHistory());
+        history.addAll(other.getHistory());
         history.add(GameInfo.FENBoard(this));
-        
-        //setBoard(GameHelper.toFEN(game));
     }
 
     public void reset(){setBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
@@ -112,6 +99,137 @@ public class Game{
         update();
     }
 
+    //copies a board
+    public void setBoard(Piece[][] board){
+        for(int i = 0; i < rankSize; i++)
+            for(int j = 0; j < fileSize; j++){
+                Piece original = board[i][j];
+                Piece copy;
+                switch (original.getType()){
+                    case King:
+                        copy = new King(original);
+                        break;
+                    case Queen:
+                        copy = new Queen(original);
+                        break;
+                    case Rook:
+                        copy = new Rook(original);
+                        break;
+                    case Bishop:
+                        copy = new Bishop(original);
+                        break;
+                    case Knight:
+                        copy = new Knight(original);
+                        break;
+                    case Pawn:
+                        copy = new Pawn(original);
+                        break;
+                    default:
+                        copy = new Empty(GameHelper.cordColor(new Cord(i,j)));
+                        break;
+                }
+                this.board[i][j] = copy;
+            }
+    }
+
+    public void update(){
+        updateEnd();
+        if(end == Constant.ONGOING) updateAdvantage();
+    }
+
+    public void makeMove(Move move){
+        clock.switchTurns();
+    	if(clock.getWhiteTime() <= 0) {
+            end = Constant.WHITE_TIMEOUT;
+            advantage = -Constant.THRESHOLD;
+            return;
+        }
+        if(clock.getBlackTime() <= 0) {
+            end = Constant.BLACK_TIMEOUT;
+            advantage = Constant.THRESHOLD;
+            return;
+        }
+        move(move);
+    }
+
+    /**
+     * Start of the game interface.  This method moves the pieces around the board
+     * and resets the space that the piece moved from to an empty space.
+     * @param from The coordinate that the piece starts on
+     * @param to The coordinate that the piece is moving to
+     */
+    public void move(Move move){
+        Cord from = move.from();
+        Cord to = move.to();
+        if(getPiece(from).getColor() == Constant.BLACK){
+            turn++;
+            peace++;
+        }
+
+        if(getPiece(to).getType() != Type.Empty
+            || getPiece(from).getType() == Type.Pawn) peace = 0;
+
+        updateEnpassant(move);
+
+        if(!updateCastle(move)){
+            board[to.rank()][to.file()] = getPiece(from);
+            board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
+        }
+
+        updatePromotion(move);
+
+        history.add(GameInfo.FENBoard(this));
+        changeTurn();
+        update();
+    }
+
+    //makes a simple move without updating anything
+    public void simpleMove(Move move){
+        Cord from = move.from();
+        Cord to = move.to();
+        board[to.rank()][to.file()] = getPiece(from);
+        board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
+    }
+
+    //alternates turn
+    public void changeTurn(){whiteTurn = whiteTurn ? false : true;}
+
+    /**
+     * Function to determine which piece occupies this space on the board.
+     * @param at Takes in a coordinate as a value
+     * @return The piece at the coordinate provided
+     */
+    public Piece getPiece(Cord at){return board[at.rank()][at.file()];}
+    public Piece getPiece(int rank, int file){return board[rank][file];}
+
+    public int getRankSize() {return rankSize;}
+    public int getFileSize() {return fileSize;}
+
+    //in order of FEN
+    public Piece[][] getBoard() {return board;}
+    public boolean getWhiteTurn() {return whiteTurn;}
+    public boolean getWhiteKingCastle() {return whiteKingCastle;}
+    public boolean getWhiteQueenCastle() {return whiteQueenCastle;}
+    public boolean getBlackKingCastle() {return blackKingCastle;}
+    public boolean getBlackQueenCastle() {return blackQueenCastle;}
+    public Cord getEnPassant() {return enPassant;}
+    public int getPeace() {return peace;}
+    public int getTurn() {return turn;}
+
+    public FischerClock getClock() {return clock;}
+    public ArrayList<String> getHistory(){return history;}
+
+    public double getAdvantage() {return advantage;}
+    public int getEnd() {return end;}
+    
+    public void setWhiteTurn(boolean value){whiteTurn = value;}
+    public void setWhiteKingCastle(boolean value) {whiteKingCastle = value;}
+    public void setWhiteQueenCastle(boolean value) {whiteQueenCastle = value;}
+    public void setBlackKingCastle(boolean value) {blackKingCastle = value;}
+    public void setBlackQueenCastle(boolean value) {blackQueenCastle = value;}
+
+
+    //implimed helper methods starts here!!
     private void setInfo(String info){
         String turn, castle, enPassant, halfMove, fullMove; 
         turn = info.substring(1, 2);//w or b
@@ -206,40 +324,7 @@ public class Game{
         }
     }
 
-    //copies a board
-    private void setBoard(Piece[][] board){
-        for(int i = 0; i < rankSize; i++)
-            for(int j = 0; j < fileSize; j++){
-                Piece original = board[i][j];
-                Piece copy;
-                switch (original.getType()){
-                    case King:
-                        copy = new King(original);
-                        break;
-                    case Queen:
-                        copy = new Queen(original);
-                        break;
-                    case Rook:
-                        copy = new Rook(original);
-                        break;
-                    case Bishop:
-                        copy = new Bishop(original);
-                        break;
-                    case Knight:
-                        copy = new Knight(original);
-                        break;
-                    case Pawn:
-                        copy = new Pawn(original);
-                        break;
-                    default:
-                        copy = new Empty(GameHelper.cordColor(new Cord(i,j)));
-                        break;
-                }
-                this.board[i][j] = copy;
-            }
-    }
-
-    public boolean updateEnd(){
+    private boolean updateEnd(){
         end = Constant.ONGOING;
         switch (GameHelper.inMate(this)){
             case Constant.CHECK:
@@ -279,7 +364,7 @@ public class Game{
         return false;
     }
 
-    public void updateAdvantage(){
+    private void updateAdvantage(){
         double sum = 0;
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
@@ -291,58 +376,8 @@ public class Game{
         advantage = sum;
     }
 
-    public void update(){
-        if(!updateEnd())
-            updateAdvantage();
-    }
-
-    public void makeMove(Move move){
-        clock.switchTurns();
-    	if(clock.getWhiteTime() <= 0) {
-            end = Constant.WHITE_TIMEOUT;
-            advantage = -Constant.THRESHOLD;
-            return;
-        }
-        if(clock.getBlackTime() <= 0) {
-            end = Constant.BLACK_TIMEOUT;
-            advantage = Constant.THRESHOLD;
-            return;
-        }
-        move(move);
-    }
-
-    /**
-     * Start of the game interface.  This method moves the pieces around the board
-     * and resets the space that the piece moved from to an empty space.
-     * @param from The coordinate that the piece starts on
-     * @param to The coordinate that the piece is moving to
-     */
-    public void move(Move move){
-        Cord from = move.from();
-        Cord to = move.to();
-        if(getPiece(from).getColor() == Constant.BLACK){
-            turn++;
-            peace++;
-        }
-
-        if(getPiece(to).getType() != Type.Empty
-            || getPiece(from).getType() == Type.Pawn) peace = 0;
-
-        updateEnpassant(move);
-
-        if(!updateCastle(move)){
-            board[to.rank()][to.file()] = getPiece(from);
-            board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
-        }
-
-        history.add(GameInfo.FENBoard(this));
-        changeTurn();
-        update();
-    }
-
     private boolean updateCastle(Move move){
         Cord from = move.from();
-        Cord to = move.to();
         int dx = move.dx();
         boolean temp = false;//lazy logic will replace later
         boolean temp2 = getPiece(from).getColor();//again shit logic
@@ -419,50 +454,6 @@ public class Game{
         }
     }
 
-    //makes a simple move without updating anything
-    public void simpleMove(Move move){
-        Cord from = move.from();
-        Cord to = move.to();
-        board[to.rank()][to.file()] = getPiece(from);
-        board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
-    }
+    private void updatePromotion(Move move){}
 
-    //alternates turn
-    public void changeTurn(){whiteTurn = whiteTurn ? false : true;}
-
-    /**
-     * Function to determine which piece occupies this space on the board.
-     * @param at Takes in a coordinate as a value
-     * @return The piece at the coordinate provided
-     */
-    public Piece getPiece(Cord at){return board[at.rank()][at.file()];}
-    public Piece getPiece(int rank, int file){return board[rank][file];}
-
-    public int getRankSize() {return rankSize;}
-    public int getFileSize() {return fileSize;}
-
-    public Piece[][] getBoard() {return board;}
-
-    public int getTurn() {return turn;}
-    public boolean getWhiteTurn() {return whiteTurn;}
-    public int getPeace() {return peace;}
-    
-    public int getEnd() {return end;}
-
-    public boolean getWhiteKingCastle() {return whiteKingCastle;}
-    public void setWhiteKingCastle(boolean value) {whiteKingCastle = value;}
-    public boolean getWhiteQueenCastle() {return whiteQueenCastle;}
-    public void setWhiteQueenCastle(boolean value) {whiteQueenCastle = value;}
-    public boolean getBlackKingCastle() {return blackKingCastle;}
-    public void setBlackKingCastle(boolean value) {blackKingCastle = value;}
-    public boolean getBlackQueenCastle() {return blackQueenCastle;}
-    public void setBlackQueenCastle(boolean value) {blackQueenCastle = value;}
-
-    public Cord getEnPassant() {return enPassant;}
-
-    public double getAdvantage() {return advantage;}
-
-    public FischerClock getChessClock() {return clock;}
-
-    public ArrayList<String> getHistory(){return history;}
 }

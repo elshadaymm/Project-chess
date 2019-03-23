@@ -8,7 +8,7 @@ public class Human extends Player{
 
     //makes a move from input
     @Override
-    public boolean move(){
+    public boolean move(){//throw errors instead of printing to console
         Scanner sc = new Scanner(System.in);
         String move;
         Cord from, to;
@@ -25,16 +25,14 @@ public class Human extends Player{
             from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
             to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
             
-            if(move.length() == 5 && move.charAt(4) == '*'){
-                makeMove(new Move(from, to));
-                return true;
-            }else if(GameHelper.legalMove(game, new Move(from, to))){
+            if(GameHelper.legalMove(game, new Move(from, to))){
                 makeMove(new Move(from, to));
                 return true;
             }else{
                 System.out.print("Invalid Move: Enter new move: ");
             }
         }
+        //close the sc leak!!
     }
     
     @Override

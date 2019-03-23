@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Move{
     private Cord from, to;
-    private char promotion = '-';
+    private char promotion = ' ';
     private double value = 0;
 
     public Move(Cord from, Cord to) {
@@ -41,7 +41,7 @@ public class Move{
     public void setValue(double n) {value = n;}
     
     public String toString(){
-        return Converter.cordToUCI(from) + Converter.cordToUCI(to);
+        return Converter.cordToUCI(from) + Converter.cordToUCI(to) + promotion;
     }
 
     public static String movesToString(ArrayList<Move> moves){

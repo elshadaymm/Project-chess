@@ -32,9 +32,9 @@ public class ChessGUI extends Application {
 	private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
 	private static Label fen = new Label("FEN: " + GameInfo.toFEN(game));
 	private static Label whiteTime = new Label(
-			"White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
+			"White Time: " + (game.getClock().getWhiteTime() / 1000) + " seconds");
 	private static Label blackTime = new Label(
-			"Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds");
+			"Black Time: " + (game.getClock().getBlackTime() / 1000) + " seconds");
 	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
 	private static Scene startScene, mainScene;
 
@@ -284,8 +284,8 @@ public class ChessGUI extends Application {
 		turnNumber.setText("Turn: " + game.getTurn());
 		fiftyMove.setText("Fifty-move Rule: " + game.getPeace());
 		fen.setText("FEN: " + GameInfo.toFEN(game));
-		whiteTime.setText("White Time: " + (game.getChessClock().getWhiteTime() / 1000) + " seconds");
-		blackTime.setText(("Black Time: " + (game.getChessClock().getBlackTime() / 1000) + " seconds"));
+		whiteTime.setText("White Time: " + (game.getClock().getWhiteTime() / 1000) + " seconds");
+		blackTime.setText(("Black Time: " + (game.getClock().getBlackTime() / 1000) + " seconds"));
 		repetition.setText("Repetition: " + GameHelper.repetition(game));
 
 		StackPane endDisplay = new StackPane();
