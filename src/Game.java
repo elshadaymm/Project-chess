@@ -318,8 +318,8 @@ public class Game{
      * @param to The coordinate that the piece is moving to
      */
     public void move(Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
+        Cord from = move.from();
+        Cord to = move.to();
         if(getPiece(from).getColor() == Constant.BLACK){
             turn++;
             peace++;
@@ -331,8 +331,8 @@ public class Game{
         updateEnpassant(move);
 
         if(!updateCastle(move)){
-            board[to.getRank()][to.getFile()] = getPiece(from);
-            board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+            board[to.rank()][to.file()] = getPiece(from);
+            board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
         }
 
         history.add(GameInfo.FENBoard(this));
@@ -341,21 +341,21 @@ public class Game{
     }
 
     private boolean updateCastle(Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
+        Cord from = move.from();
+        Cord to = move.to();
         int dx = move.dx();
         boolean temp = false;//lazy logic will replace later
         boolean temp2 = getPiece(from).getColor();//again shit logic
         if(getPiece(from).getType() == Type.King){
             if(getPiece(from).getColor() == Constant.WHITE){
                 if(dx == 2 && whiteKingCastle){
-                    board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                    board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
                     board[0][7] = new Empty(GameHelper.cordColor(from));
                     board[0][6] = new King(Constant.WHITE);
                     board[0][5] = new Rook(Constant.WHITE);
                     temp = true;
                 }else if(dx == -2 && whiteQueenCastle){
-                    board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                    board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
                     board[0][0] = new Empty(GameHelper.cordColor(from));
                     board[0][2] = new King(Constant.WHITE);
                     board[0][3] = new Rook(Constant.WHITE);
@@ -363,13 +363,13 @@ public class Game{
                 }
             }else{
                 if(dx == 2 && blackKingCastle){
-                    board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                    board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
                     board[7][7] = new Empty(GameHelper.cordColor(from));
                     board[7][6] = new King(Constant.BLACK);
                     board[7][5] = new Rook(Constant.BLACK);
                     temp = true;
                 }else if(dx == -2 && blackQueenCastle){
-                    board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+                    board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
                     board[7][0] = new Empty(GameHelper.cordColor(from));
                     board[7][2] = new King(Constant.BLACK);
                     board[7][3] = new Rook(Constant.BLACK);
@@ -402,29 +402,29 @@ public class Game{
     }
 
     private void updateEnpassant(Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
+        Cord from = move.from();
+        Cord to = move.to();
         //removes the enpassanted piece
         if(to.equals(this.enPassant))
-            if(whiteTurn) board[to.getRank() - 1][to.getFile()] = new Empty(GameHelper.cordColor(from));
-            else board[to.getRank() + 1][to.getFile()] = new Empty(GameHelper.cordColor(from));
+            if(whiteTurn) board[to.rank() - 1][to.file()] = new Empty(GameHelper.cordColor(from));
+            else board[to.rank() + 1][to.file()] = new Empty(GameHelper.cordColor(from));
 
         //updates the en passant variable to the coordinate of the square behind the pawn that has moved two squares from its starting position 
         enPassant = new Cord(-1, -1);
         if(getPiece(from).getType() == Type.Pawn){
-            if(from.getRank() == 1 && to.getRank() == 3)
-                enPassant = new Cord(2, from.getFile());
-            else if(from.getRank() == 6 && to.getRank() == 4)
-                enPassant = new Cord(5, from.getFile());
+            if(from.rank() == 1 && to.rank() == 3)
+                enPassant = new Cord(2, from.file());
+            else if(from.rank() == 6 && to.rank() == 4)
+                enPassant = new Cord(5, from.file());
         }
     }
 
     //makes a simple move without updating anything
     public void simpleMove(Move move){
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
-        board[to.getRank()][to.getFile()] = getPiece(from);
-        board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
+        Cord from = move.from();
+        Cord to = move.to();
+        board[to.rank()][to.file()] = getPiece(from);
+        board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
     }
 
     //alternates turn
@@ -435,7 +435,7 @@ public class Game{
      * @param at Takes in a coordinate as a value
      * @return The piece at the coordinate provided
      */
-    public Piece getPiece(Cord at){return board[at.getRank()][at.getFile()];}
+    public Piece getPiece(Cord at){return board[at.rank()][at.file()];}
     public Piece getPiece(int rank, int file){return board[rank][file];}
 
     public int getRankSize() {return rankSize;}

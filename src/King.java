@@ -13,22 +13,22 @@ public class King extends Piece{
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
+        Cord from = move.from();
+        Cord to = move.to();
         int dx = move.dx();
         int dy = move.dy();
 
         //checks for castle
-        if(from.getFile() == 4 && (to.getRank() == 0 || to.getRank() == 7)){
+        if(from.file() == 4 && (to.rank() == 0 || to.rank() == 7)){
             if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                for(int i = from.getFile() - 1; i >= 1; i--)
-                    if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                for(int i = from.file() - 1; i >= 1; i--)
+                    if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
                         return false;
                 return true;
             }
             else if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                for(int i = from.getFile() + 1; i <= game.getFileSize() - 2; i++)
-                    if(game.getPiece(new Cord(from.getRank(), i)).getType() != Type.Empty)
+                for(int i = from.file() + 1; i <= game.getFileSize() - 2; i++)
+                    if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
                         return false;
                 return true;
             }
@@ -59,19 +59,19 @@ public class King extends Piece{
             for(int j = 0; j < 2; j++){
                 int mod2 = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
                     
-                test = new Cord(from.getRank() + mod1, from.getFile() + mod2);
+                test = new Cord(from.rank() + mod1, from.file() + mod2);
                 if(isValid(game, new Move(from, test)))
                     moves.add(test);
             }
-            test = new Cord(from.getRank() + mod1, from.getFile());
+            test = new Cord(from.rank() + mod1, from.file());
             if(isValid(game, new Move(from, test)))
                 moves.add(test);
 
-            test = new Cord(from.getRank(), from.getFile() + mod1);
+            test = new Cord(from.rank(), from.file() + mod1);
             if(isValid(game, new Move(from, test)))
                 moves.add(test);
 
-            test = new Cord(from.getRank(), from.getFile() + (mod1 * 2));
+            test = new Cord(from.rank(), from.file() + (mod1 * 2));
             if(isValid(game, new Move(from, test)))
                 moves.add(test);
         }

@@ -13,9 +13,9 @@ public class Converter{
 
     public static String cordToUCI(Cord cord){
         return ""
-            + (char) (cord.getFile() + 'a')
+            + (char) (cord.file() + 'a')
             + ""
-            + (cord.getRank() + 1);
+            + (cord.rank() + 1);
     }
 
     public static Cord stringToCord(String str){

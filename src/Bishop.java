@@ -13,19 +13,19 @@ public class Bishop extends Piece{
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
-        int dx = Math.abs(from.getFile() - to.getFile());
-        int dy = Math.abs(from.getRank() - to.getRank());
+        Cord from = move.from();
+        Cord to = move.to();
+        int dx = Math.abs(from.file() - to.file());
+        int dy = Math.abs(from.rank() - to.rank());
 
         if(dx != dy) return false;
 
-        int modX = to.getFile() - from.getFile() > 0? Constant.POSITIVE : Constant.NEGATIVE;
-        int modY = to.getRank() - from.getRank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int modX = to.file() - from.file() > 0? Constant.POSITIVE : Constant.NEGATIVE;
+        int modY = to.rank() - from.rank() > 0? Constant.POSITIVE : Constant.NEGATIVE;
 
         //dx == dy
         for(int i = 1; i < dx; i++)
-            if(game.getPiece(new Cord(from.getRank() + i * modY, from.getFile() + i * modX)).getType() != Type.Empty)
+            if(game.getPiece(new Cord(from.rank() + i * modY, from.file() + i * modX)).getType() != Type.Empty)
                 return false;
         return true;
     }
@@ -52,7 +52,7 @@ public class Bishop extends Piece{
                 int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
 
                 for(int k = 1; k < game.getRankSize() && k < game.getFileSize(); k++){
-                    test = new Cord(from.getRank() + (k *modx), from.getFile() + (k * mody));
+                    test = new Cord(from.rank() + (k *modx), from.file() + (k * mody));
                     if(isValid(game, new Move(from, test)))
                         moves.add(test);
                 }

@@ -47,7 +47,7 @@ public class GameHelper{
 
     //the color of the cordanet. iif its a blac or whitet squer
     public static boolean cordColor(Cord at){
-        return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
+        return (at.rank() + at.file()) % 2 == 0? Constant.BLACK : Constant.WHITE;
     }
 
     //0 for not in mate, 1 for checkmate, 2 for stale mate
@@ -67,7 +67,7 @@ public class GameHelper{
         tempGame.changeTurn();
         ArrayList<Move> moves = GameHelper.allValidMoves(tempGame);
         for(Move nextMove : moves){
-            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+            if(tempGame.getPiece(nextMove.to()).getType() == Type.King)
                 return true;
         }
         return false;
@@ -79,7 +79,7 @@ public class GameHelper{
         tempGame.changeTurn();
         ArrayList<Move> moves = allValidMoves(tempGame);
         for(Move nextMove : moves){
-            if(tempGame.getPiece(nextMove.getTo()).getType() == Type.King)
+            if(tempGame.getPiece(nextMove.to()).getType() == Type.King)
                 return true;
         }
         return false;
@@ -99,15 +99,15 @@ public class GameHelper{
             System.out.println("Error: Game's Over");
             return false;
         }
-        if(game.getPiece(move.getFrom()).getType() == Type.Empty){
+        if(game.getPiece(move.from()).getType() == Type.Empty){
             System.out.println("Error: Can't move an Empty Piece.");
             return false;
         }
-        if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()){
+        if(game.getPiece(move.from()).getColor() != game.getWhiteTurn()){
             System.out.println("Error: It's not " + turnToString(!game.getWhiteTurn()) + "'s turn.");
             return false;
         }
-        if(game.getPiece(move.getTo()).getType() != Type.Empty && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()){
+        if(game.getPiece(move.to()).getType() != Type.Empty && game.getPiece(move.from()).getColor() == game.getPiece(move.to()).getColor()){
             System.out.println("Error: Friendly Fire");   //example. white cant capture white, white can only capture black
             return false;
         }
@@ -115,7 +115,7 @@ public class GameHelper{
             System.out.println("Error: Can't put self in check.");
             return false;
         }
-        return game.getPiece(move.getFrom()).isLegal(game, move);
+        return game.getPiece(move.from()).isLegal(game, move);
     }
 
     /**
@@ -138,16 +138,16 @@ public class GameHelper{
 
     //if a piece is to the right of a king, used for casteling
     public static boolean leftOfKing(Game game, Cord at){
-        for(int i = at.getFile() + 1; i < game.getFileSize(); i++)
-            if(game.getPiece(new Cord(at.getRank(), i)).getType() == Type.King)
+        for(int i = at.file() + 1; i < game.getFileSize(); i++)
+            if(game.getPiece(new Cord(at.rank(), i)).getType() == Type.King)
                 return true;
         return false;
     }
 
     //if a piece is to the right of a king, used for casteling
     public static boolean rightOfKing(Game game, Cord at){
-        for(int i = at.getFile() - 1; i >=0; i--)
-            if(game.getPiece(new Cord(at.getRank(), i)).getType() == Type.King)
+        for(int i = at.file() - 1; i >=0; i--)
+            if(game.getPiece(new Cord(at.rank(), i)).getType() == Type.King)
                 return true;
         return false;
     }

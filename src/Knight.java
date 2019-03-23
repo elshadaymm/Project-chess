@@ -13,10 +13,10 @@ public class Knight extends Piece{
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
-        Cord from = move.getFrom();
-        Cord to = move.getTo();
-        int dx = Math.abs(from.getFile() - to.getFile());
-        int dy = Math.abs(from.getRank() - to.getRank());
+        Cord from = move.from();
+        Cord to = move.to();
+        int dx = Math.abs(from.file() - to.file());
+        int dy = Math.abs(from.rank() - to.rank());
         if(dx == 1 && dy == 2) return true;
         if(dx == 2 && dy == 1) return true;
         return false;
@@ -42,11 +42,11 @@ public class Knight extends Piece{
             for(int j = 0; j < 2; j++){
                 int modx = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
                 int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
-                test = new Cord(from.getRank() + modx, from.getFile() + (2 * mody));
+                test = new Cord(from.rank() + modx, from.file() + (2 * mody));
                 if(isValid(game, new Move(from, test)))
                     moves.add(test);
 
-                test = new Cord(from.getRank() + (2 * modx), from.getFile() + mody);
+                test = new Cord(from.rank() + (2 * modx), from.file() + mody);
                 if(isValid(game, new Move(from, test)))
                     moves.add(test);
             }

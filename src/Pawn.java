@@ -13,20 +13,20 @@ public class Pawn extends Piece{
     public boolean isValid(Game game, Move move){
       if(!super.isValid(game, move)) return false;
 
-      Cord from = move.getFrom();
-      Cord to = move.getTo();
+      Cord from = move.from();
+      Cord to = move.to();
       Piece[][] board = game.getBoard();
       int mod = getColor()? Constant.POSITIVE : Constant.NEGATIVE;
-      int dx = Math.abs(from.getFile() - to.getFile());
-      int dy = mod * (to.getRank() - from.getRank());
+      int dx = Math.abs(move.dx());
+      int dy = mod * move.dy();
 
       //moveing straight
-      if(dx == 0 && board[to.getRank()][to.getFile()].getType() == Type.Empty)
+      if(dx == 0 && board[to.rank()][to.file()].getType() == Type.Empty)
         if(dy == 1)
           return true;
         else if(dy == 2
-          && (from.getRank() == 1 || from.getRank() == game.getRankSize() - 2)
-          && board[to.getRank() - mod][to.getFile()].getType() == Type.Empty)
+          && (from.rank() == 1 || from.rank() == game.getRankSize() - 2)
+          && board[to.rank() - mod][to.file()].getType() == Type.Empty)
           return true;
 
       //taking diag
@@ -55,19 +55,19 @@ public class Pawn extends Piece{
         int mody = getColor()? Constant.POSITIVE : Constant.NEGATIVE;
         Cord test;
         
-        test = new Cord(from.getRank() + mody, from.getFile());
+        test = new Cord(from.rank() + mody, from.file());
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 
-        test = new Cord(from.getRank() + (2 * mody), from.getFile());
+        test = new Cord(from.rank() + (2 * mody), from.file());
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 
-        test = new Cord(from.getRank() + mody, from.getFile() + 1);
+        test = new Cord(from.rank() + mody, from.file() + 1);
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 
-        test = new Cord(from.getRank() + mody, from.getFile() - 1);
+        test = new Cord(from.rank() + mody, from.file() - 1);
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 

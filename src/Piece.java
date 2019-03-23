@@ -39,21 +39,21 @@ public abstract class Piece{
      *
      */
     public boolean isValid(Game game, Move move){
-        if(move.getFrom().getRank() < 0//move this check to Move class
-            || move.getFrom().getFile() < 0
-            || move.getTo().getRank() < 0
-            || move.getTo().getFile() < 0
-            || move.getFrom().getRank() > game.getRankSize() - 1
-            || move.getFrom().getFile() > game.getFileSize() - 1
-            || move.getTo().getRank() > game.getRankSize() - 1
-            || move.getTo().getFile() > game.getFileSize() - 1)
+        if(move.from().rank() < 0//move this check to Move class
+            || move.from().file() < 0
+            || move.to().rank() < 0
+            || move.to().file() < 0
+            || move.from().rank() > game.getRankSize() - 1
+            || move.from().file() > game.getFileSize() - 1
+            || move.to().rank() > game.getRankSize() - 1
+            || move.to().file() > game.getFileSize() - 1)
             return false;
-        if(game.getPiece(move.getFrom()) == null) 
+        if(game.getPiece(move.from()) == null) 
             return false;
-        if(game.getPiece(move.getFrom()).getColor() != game.getWhiteTurn()) 
+        if(game.getPiece(move.from()).getColor() != game.getWhiteTurn()) 
             return false;
-        if(game.getPiece(move.getTo()).getType() != Type.Empty 
-            && game.getPiece(move.getFrom()).getColor() == game.getPiece(move.getTo()).getColor()) 
+        if(game.getPiece(move.to()).getType() != Type.Empty 
+            && game.getPiece(move.from()).getColor() == game.getPiece(move.to()).getColor()) 
             return false;
 
         return true;
@@ -75,14 +75,16 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        if(game.getPiece(move.getFrom()).getType() == Type.King && move.dy() == 0){//shit logic
+        if(move.getPromotion() == '*') return true;//cheat mode
+        
+        if(game.getPiece(move.from()).getType() == Type.King && move.dy() == 0){//shit logic
             if(move.dx() == 2){
                 if(GameHelper.inCheck(game)) return false;
-                if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() - 1))))
+                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.to().rank(), move.to().file() - 1))))
                     return false;
             }else if(move.dx() == -2){
                 if(GameHelper.inCheck(game)) return false;
-                if(GameHelper.sucide(game, new Move(move.getFrom(), new Cord(move.getTo().getRank(), move.getTo().getFile() + 1))))
+                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.to().rank(), move.to().file() + 1))))
                     return false;
             }
         }

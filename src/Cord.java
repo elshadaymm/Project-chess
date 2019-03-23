@@ -12,18 +12,21 @@ public class Cord{
     }
 
     public Cord(Cord other){
-        this.rank = other.getRank();
-        this.file = other.getFile();
+        this.rank = other.rank();
+        this.file = other.file();
     }
 
+    public int rank(){return rank;}
+    public int file(){return file;}
+
+    //public int rank(){return rank;}
+    //public int file(){return file;}
+    
     public void setRank(int rank){this.rank = rank;}
     public void setFile(int file){this.file = file;}
 
-    public int getRank(){return rank;}
-    public int getFile(){return file;}
-
     public boolean equals(Cord other) {
-        return this.getRank() == other.getRank() && this.getFile() == other.getFile();
+        return this.rank() == other.rank() && this.file() == other.file();
     }
 
     public String toString(){

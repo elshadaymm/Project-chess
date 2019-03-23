@@ -24,14 +24,18 @@ public class Move{
         this.value = value;
     }
 
-    public int dx(){return to.getFile() - from.getFile();}
-    public int dy(){return to.getRank() - from.getRank();}
+    public int dx(){return to.file() - from.file();}
+    public int dy(){return to.rank() - from.rank();}
 
-    public void setValue(double n) {value = n;}
+    public Cord from(){return from;}
+    public Cord to(){return to;}
+
+    //public Cord getFrom() {return from;}
+    //public Cord getTo() {return to;}
+    public char getPromotion() {return promotion;}
     public double getValue() {return value;}
 
-    public Cord getFrom() {return from;}
-    public Cord getTo() {return to;}
+    public void setValue(double n) {value = n;}
     
     public String toString(){
         return Converter.cordToUCI(from) + Converter.cordToUCI(to);
