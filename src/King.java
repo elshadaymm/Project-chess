@@ -29,19 +29,27 @@ public class King extends Piece{
         int dy = move.dy();
 
         //checks for castle
-        if(from.file() == 4 && (to.rank() == 0 || to.rank() == game.getRankSize() - 1) && move.adx() == 2){
+        if(move.from().file() == 4 && move.adx() == 2 && move.dy() == 0 && 
+            (to.rank() == 0 || to.rank() == game.getRankSize() - 1)){
             if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                for(int i = from.file() + 1; i <= game.getFileSize() - 2; i++)
-                    if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
+                int index = from.file() + 1;
+                while(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Rook){
+                    if(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Empty)
                         return false;
+                    index++;
+                }
                 return true;
             }else if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                for(int i = from.file() - 1; i >= 1; i--)
-                    if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
+                int index = from.file() - 1;
+                while(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Rook){
+                    if(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Empty)
                         return false;
+                    index--;
+                }
                 return true;
             }
         }
+
         //checks if king has moved one space vertically, horizontally or diagonally if not returns false
         if(Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
         return true;
