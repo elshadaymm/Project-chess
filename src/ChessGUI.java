@@ -114,6 +114,8 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
+					move.clear();
+
 /*
 					if (playerBlack.getKind() != Intelligence.Human && playerWhite.getKind() != Intelligence.Human) {
 						while (game.getEnd() == Constant.ONGOING) {
