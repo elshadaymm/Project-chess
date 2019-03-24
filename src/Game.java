@@ -163,9 +163,9 @@ public class Game{
         Cord to = move.to();
         if(getPiece(from).getColor() == Constant.BLACK){
             turn++;
-            peace++;
         }
 
+        peace++;
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
 
