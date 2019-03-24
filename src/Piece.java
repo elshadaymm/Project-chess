@@ -77,19 +77,20 @@ public abstract class Piece{
     public boolean isLegal(Game game, Move move){
         if(move.to().getPromotion() == '*') return true;//cheat mode
         
-        if(game.getPiece(move.from()).getType() == Type.King && move.dy() == 0){//shit logic
+        if(GameHelper.sucide(game, move)) return false;
+        
+        //for castle
+        if(type == Type.King && move.adx() == 2 && move.dy() == 0){
+            if(GameHelper.inCheck(game)) return false;
             if(move.dx() == 2){
-                if(GameHelper.inCheck(game)) return false;
-                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.to().rank(), move.to().file() - 1))))
+                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.from().rank(), move.from().file() + 1))))
                     return false;
             }else if(move.dx() == -2){
-                if(GameHelper.inCheck(game)) return false;
-                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.to().rank(), move.to().file() + 1))))
+                if(GameHelper.sucide(game, new Move(move.from(), new Cord(move.from().rank(), move.from().file() - 1))))
                     return false;
             }
         }
 
-        if(GameHelper.sucide(game, move)) return false;
         return isValid(game, move);
     }
 

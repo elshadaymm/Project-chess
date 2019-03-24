@@ -29,15 +29,14 @@ public class King extends Piece{
         int dy = move.dy();
 
         //checks for castle
-        if(from.file() == 4 && (to.rank() == 0 || to.rank() == 7)){
-            if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                for(int i = from.file() - 1; i >= 1; i--)
+        if(from.file() == 4 && (to.rank() == 0 || to.rank() == game.getRankSize() - 1) && move.adx() == 2){
+            if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
+                for(int i = from.file() + 1; i <= game.getFileSize() - 2; i++)
                     if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
                         return false;
                 return true;
-            }
-            else if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                for(int i = from.file() + 1; i <= game.getFileSize() - 2; i++)
+            }else if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
+                for(int i = from.file() - 1; i >= 1; i--)
                     if(game.getPiece(new Cord(from.rank(), i)).getType() != Type.Empty)
                         return false;
                 return true;
