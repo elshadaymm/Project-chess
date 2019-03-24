@@ -56,9 +56,31 @@ public class ChessGUI extends Application {
 	public void start(Stage primaryStage) {
 		// start of main scene
 		Pane root = new Pane();
+		
 		// VBox for the right side with the info diplays and the input. The HBox is a
 		// inside this VBox.
 		VBox infoDisplay = new VBox();
+
+		// the chess clock display
+		Label blackLabel = new Label("Black Time Remaining:");
+		Label whiteLabel = new Label("White Time Remaining:");
+		HBox clockText = new HBox(blackLabel, whiteLabel);
+		clockText.setSpacing(120);
+		clockText.setAlignment(Pos.CENTER);
+		infoDisplay.getChildren().add(clockText);
+
+		HBox chessClock = new HBox();
+		chessClock.setAlignment(Pos.CENTER);
+		chessClock.setLayoutX(750);
+		chessClock.setLayoutY(180);
+		Rectangle blackBackground = new Rectangle(0, 0, 240, 80);
+		blackBackground.setFill(Color.BLACK);
+		Rectangle whiteBackground = new Rectangle(0, 1, 240, 80);
+		whiteBackground.setFill(Color.WHITE);
+		chessClock.getChildren().add(blackBackground);
+		chessClock.getChildren().add(whiteBackground);
+		infoDisplay.getChildren().add(chessClock);
+
 		infoDisplay.getChildren().add(whosTurn);
 		infoDisplay.getChildren().add(turnNumber);
 		infoDisplay.getChildren().add(fiftyMove);
@@ -69,7 +91,7 @@ public class ChessGUI extends Application {
 		infoDisplay.setPadding(new Insets(190, 100, 20, 50));
 		infoDisplay.setSpacing(10);
 		infoDisplay.setLayoutX(750);
-		infoDisplay.setLayoutY(100);
+		infoDisplay.setLayoutY(50);
 
 		// Gets put into the VBox as the last element
 		HBox userInput = new HBox();
@@ -90,7 +112,7 @@ public class ChessGUI extends Application {
 		loadGame.getChildren().add(loadString);
 		infoDisplay.getChildren().add(loadGame);
 
-		HBox newGame = new HBox();
+		HBox newGame = new HBox(10);
 		Button newStandard = new Button("New Game");
 		newGame.getChildren().add(newStandard);
 		Button save = new Button("Save Game");
@@ -98,6 +120,7 @@ public class ChessGUI extends Application {
 		Button load = new Button("Load Game");
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
+
 
 
 		// the board
@@ -178,7 +201,7 @@ public class ChessGUI extends Application {
 				//display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
 				if (loadFile != null) {
-					game.setBoard(readFile(loadFile));   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					game.setBoard(readFile(loadFile));
 					update(board,root);
 				}
 			}
@@ -212,6 +235,7 @@ public class ChessGUI extends Application {
 		primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 		primaryStage.show();
 		update(board, root);
+
 	}
 
 	//draws the numbering/lettering on the edge
@@ -279,7 +303,7 @@ public class ChessGUI extends Application {
 		root.getChildren().add(rightNumberEdge);
 	}
 
-	//saves the information to the txt file
+	//saves the information to the .chess file
 	public void saveTextToFile(String content, File file) {
 		try {
 			PrintWriter writer;
@@ -291,7 +315,7 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	//loads the txt file to a String
+	//loads the .chess file to a String
 	private String readFile(File file) {
 		StringBuilder stringBuffer = new StringBuilder();
 		BufferedReader bufferedReader = null;
@@ -385,7 +409,7 @@ public class ChessGUI extends Application {
 		repetition.setText("Repetition: " + GameHelper.repetition(game));
 
 		StackPane endDisplay = new StackPane();
-		Rectangle background = new Rectangle(0, 0, 320, 160);
+		Rectangle background = new Rectangle(0, 0, 320, 80);
 		background.setFill(Color.BLACK);
 		Text winnerText = new Text();
 		String win;
