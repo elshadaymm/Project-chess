@@ -23,6 +23,9 @@ import javafx.geometry.Pos;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -83,8 +86,8 @@ public class ChessGUI extends Application {
 		TextField FEN = new TextField();
 		FEN.setPrefWidth(400);
 		loadGame.getChildren().add(FEN);
-		Button load = new Button("Load from FEN");
-		loadGame.getChildren().add(load);
+		Button loadString = new Button("Load from FEN");
+		loadGame.getChildren().add(loadString);
 		infoDisplay.getChildren().add(loadGame);
 
 		HBox newGame = new HBox();
@@ -92,6 +95,8 @@ public class ChessGUI extends Application {
 		newGame.getChildren().add(newStandard);
 		Button save = new Button("Save Game");
 		newGame.getChildren().add(save);
+		Button load = new Button("Load Game");
+		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
 
 
@@ -159,8 +164,29 @@ public class ChessGUI extends Application {
 			}
 		});
 
+		//load a game from text file using Load buttong
+		load.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				FileChooser fileChooser = new FileChooser();
+
+				//set to only load txt files
+				FileChooser.ExtensionFilter onlyLoadTxt = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+				fileChooser.getExtensionFilters().add(onlyLoadTxt);
+
+				//display window to find file to load
+				File loadFile = fileChooser.showOpenDialog(primaryStage);
+				if (loadFile != null) {
+					game.setBoard(readFile(loadFile));   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					update(board,root);
+				}
+			}
+
+		});
+
 		//load game
-		load.setOnAction(new EventHandler<ActionEvent>(){
+		loadString.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
 				game.setBoard(FEN.getText());
@@ -253,7 +279,7 @@ public class ChessGUI extends Application {
 		root.getChildren().add(rightNumberEdge);
 	}
 
-	// saves the information to the txt file
+	//saves the information to the txt file
 	public void saveTextToFile(String content, File file) {
 		try {
 			PrintWriter writer;
@@ -263,6 +289,35 @@ public class ChessGUI extends Application {
 		} catch (IOException ex) {
 			Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+
+	//loads the txt file to a String
+	private String readFile(File file) {
+		StringBuilder stringBuffer = new StringBuilder();
+		BufferedReader bufferedReader = null;
+
+		try {
+
+			bufferedReader = new BufferedReader(new FileReader(file));
+
+			String text;
+			while ((text = bufferedReader.readLine()) != null) {
+				stringBuffer.append(text);
+			}
+
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IOException ex) {
+			Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			try {
+				bufferedReader.close();
+			} catch (IOException ex) {
+				Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		return stringBuffer.toString();
 	}
 
 	//drawsw an empty board
