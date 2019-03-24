@@ -9,12 +9,22 @@ public class Bishop extends Piece{
         this(piece.getColor());
     }
 
+    /**
+     * Function to check if the move being made is following the rules of the corresponding piece(Bishop)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param dx value of delta x
+     * @param dy value of delta y
+     * @param adx absolute value of delta x
+     * @param ady absolute value of delta y
+     * @return If the move is valid
+     */
     @Override
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
         Cord from = move.from();
-        int adx = move.adx();//absoult value of delta x
+        int adx = move.adx();
         int ady = move.ady();
 
         if(adx != ady) return false;
@@ -22,8 +32,8 @@ public class Bishop extends Piece{
         int modX = move.dx() > 0? Constant.POSITIVE : Constant.NEGATIVE;
         int modY = move.dy() > 0? Constant.POSITIVE : Constant.NEGATIVE;
 
-        //dx == dy
-        for(int i = 1; i < adx; i++)
+        //Checks for Diagonal Movement if none returns false
+        for(int i = 1; i < adx; i++)//dx == dy
             if(game.getPiece(new Cord(from.rank() + i * modY, from.file() + i * modX)).getType() != Type.Empty)
                 return false;
         return true;
@@ -40,6 +50,14 @@ public class Bishop extends Piece{
         value += validMoves(game, at).size() * Constant.BISHOP_SCOPE;
     }
 
+    /**
+     * Function to check the moves avaliable to the corrosponding piece(Bishop)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param getRankSize gets the row of the corrosponding piece
+     * @param getFileSize gets the column of the corrosponding piece
+     * @return an ArrayList of moves that the piece can make
+     */
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();

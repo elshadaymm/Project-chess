@@ -9,13 +9,23 @@ public class Knight extends Piece{
         this(piece.getColor());
     }
 
+    /**
+     * Function to check if the move being made is following the rules of the corresponding piece(Knight)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param adx absolute value of delta x
+     * @param ady absolute value of delta y
+     * @return If move is valid
+     */
+
     @Override
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
 
         int adx = move.adx();
         int ady = move.ady();
+        //Checks if knight moves one square horizontally and two squares vertically
         if(adx == 1 && ady == 2) return true;
+        //Checks if knight moves two squares horizontally and one square vertically
         if(adx == 2 && ady == 1) return true;
         return false;
     }
@@ -30,6 +40,15 @@ public class Knight extends Piece{
         value = Constant.KNIGHT_VALUE;
         value += validMoves(game, at).size() * Constant.KNIGHT_SCOPE;
     }
+
+    /**
+     * Function to check the moves avaliable to the corrosponding piece(Knight)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param getRankSize gets the row of the corrosponding piece
+     * @param getFileSize gets the column of the corrosponding piece
+     * @return an ArrayList of moves that the piece can make
+     */
 
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){

@@ -9,6 +9,16 @@ public class King extends Piece{
         this(piece.getColor());
     }
 
+    /**
+     * Function to check if the move being made is following the rules of the corresponding piece(King)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param to coordinate variable of the pieces end position
+     * @param dx value of delta x
+     * @param dy value of delta y
+     * @return If move is valid
+     */
+
     @Override
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
@@ -33,7 +43,7 @@ public class King extends Piece{
                 return true;
             }
         }
-
+        //checks if king has moved one space vertically, horizontally or diagonally if not returns false
         if(Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
         return true;
     }
@@ -49,6 +59,14 @@ public class King extends Piece{
         value += validMoves(game, at).size() * Constant.KING_SCOPE;
     }
 
+    /**
+     * Function to check the moves avaliable to the corrosponding piece(King)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param getRankSize gets the row of the corrosponding piece
+     * @param getFileSize gets the column of the corrosponding piece
+     * @return an ArrayList of moves that the piece can make
+     */
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
