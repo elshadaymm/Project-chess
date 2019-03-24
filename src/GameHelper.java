@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameHelper{
     public static ArrayList<Move> allValidMoves(Game game){
@@ -158,5 +159,12 @@ public class GameHelper{
     public static boolean FENFormat(String FEN){
         if(FEN.length() < 10) return false;
         return true;
+    }
+
+    //Todo
+    public static String newFischerRandom(){
+        Random rand = new Random();
+
+        return "";
     }
 }
