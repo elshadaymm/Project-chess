@@ -21,6 +21,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import javafx.stage.FileChooser;
+
+
 import java.util.concurrent.TimeUnit;
 
 public class ChessGUI extends Application {
@@ -82,7 +90,10 @@ public class ChessGUI extends Application {
 		HBox newGame = new HBox();
 		Button newStandard = new Button("New Game");
 		newGame.getChildren().add(newStandard);
+		Button save = new Button("Save Game");
+		newGame.getChildren().add(save);
 		infoDisplay.getChildren().add(newGame);
+
 
 		// the board
 		GridPane board = new GridPane();
@@ -129,6 +140,22 @@ public class ChessGUI extends Application {
 					}*/
 					
 				}
+			}
+		});
+
+		//save a game to text file using Save button
+		save.setOnAction(event -> {
+			FileChooser fileChooser = new FileChooser();
+
+			//Sets FileChooser to only save .txt files
+			FileChooser.ExtensionFilter txtOnly = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+			fileChooser.getExtensionFilters().add(txtOnly);
+
+			//popup window to browse where to save the game
+			File saveFile = fileChooser.showSaveDialog(primaryStage);
+
+			if (saveFile != null) {
+				saveTextToFile(GameInfo.toFEN(game), saveFile);
 			}
 		});
 
@@ -224,6 +251,18 @@ public class ChessGUI extends Application {
 		rightNumberEdge.setLayoutY(85);
 		rightNumberEdge.setSpacing(53);
 		root.getChildren().add(rightNumberEdge);
+	}
+
+	// saves the information to the txt file
+	public void saveTextToFile(String content, File file) {
+		try {
+			PrintWriter writer;
+			writer = new PrintWriter(file);
+			writer.println(content);
+			writer.close();
+		} catch (IOException ex) {
+			Logger.getLogger(ChessGUI.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	//drawsw an empty board
