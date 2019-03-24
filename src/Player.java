@@ -31,12 +31,14 @@ public class Player{
     }
 
     protected boolean validInput(String str){
-        if(str.length() < 4 || str.length() > 5) return false;
+        if(str.length() < 4) 
+            return false;
 
         if(str.charAt(0) < 'a' || str.charAt(0) > 'h'
             || str.charAt(1) < '0' || str.charAt(1) > '8'
             || str.charAt(2) < 'a' || str.charAt(2) > 'h'
-            || str.charAt(3) < '0' || str.charAt(3) > '8'){ return false;}
+            || str.charAt(3) < '0' || str.charAt(3) > '8')
+            return false;
         
         return true;
     }

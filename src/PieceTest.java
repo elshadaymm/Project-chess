@@ -42,15 +42,22 @@ public class PieceTest{
     }
 
     @Test
-    public void testQueen(){
+    public void testQueenWhite(){
+        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK w - - 0 1");
+
+        int numOfLegalMoves = 0;
+        numOfLegalMoves += 12;//othagnal moves
+        numOfLegalMoves += 12 + 5;//diagnal moves
+        assertEquals("Queen suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
+    }
+
+    @Test
+    public void testQueenBlack(){
         game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK b - - 0 1");
 
         int numOfLegalMoves = 0;
-        numOfLegalMoves += 24;//othagnal moves
+        numOfLegalMoves += 12;//othagnal moves
         numOfLegalMoves += 12 + 5;//diagnal moves
-        assertEquals("Queen suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
-
-        game.changeTurn();
         assertEquals("Queen suicide test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
     }
 
@@ -381,7 +388,7 @@ public class PieceTest{
 
     @Test
     public void testBlackPromotion(){
-        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N w - - 0 1");
+        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 3 * 4; // knight

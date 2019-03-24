@@ -6,18 +6,32 @@
 
 public class Cord{
     private int rank, file;
+    private char promotion = ' ';
+
     public Cord(int rank, int file){
         this.rank = rank;
         this.file = file;
     }
 
+    public Cord(int rank, int file, char p){
+        this(rank, file);
+        promotion = p;
+    }
+
     public Cord(Cord other){
-        this.rank = other.rank();
-        this.file = other.file();
+        this(other.rank(), other.file(), other.getPromotion());
+    }
+
+    public Cord(Cord other, char promotion){
+        this(other.rank(), other.file());
+        this.promotion = promotion;
     }
 
     public int rank(){return rank;}
     public int file(){return file;}
+
+    public char getPromotion(){return promotion;}
+    public void setPromotion(char p){promotion = p;}
 
     //public int rank(){return rank;}
     //public int file(){return file;}

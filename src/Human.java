@@ -23,7 +23,7 @@ public class Human extends Player{
             move = move + " ";
             move = Converter.UCIToCord(move) + move.charAt(4);
             from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
-            to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
+            to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)), move.charAt(4));
             
             if(GameHelper.legalMove(game, new Move(from, to))){
                 makeMove(new Move(from, to));
@@ -45,10 +45,9 @@ public class Human extends Player{
         move = move + " ";
         move = Converter.UCIToCord(move) + move.charAt(4);
         from = new Cord(Integer.parseInt("" + move.charAt(0)), Integer.parseInt("" + move.charAt(1)));
-        to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)));
+        to = new Cord(Integer.parseInt("" + move.charAt(2)), Integer.parseInt("" + move.charAt(3)), move.charAt(4));
         
-        if((move.length() == 5 && move.charAt(4) == '*')
-            || GameHelper.legalMove(game, new Move(from, to))){
+        if(GameHelper.legalMove(game, new Move(from, to))){
             makeMove(new Move(from, to));
             return true;
         }

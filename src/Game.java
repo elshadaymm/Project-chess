@@ -176,7 +176,8 @@ public class Game{
             board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
         }
 
-        updatePromotion(move);
+        if(getPiece(to).getType() == Type.Pawn)
+            updatePromotion(move);
 
         history.add(GameInfo.FENBoard(this));
         changeTurn();
@@ -454,6 +455,29 @@ public class Game{
         }
     }
 
-    private void updatePromotion(Move move){}
-
+    private void updatePromotion(Move move){
+        Cord to = move.to();
+        boolean color = getPiece(to).getColor();
+        if(to.rank() == 0 || to.rank() == rankSize - 1){
+            Piece pro;
+            switch (to.getPromotion()){
+                case 'Q': case 'q': 
+                    pro = new Queen(color);
+                    break;
+                case 'R': case 'r': 
+                    pro = new Rook(color);
+                    break;
+                case 'B': case 'b': 
+                    pro = new Bishop(color);
+                    break;
+                case 'N': case 'n': 
+                    pro = new Knight(color);
+                    break;
+                default:
+                    pro = new Queen(color);
+                    break;
+            }
+            board[to.rank()][to.file()] = pro;
+        }
+    }
 }

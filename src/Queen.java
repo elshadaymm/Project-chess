@@ -76,9 +76,39 @@ public class Queen extends Piece{
         ArrayList<Cord> moves = new ArrayList<Cord>();
         Cord test;
 
+        //rook movement
+        for(int i = 0; i < 2; i++){
+            int mod = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+
+            for(int k = 1; k < game.getRankSize() || k < game.getFileSize(); k++){
+                test = new Cord(from.rank() + (k * mod), from.file());
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
+                    
+                test = new Cord(from.rank(), from.file() + (k * mod));
+                if(isValid(game, new Move(from, test)))
+                    moves.add(test);
+            }
+        }
+
+        //Bishop movement
         for(int i = 0; i < 2; i++)
             for(int j = 0; j < 2; j++){
                 int modx = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+                int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+
+                for(int k = 1; k < game.getRankSize() && k < game.getFileSize(); k++){
+                    test = new Cord(from.rank() + (k *modx), from.file() + (k * mody));
+                    if(isValid(game, new Move(from, test)))
+                        moves.add(test);
+                }
+            }
+
+            /*
+        for(int i = 0; i < 2; i++){
+            int modx = i == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
+
+            for(int j = 0; j < 2; j++){
                 int mody = j == 0 ? Constant.POSITIVE : Constant.NEGATIVE;
 
                 for(int k = 1; k < game.getRankSize() && k < game.getFileSize(); k++){
@@ -92,11 +122,12 @@ public class Queen extends Piece{
                     if(isValid(game, new Move(from, test)))
                         moves.add(test);
                         
-                    test = new Cord(from.rank(), from.file() + (k * mody));
+                    test = new Cord(from.rank(), from.file() + (k * modx));
                     if(isValid(game, new Move(from, test)))
                         moves.add(test);
                 }
             }
+        }*/
 
         return moves;
     }

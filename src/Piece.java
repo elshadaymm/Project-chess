@@ -75,7 +75,7 @@ public abstract class Piece{
 
     //if a move is legal
     public boolean isLegal(Game game, Move move){
-        if(move.getPromotion() == '*') return true;//cheat mode
+        if(move.to().getPromotion() == '*') return true;//cheat mode
         
         if(game.getPiece(move.from()).getType() == Type.King && move.dy() == 0){//shit logic
             if(move.dx() == 2){

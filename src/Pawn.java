@@ -71,11 +71,33 @@ public class Pawn extends Piece{
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 
+          updatePromotion(game, moves);
+
         return moves;
     }
     
     @Override
     public char toCharacter(){
         return isWhite? 'P' : 'p';
+    }
+
+    private void updatePromotion(Game game, ArrayList<Cord> moves){
+      ArrayList<Cord> promotionMoves = new ArrayList<Cord>();
+      int index = 0;
+      while(index < moves.size()){
+        if(moves.get(index).rank() == 0 || moves.get(index).rank() == game.getRankSize() - 1){
+          promotionMoves.add(moves.get(index));
+          moves.remove(index);
+        }
+        else
+          index++;
+      }
+      
+      for(Cord move : promotionMoves){
+        moves.add(new Cord(move, isWhite?'Q':'q'));
+        moves.add(new Cord(move, isWhite?'R':'r'));
+        moves.add(new Cord(move, isWhite?'B':'b'));
+        moves.add(new Cord(move, isWhite?'N':'n'));
+      }
     }
 }
