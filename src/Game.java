@@ -43,35 +43,30 @@ public class Game{
         fileSize = other.getFileSize();
 
         board = new Piece[rankSize][fileSize];
-
-        turn = other.getTurn();
+        setBoard(other.getBoard());
         whiteTurn = other.getWhiteTurn();
-        peace = other.getPeace();
-        
-        end = other.getEnd();
-
         whiteKingCastle = other.getWhiteKingCastle();
         whiteQueenCastle = other.getWhiteQueenCastle();
         blackKingCastle = other.getBlackKingCastle();
         blackQueenCastle = other.getBlackQueenCastle();
-
         enPassant = other.getEnPassant();
-        
-        advantage = other.getAdvantage();
+        peace = other.getPeace();
+        turn = other.getTurn();
 
-        clock = new FischerClock(other.getClock());
-        
-        setBoard(other.getBoard());
+        advantage = other.getAdvantage();        
+        end = other.getEnd();
 
         history = new ArrayList<String>();
         history.addAll(other.getHistory());
         history.add(GameInfo.FENBoard(this));
+
+        clock = new FischerClock(other.getClock());
     }
 
-    public void reset(){setBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
+    public void reset(){importGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
 
     //Sets the board using an FEN string
-    public void setBoard(String FEN){
+    public void importGame(String FEN){
         if(!GameHelper.FENFormat(FEN)) return;
 
         while(FEN.charAt(0) == ' ')

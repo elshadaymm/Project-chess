@@ -139,11 +139,29 @@ public class ChessGUI extends Application {
 		HBox newGame = new HBox(10);
 		Button newStandard = new Button("New Game");
 		newGame.getChildren().add(newStandard);
+		Button newFischerRandom = new Button("New Fischer Random Game");
+		newGame.getChildren().add(newFischerRandom);
 		Button save = new Button("Save Game");
 		newGame.getChildren().add(save);
 		Button load = new Button("Load Game");
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
+
+		HBox setWhite = new HBox();
+		TextField whiteIs = new TextField();
+		whiteIs.setPrefWidth(200);
+		setWhite.getChildren().add(whiteIs);
+		Button setWhitePlayer = new Button("Set White Player");
+		setWhite.getChildren().add(setWhitePlayer);
+		infoDisplay.getChildren().add(setWhite);
+
+		HBox setBlack = new HBox();
+		TextField blackIs = new TextField();
+		blackIs.setPrefWidth(200);
+		setBlack.getChildren().add(blackIs);
+		Button setBlackPlayer = new Button("Set Black Player");
+		setBlack.getChildren().add(setBlackPlayer);
+		infoDisplay.getChildren().add(setBlack);
 
 
 
@@ -175,21 +193,35 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-					move.clear();
-
-/*
-					if (playerBlack.getKind() != Intelligence.Human && playerWhite.getKind() != Intelligence.Human) {
-						while (game.getEnd() == Constant.ONGOING) {
-							playerWhite.move();
-							update(board, root);
-							if (game.getEnd() == Constant.ONGOING) {
-								playerBlack.move();
-								update(board, root);
-							}
-						}
-					}*/
-					
+					move.clear();					
 				}
+			}
+		});
+
+		//load game
+		loadString.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.importGame(FEN.getText());
+				update(board, root);
+			}
+		});
+
+		//resets game
+		newStandard.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.reset();
+				update(board, root);
+			}
+		});
+
+		//resets game to fischer random
+		newFischerRandom.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.importGame(GameHelper.newFischerRandom());
+				update(board, root);
 			}
 		});
 
@@ -211,7 +243,6 @@ public class ChessGUI extends Application {
 
 		//load a game from text file using Load buttong
 		load.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
@@ -223,28 +254,9 @@ public class ChessGUI extends Application {
 				//display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
 				if (loadFile != null) {
-					game.setBoard(readFile(loadFile));
+					game.importGame(readFile(loadFile));
 					update(board,root);
 				}
-			}
-
-		});
-
-		//load game
-		loadString.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				game.setBoard(FEN.getText());
-				update(board, root);
-			}
-		});
-
-		//resets game
-		newStandard.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				game.reset();
-				update(board, root);
 			}
 		});
 
@@ -516,7 +528,6 @@ public class ChessGUI extends Application {
 		txt.setFill(Color.BLACK);
 		modes.getChildren().add(txt);
 		Button hVSh = new Button("human vs human");
-		hVSh.setStyle("-fx-background-color: #824b00; ");
 		Button hVSm = new Button("human vs minmax");
 		Button mVSr = new Button("minmax vs random");
 		Button rVSr = new Button("random vs random");
@@ -529,13 +540,13 @@ public class ChessGUI extends Application {
 
 		modes.setPrefWidth(350);
 		hVSh.setMinWidth(modes.getPrefWidth());
-		hVSh.setMinHeight((modes.getPrefWidth() / 7));
+		hVSh.setMinHeight((modes.getPrefWidth() / 9));
 		hVSm.setMinWidth(modes.getPrefWidth());
-		hVSm.setMinHeight((modes.getPrefWidth() / 7));
+		hVSm.setMinHeight((modes.getPrefWidth() / 9));
 		mVSr.setMinWidth(modes.getPrefWidth());
-		mVSr.setMinHeight((modes.getPrefWidth() / 6));
+		mVSr.setMinHeight((modes.getPrefWidth() / 9));
 		rVSr.setMinWidth(modes.getPrefWidth());
-		rVSr.setMinHeight((modes.getPrefWidth() / 6));
+		rVSr.setMinHeight((modes.getPrefWidth() / 9));
 
 		hVSh.setOnAction(new EventHandler<ActionEvent>(){
 		@Override

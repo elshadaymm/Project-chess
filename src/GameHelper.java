@@ -97,7 +97,6 @@ public class GameHelper{
      * .is_legal() returns true if the piece is allowed to make that move, false otherwise
      */
     public static boolean legalMove(Game game, Move move){//!!!!!!!!!!!!someone make isLegal() throw errors for the human plaer class to catch. betther then this way
-        /*
         if(game.getEnd() != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
@@ -118,7 +117,6 @@ public class GameHelper{
             System.out.println("Error: Can't put self in check.");
             return false;
         }
-        */
         return game.getPiece(move.from()).isLegal(game, move);
     }
 
@@ -163,8 +161,18 @@ public class GameHelper{
 
     //Todo
     public static String newFischerRandom(){
-        Random rand = new Random();
+        String original = "RNBQKBNR";
 
-        return "";
+        ArrayList<Character> characters = new ArrayList<Character>();
+        for(char c:original.toCharArray()){
+            characters.add(c);
+        }
+        String shuffle = "";
+        while(characters.size()!=0){
+            int randPicker = (int)(Math.random() * characters.size());
+            shuffle = shuffle + characters.remove(randPicker);
+        }
+
+        return shuffle.toLowerCase() + "/pppppppp/8/8/8/8/PPPPPPPP/" + shuffle + " w - - 0 1";
     }
 }
