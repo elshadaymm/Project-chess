@@ -477,7 +477,6 @@ public class ChessGUI extends Application {
 	}
 
 	public void updateClock(){
-
 		whiteClockDisplay.setText(game.getClock().whiteTime());
 		blackClockDisplay.setText(game.getClock().blackTime());
 		System.out.println("working!");
