@@ -60,7 +60,7 @@ public class ChessGUI extends Application {
 	public void start(Stage primaryStage) {
 		// start of main scene
 		Pane root = new Pane();
-		
+
 		// VBox for the right side with the info diplays and the input. The HBox is a
 		// inside this VBox.
 		VBox infoDisplay = new VBox();
@@ -193,7 +193,7 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-					move.clear();					
+					move.clear();
 				}
 			}
 		});
@@ -213,6 +213,7 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.reset();
 				update(board, root);
+				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 			}
 		});
 
