@@ -121,6 +121,22 @@ public class ChessGUI extends Application {
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
 
+		HBox setWhite = new HBox();
+		TextField whiteIs = new TextField();
+		whiteIs.setPrefWidth(200);
+		setWhite.getChildren().add(whiteIs);
+		Button setWhitePlayer = new Button("Set White Player");
+		setWhite.getChildren().add(setWhitePlayer);
+		infoDisplay.getChildren().add(setWhite);
+
+		HBox setBlack = new HBox();
+		TextField blackIs = new TextField();
+		blackIs.setPrefWidth(200);
+		setBlack.getChildren().add(blackIs);
+		Button setBlackPlayer = new Button("Set Black Player");
+		setBlack.getChildren().add(setBlackPlayer);
+		infoDisplay.getChildren().add(setBlack);
+
 
 
 		// the board
@@ -153,20 +169,7 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-					move.clear();
-
-/*
-					if (playerBlack.getKind() != Intelligence.Human && playerWhite.getKind() != Intelligence.Human) {
-						while (game.getEnd() == Constant.ONGOING) {
-							playerWhite.move();
-							update(board, root);
-							if (game.getEnd() == Constant.ONGOING) {
-								playerBlack.move();
-								update(board, root);
-							}
-						}
-					}*/
-					
+					move.clear();					
 				}
 			}
 		});
