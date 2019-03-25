@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -29,7 +30,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javafx.stage.FileChooser;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 import java.util.concurrent.TimeUnit;
@@ -47,6 +49,8 @@ public class ChessGUI extends Application {
 	private static Label blackTime = new Label(
 			"Black Time: " + (game.getClock().getBlackTime() / 1000) + " seconds");
 	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
+	private static Label whiteClockDisplay = new Label(game.getClock().whiteTime());
+	private static Label blackClockDisplay = new Label(game.getClock().blackTime());
 	private static Scene startScene, mainScene;
 
 	public static void main(String[] args) {
@@ -61,13 +65,20 @@ public class ChessGUI extends Application {
 		// inside this VBox.
 		VBox infoDisplay = new VBox();
 
-		// the chess clock display
+		//displays for the clock timer
+
+
+		//the labels for the chess clock
+
+		StackPane clock = new StackPane();
+
 		Label blackLabel = new Label("Black Time Remaining:");
 		Label whiteLabel = new Label("White Time Remaining:");
-		HBox clockText = new HBox(blackLabel, whiteLabel);
-		clockText.setSpacing(120);
-		clockText.setAlignment(Pos.CENTER);
-		infoDisplay.getChildren().add(clockText);
+		HBox clockLabel = new HBox(whiteLabel, blackLabel);
+		clockLabel.setSpacing(120);
+		clockLabel.setAlignment(Pos.CENTER);
+
+		infoDisplay.getChildren().add(clockLabel);
 
 		HBox chessClock = new HBox();
 		chessClock.setAlignment(Pos.CENTER);
@@ -77,10 +88,23 @@ public class ChessGUI extends Application {
 		blackBackground.setFill(Color.BLACK);
 		Rectangle whiteBackground = new Rectangle(0, 1, 240, 80);
 		whiteBackground.setFill(Color.WHITE);
-		chessClock.getChildren().add(blackBackground);
 		chessClock.getChildren().add(whiteBackground);
-		infoDisplay.getChildren().add(chessClock);
+		chessClock.getChildren().add(blackBackground);
+		clock.getChildren().add(chessClock);
 
+		whiteClockDisplay.setTextFill(Color.BLACK);
+		whiteClockDisplay.setFont(Font.font("verdana", 40));
+		blackClockDisplay.setTextFill(Color.WHITE);
+		blackClockDisplay.setFont(Font.font("verdana", 40));
+		HBox timeText = new HBox(whiteClockDisplay, blackClockDisplay);
+		timeText.setSpacing(150);
+		timeText.setAlignment(Pos.CENTER);
+		timeText.setLayoutX(900);
+		timeText.setLayoutY(300);
+		clock.getChildren().add(timeText);
+		infoDisplay.getChildren().add(clock);
+
+		//text displays
 		infoDisplay.getChildren().add(whosTurn);
 		infoDisplay.getChildren().add(turnNumber);
 		infoDisplay.getChildren().add(fiftyMove);
@@ -131,8 +155,6 @@ public class ChessGUI extends Application {
 		baseBoard(board);
 		drawBoard(board);
 		drawEdges(root);
-
-		// draws the starting page
 
 		// move input Button Action Handler
 		submit.setOnAction(new EventHandler<ActionEvent>() {
@@ -344,7 +366,7 @@ public class ChessGUI extends Application {
 		return stringBuffer.toString();
 	}
 
-	//drawsw an empty board
+	//draws an empty board
 	public void baseBoard(GridPane board){
 		for(int i=0; i< game.getRankSize(); i++) {
 				for(int j=0; j<game.getFileSize(); j++) {
@@ -454,6 +476,25 @@ public class ChessGUI extends Application {
 		drawBoard(board);
 	}
 
+	public void updateClock(){
+
+		whiteClockDisplay.setText(game.getClock().whiteTime());
+		blackClockDisplay.setText(game.getClock().blackTime());
+		System.out.println("working!");
+	}
+
+	//the timer object to update the game clock every second
+	public void startTimer() {
+		Timer timer = new Timer();
+		TimerTask updateClock = new TimerTask(){
+			public void run() {
+				if(game.getClock().getWhiteTime() > 0 && game.getClock().getBlackTime() > 0){updateClock();}
+				else {timer.cancel();}
+			}
+		};
+		timer.scheduleAtFixedRate(updateClock,1000,1000);
+		}
+
 	//drawStartingPage is the startscene
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
 		Pane surface = new Pane();
@@ -502,6 +543,7 @@ public class ChessGUI extends Application {
 		public void handle(ActionEvent event){
 			playerWhite = new Human(game);
 			playerBlack = new Human(game);
+			startTimer();
 				primaryStage.setScene(mainScene);
 		}
 		});
@@ -510,6 +552,7 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				playerWhite = new Human(game);
 				playerBlack = new AIMinMax(game);
+				startTimer();
 					primaryStage.setScene(mainScene);
 			}
 		});
@@ -518,6 +561,7 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				playerWhite = new AIMinMax(game);
 				playerBlack = new AIRandom(game);
+				startTimer();
 					primaryStage.setScene(mainScene);
 			}
 		});
@@ -526,6 +570,7 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				playerWhite = new AIRandom(game);
 				playerBlack = new AIRandom(game);
+				startTimer();
 					primaryStage.setScene(mainScene);
 			}
 		});
