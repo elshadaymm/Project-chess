@@ -59,6 +59,16 @@ public class King extends Piece{
     public void updateValue(Game game, Cord at){
         value = Constant.KING_VALUE;
         value += validMoves(game, at).size() * Constant.KING_SCOPE;
+        switch(at.file()){
+            case 1: case 2: case 6:
+                value += Constant.KING_SAFE;
+                break;
+            case 3: case 4:
+                value += Constant.KING_NOT_SAFE;
+                break;
+            default:
+                break;
+        }
     }
 
     /**
