@@ -161,8 +161,18 @@ public class GameHelper{
 
     //Todo
     public static String newFischerRandom(){
-        Random rand = new Random();
+        String original = "RNBQKBNR";
 
-        return "";
+        ArrayList<Character> characters = new ArrayList<Character>();
+        for(char c:original.toCharArray()){
+            characters.add(c);
+        }
+        String shuffle = "";
+        while(characters.size()!=0){
+            int randPicker = (int)(Math.random() * characters.size());
+            shuffle = shuffle + characters.remove(randPicker);
+        }
+
+        return shuffle.toLowerCase() + "/pppppppp/8/8/8/8/PPPPPPPP/" + shuffle + " w - - 0 1";
     }
 }
