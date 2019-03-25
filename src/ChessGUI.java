@@ -115,6 +115,8 @@ public class ChessGUI extends Application {
 		HBox newGame = new HBox(10);
 		Button newStandard = new Button("New Game");
 		newGame.getChildren().add(newStandard);
+		Button newFischerRandom = new Button("New Fischer Random Game");
+		newGame.getChildren().add(newFischerRandom);
 		Button save = new Button("Save Game");
 		newGame.getChildren().add(save);
 		Button load = new Button("Load Game");
@@ -174,6 +176,33 @@ public class ChessGUI extends Application {
 			}
 		});
 
+		//load game
+		loadString.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.importGame(FEN.getText());
+				update(board, root);
+			}
+		});
+
+		//resets game
+		newStandard.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.reset();
+				update(board, root);
+			}
+		});
+
+		//resets game to fischer random
+		newFischerRandom.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.importGame(GameHelper.newFischerRandom());
+				update(board, root);
+			}
+		});
+
 		//save a game to text file using Save button
 		save.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
@@ -192,7 +221,6 @@ public class ChessGUI extends Application {
 
 		//load a game from text file using Load buttong
 		load.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
@@ -204,28 +232,9 @@ public class ChessGUI extends Application {
 				//display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
 				if (loadFile != null) {
-					game.setBoard(readFile(loadFile));
+					game.importGame(readFile(loadFile));
 					update(board,root);
 				}
-			}
-
-		});
-
-		//load game
-		loadString.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				game.setBoard(FEN.getText());
-				update(board, root);
-			}
-		});
-
-		//resets game
-		newStandard.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				game.reset();
-				update(board, root);
 			}
 		});
 

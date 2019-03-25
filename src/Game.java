@@ -63,10 +63,10 @@ public class Game{
         clock = new FischerClock(other.getClock());
     }
 
-    public void reset(){setBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
+    public void reset(){importGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
 
     //Sets the board using an FEN string
-    public void setBoard(String FEN){
+    public void importGame(String FEN){
         if(!GameHelper.FENFormat(FEN)) return;
 
         while(FEN.charAt(0) == ' ')
