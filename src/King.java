@@ -31,22 +31,17 @@ public class King extends Piece{
         //checks for castle
         if(move.from().file() == 4 && move.adx() == 2 && move.dy() == 0 && 
             (to.rank() == 0 || to.rank() == game.getRankSize() - 1)){
+            int index = from.file();
             if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
-                int index = from.file() + 1;
-                while(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Rook){
-                    if(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Empty)
-                        return false;
+                do{
                     index++;
-                }
-                return true;
+                }while(index < game.getFileSize() - 1 && game.getPiece(new Cord(from.rank(), index)).getType() == Type.Empty);
+                return index == game.getFileSize() - 1;
             }else if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
-                int index = from.file() - 1;
-                while(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Rook){
-                    if(game.getPiece(new Cord(from.rank(), index)).getType() != Type.Empty)
-                        return false;
+                do{
                     index--;
-                }
-                return true;
+                }while(index > 0 && game.getPiece(new Cord(from.rank(), index)).getType() == Type.Empty);
+                return index == 0;
             }
         }
 

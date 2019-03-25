@@ -97,7 +97,6 @@ public class GameHelper{
      * .is_legal() returns true if the piece is allowed to make that move, false otherwise
      */
     public static boolean legalMove(Game game, Move move){//!!!!!!!!!!!!someone make isLegal() throw errors for the human plaer class to catch. betther then this way
-        /*
         if(game.getEnd() != Constant.ONGOING){
             System.out.println("Error: Game's Over");
             return false;
@@ -118,7 +117,6 @@ public class GameHelper{
             System.out.println("Error: Can't put self in check.");
             return false;
         }
-        */
         return game.getPiece(move.from()).isLegal(game, move);
     }
 

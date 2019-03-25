@@ -10,7 +10,8 @@ public class AIAlphaBeta extends Player{
     public boolean move(){
         Move move = alphaBeta();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
-        makeMove(move);
+        if(GameHelper.legalMove(game, move))
+            makeMove(move);
         return true;
     }
     

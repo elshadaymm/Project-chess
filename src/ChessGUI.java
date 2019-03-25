@@ -479,7 +479,6 @@ public class ChessGUI extends Application {
 		txt.setFill(Color.BLACK);
 		modes.getChildren().add(txt);
 		Button hVSh = new Button("human vs human");
-		hVSh.setStyle("-fx-background-color: #824b00; ");
 		Button hVSm = new Button("human vs minmax");
 		Button mVSr = new Button("minmax vs random");
 		Button rVSr = new Button("random vs random");
@@ -492,13 +491,13 @@ public class ChessGUI extends Application {
 
 		modes.setPrefWidth(350);
 		hVSh.setMinWidth(modes.getPrefWidth());
-		hVSh.setMinHeight((modes.getPrefWidth() / 7));
+		hVSh.setMinHeight((modes.getPrefWidth() / 9));
 		hVSm.setMinWidth(modes.getPrefWidth());
-		hVSm.setMinHeight((modes.getPrefWidth() / 7));
+		hVSm.setMinHeight((modes.getPrefWidth() / 9));
 		mVSr.setMinWidth(modes.getPrefWidth());
-		mVSr.setMinHeight((modes.getPrefWidth() / 6));
+		mVSr.setMinHeight((modes.getPrefWidth() / 9));
 		rVSr.setMinWidth(modes.getPrefWidth());
-		rVSr.setMinHeight((modes.getPrefWidth() / 6));
+		rVSr.setMinHeight((modes.getPrefWidth() / 9));
 
 		hVSh.setOnAction(new EventHandler<ActionEvent>(){
 		@Override
