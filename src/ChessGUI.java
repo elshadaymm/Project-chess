@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
+import javafx.application.Platform;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -60,16 +61,12 @@ public class ChessGUI extends Application {
 	public void start(Stage primaryStage) {
 		// start of main scene
 		Pane root = new Pane();
-
+		
 		// VBox for the right side with the info diplays and the input. The HBox is a
 		// inside this VBox.
 		VBox infoDisplay = new VBox();
 
-		//displays for the clock timer
-
-
-		//the labels for the chess clock
-
+		//the FischerClock display
 		StackPane clock = new StackPane();
 
 		Label blackLabel = new Label("Black Time Remaining:");
@@ -147,10 +144,21 @@ public class ChessGUI extends Application {
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
 
-		HBox backToMenu = new HBox();
-		Button resetGame = new Button("Reset Game");
-		backToMenu.getChildren().add(resetGame);
-		infoDisplay.getChildren().add(backToMenu);
+		HBox setWhite = new HBox();
+		TextField whiteIs = new TextField();
+		whiteIs.setPrefWidth(200);
+		setWhite.getChildren().add(whiteIs);
+		Button setWhitePlayer = new Button("Set White Player");
+		setWhite.getChildren().add(setWhitePlayer);
+		infoDisplay.getChildren().add(setWhite);
+
+		HBox setBlack = new HBox();
+		TextField blackIs = new TextField();
+		blackIs.setPrefWidth(200);
+		setBlack.getChildren().add(blackIs);
+		Button setBlackPlayer = new Button("Set Black Player");
+		setBlack.getChildren().add(setBlackPlayer);
+		infoDisplay.getChildren().add(setBlack);
 
 
 
@@ -182,7 +190,7 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-					move.clear();
+					move.clear();					
 				}
 			}
 		});
@@ -246,15 +254,6 @@ public class ChessGUI extends Application {
 					game.importGame(readFile(loadFile));
 					update(board,root);
 				}
-			}
-		});
-
-		resetGame.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event){
-				game.reset();
-				update(board, root);
-				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 			}
 		});
 
@@ -487,22 +486,20 @@ public class ChessGUI extends Application {
 	}
 
 	public void updateClock(){
-		//whiteClockDisplay.setText(game.getClock().whiteTime());
-		//blackClockDisplay.setText(game.getClock().blackTime());
-		//System.out.println("working!");
+		whiteClockDisplay.setText(game.getClock().whiteTime());
+		blackClockDisplay.setText(game.getClock().blackTime());
 	}
 
-	//the timer object to update the game clock every second
 	public void startTimer() {
 		Timer timer = new Timer();
-		TimerTask updateClock = new TimerTask(){
+		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				if(game.getClock().getWhiteTime() > 0 && game.getClock().getBlackTime() > 0){updateClock();}
-				else {timer.cancel();}
+				Platform.runLater(() -> {
+					updateClock();
+				});
 			}
-		};
-		timer.scheduleAtFixedRate(updateClock,1000,1000);
-		}
+		}, 1000, 1000);
+	}
 
 	//drawStartingPage is the startscene
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
