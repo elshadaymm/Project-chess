@@ -4,33 +4,34 @@
  *
  */
 public class Game{
-    private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
-    private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
+    private int rankSize = Constant.DEFAULT_RANK_SIZE;//the row length.
+    private int fileSize = Constant.DEFAULT_FILE_SIZE;//the column length.
 
-    private Piece[][] board;
+    private Piece[][] board;//Where all the pieces are stored.
 
     private int turn = 1;
     private boolean whiteTurn = true;
-    private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
+    private int peace = 0;  //The number of turns since the last capture or pawn advance. increments at the end of black's turn. Used for the fifty-move rule 
 
-    private int end = Constant.ONGOING;
+    private int end = Constant.ONGOING;//Gets to know how the game is won.
 
     //@Jeremy @Elvis
-    //used for castleing, currently unused. also used for FEN
+    //used for castling, currently unused. also used for FEN.
     private boolean whiteKingCastle = true;
     private boolean whiteQueenCastle = true;
     private boolean blackKingCastle = true;
     private boolean blackQueenCastle = true;
 
     //@Jeremy @Elvis
-    //shows the piece that can be enpassented this turn
+    //shows the piece that can be en passented in the current turn
     //used for en passent, currently unused. also used for FEN
     private Cord enPassant = null;
     
-    // Who's winning? white if its positive. black if its negative
-    //Larger the value, more the game faves white
+    // Who's winning? white if it's positive(+), black if it's negative(-).
+    //Larger the value, more the game favors the white.
     private double advantage = 0;
 
+    // Creates the 2D array for the board and its pieces.
     public Game(int rank, int file){
         rankSize = rank;
         fileSize = file;
@@ -38,7 +39,7 @@ public class Game{
         nullBoard();
         setUpBoard();
     }
-
+    //Constructor
     public Game(){
         this(Constant.DEFAULT_RANK_SIZE, Constant.DEFAULT_FILE_SIZE);
     }
@@ -67,7 +68,7 @@ public class Game{
         setBoard(game.getBoard());
     }
 
-    //copies a board
+    //copies the board as well as the respective pieces.
     private void setBoard(final Piece[][] board){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
@@ -100,7 +101,7 @@ public class Game{
             }
     }
 
-    //sets up the default board for chess
+    //Sets up the default board with all the pieces on its position.
     private void setUpBoard(){
         boolean side = Constant.WHITE;
         board[0][0] = new Rook(side);
@@ -128,14 +129,16 @@ public class Game{
     }
 
     /**
-     * Creates the spaces on the board, the bottom left corner is 0,0 and the top right is 7,7
+     * Creates the spaces on the board according to their color.
+     * The bottom left corner is 0,0 and the top right is 7,7
     */
     private void nullBoard(){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++)
                 board[i][j] = new Empty(GameHelper.cordColor(new Cord(i,j)));
     }
-
+    
+    // Checks and updates whether either side has won. 
     public boolean updateEnd(){
         switch (GameHelper.inMate(this)){
             case Constant.CHECK:
@@ -169,6 +172,7 @@ public class Game{
         return false;
     }
 
+    // Updates and returns the Advantage. 
     public void updateAdvantage(){
         double sum = 0;
         for(int i = 0; i < rankSize; i++)
@@ -190,29 +194,31 @@ public class Game{
     START OF GAME INTERFACE!!!!!!!!!!!!!!!
     */
 
-    //To do
+    //Making a move.
     public void makeMove(Move move){
         move(move);
     }
 
     /**
      * Start of the game interface.  This method moves the pieces around the board
-     * and resets the space that the piece moved from to an empty space.
+     * and resets the space that the piece moved from to an empty space(in this case with an empty piece).
      * @param from The coordinate that the piece starts on
      * @param to The coordinate that the piece is moving to
      */
     public void move(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
+         
         if(getPiece(from).getColor() == Constant.BLACK){
             turn++;
             peace++;
         }
-
+        
+        //This checks for a piece that can be taken. If yes, then it sets peace to 0 again.
         if(getPiece(to).getType() != Type.Empty
             || getPiece(from).getType() == Type.Pawn) peace = 0;
         
-        //updates the en passant variable with the coordinated of the square behind the pawn that moved two spaces
+        //updates the en passant variable with the coordinate of the square behind the pawn that moved two spaces.
         if(from.getRank() == 1 && to.getRank() == 3 && getPiece(from).getType() == Type.Pawn) {
         	Cord temp = new Cord(2, from.getFile());
         	enPassant = temp;
@@ -228,13 +234,15 @@ public class Game{
         update();
     }
 
+    // Lets you make a simple move.
     public void simpleMove(Move move){
         Cord from = move.getFrom();
         Cord to = move.getTo();
         board[to.getRank()][to.getFile()] = getPiece(from);
         board[from.getRank()][from.getFile()] = new Empty(GameHelper.cordColor(from));
     }
-
+    
+    // Helps in changing the turns.
     public void changeTurn(){
         whiteTurn = whiteTurn ? false : true;
     }
@@ -247,6 +255,9 @@ public class Game{
     public Piece getPiece(Cord at){return board[at.getRank()][at.getFile()];}
     public Piece getPiece(int rank, int file){return board[rank][file];}
 
+    /**
+     * All the Getters and Setters.
+     */
     public int getRankSize() {return rankSize;}
     public int getFileSize() {return fileSize;}
 
