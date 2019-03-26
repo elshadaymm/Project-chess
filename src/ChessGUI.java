@@ -188,6 +188,9 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.importGame(FEN.getText());
 				update(board, root);
+				
+				startTimer();
+				game.getClock().startClock();
 			}
 		});
 
@@ -197,6 +200,9 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.reset();
 				update(board, root);
+
+				startTimer();
+				game.getClock().startClock();
 			}
 		});
 
@@ -206,6 +212,9 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.importGame(GameHelper.newFischerRandom());
 				update(board, root);
+				
+				startTimer();
+				game.getClock().startClock();
 			}
 		});
 
@@ -548,7 +557,7 @@ public class ChessGUI extends Application {
 			playerBlack = new Human(game);
 			startTimer();
 			game.getClock().startClock();
-				primaryStage.setScene(mainScene);
+			primaryStage.setScene(mainScene);
 		}
 		});
 		hVSm.setOnAction(new EventHandler<ActionEvent>(){
@@ -558,7 +567,7 @@ public class ChessGUI extends Application {
 				playerBlack = new AIAlphaBeta(game);
 				startTimer();
 				game.getClock().startClock();
-					primaryStage.setScene(mainScene);
+				primaryStage.setScene(mainScene);
 			}
 		});
 		mVSr.setOnAction(new EventHandler<ActionEvent>(){
@@ -568,7 +577,7 @@ public class ChessGUI extends Application {
 				playerBlack = new AIMinMax(game);
 				startTimer();
 				game.getClock().startClock();
-					primaryStage.setScene(mainScene);
+				primaryStage.setScene(mainScene);
 			}
 		});
 		rVSr.setOnAction(new EventHandler<ActionEvent>(){
@@ -578,7 +587,7 @@ public class ChessGUI extends Application {
 				playerBlack = new AIAlphaBeta(game);
 				startTimer();
 				game.getClock().startClock();
-					primaryStage.setScene(mainScene);
+				primaryStage.setScene(mainScene);
 			}
 		});
 
