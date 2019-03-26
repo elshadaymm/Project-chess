@@ -11,12 +11,13 @@ public class GameHelper{
                     return true;
         return false;
     }
-
+    
+    // Checks for the color at the coordinate(Black or White).
     public static boolean cordColor(Cord at){
         return (at.getRank() + at.getFile()) % 2 == 0? Constant.BLACK : Constant.WHITE;
     }
 
-    //0 for not in mate, 1 for checkmate, 2 for stale mate
+    //0 for not in mate, 1 = for checkmate, 2 = for stalemate
     public static int inMate(Game game){
         ArrayList<Move> moves = allLegalMoves(game);
         if(moves.size() == 0){
@@ -97,15 +98,17 @@ public class GameHelper{
         
         printBoard(game);
     }
-
+    
+    //Prints all the information necessary.
     public static void printInfo(Game game){
         System.out.println();
-        System.out.println("Turn " + game.getTurn() + ":");
-        System.out.println("Fifty-move Rule: " + game.getPeace());
-        System.out.println("Currently " + turnToString(game.getWhiteTurn()) + "'s turn.");
-        System.out.print("FEN: " + toFEN(game));
+        System.out.println("Turn " + game.getTurn() + ":");                                    //prints who's turn it is.
+        System.out.println("Fifty-move Rule: " + game.getPeace());                             //print the no. of moves done after taking a piece.
+        System.out.println("Currently " + turnToString(game.getWhiteTurn()) + "'s turn.");	   
+        System.out.print("FEN: " + toFEN(game));											   //prints the FEN (single string describing board's state)
     }
 
+    //Prints the the letter (a-h) and number(1-8) for reference on the edges of the board.
     public static void printBoard(Game game){
         System.out.println();
         System.out.print(' ');
@@ -129,7 +132,8 @@ public class GameHelper{
         System.out.println();
         System.out.println();
     }
-
+    
+    //keeps track of all the valid moves done and returns the same.
     public static ArrayList<Move> allValidMoves(Game game){
         ArrayList<Move> moves = new ArrayList<Move>();
         Cord from;
@@ -145,7 +149,8 @@ public class GameHelper{
 
         return moves;
     }
-
+    
+    //keeps track of all the legal moves done and returns the same.
     public static ArrayList<Move> allLegalMoves(Game game){
         ArrayList<Move> moves = new ArrayList<Move>();
         Cord from;
@@ -161,11 +166,13 @@ public class GameHelper{
 
         return moves;
     }
-
+    
+    //converts the FEN to  single String.
     public static String toFEN(Game game){
         return FENBoard(game) + FENInfo(game);
     }
-
+    
+    //Creates the FEN (notation describing the particular state of board positioning).
     public static String FENBoard(Game game){
         StringBuilder gameState = new StringBuilder();
         for(int i = (game.getRankSize() - 1); i > -1; i--){
@@ -193,7 +200,7 @@ public class GameHelper{
         }
         return gameState.toString();
     }
-
+    // Gathers the FEN info.
     public static String FENInfo(Game game){
         StringBuilder gameState = new StringBuilder();
         gameState.append(game.getWhiteTurn()? " w " : " b " );
