@@ -35,7 +35,7 @@ public class FischerClock{
     
     public void switchTurns() { //this method switches between the players and adds 12 seconds every turn
     	currentPlayer = !currentPlayer;	
-    	if(currentPlayer) { whiteTime += increment;}
+    	if(!currentPlayer) { whiteTime += increment;}
     	else { blackTime += increment;}
     }
     

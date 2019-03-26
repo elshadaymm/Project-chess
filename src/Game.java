@@ -136,7 +136,6 @@ public class Game{
     }
 
     public void makeMove(Move move){
-        clock.switchTurns();
     	if(clock.getWhiteTime() <= 0) {
             end = Constant.WHITE_TIMEOUT;
             advantage = -Constant.THRESHOLD;
@@ -148,6 +147,7 @@ public class Game{
             return;
         }
         move(move);
+        clock.switchTurns();
     }
 
     /**
