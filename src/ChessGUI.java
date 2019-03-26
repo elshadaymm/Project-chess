@@ -144,23 +144,10 @@ public class ChessGUI extends Application {
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
 
-		HBox setWhite = new HBox();
-		TextField whiteIs = new TextField();
-		whiteIs.setPrefWidth(200);
-		setWhite.getChildren().add(whiteIs);
-		Button setWhitePlayer = new Button("Set White Player");
-		setWhite.getChildren().add(setWhitePlayer);
-		infoDisplay.getChildren().add(setWhite);
-
-		HBox setBlack = new HBox();
-		TextField blackIs = new TextField();
-		blackIs.setPrefWidth(200);
-		setBlack.getChildren().add(blackIs);
-		Button setBlackPlayer = new Button("Set Black Player");
-		setBlack.getChildren().add(setBlackPlayer);
-		infoDisplay.getChildren().add(setBlack);
-
-
+		HBox backToMenu = new HBox();
+		Button resetGame = new Button("Reset Game");
+		backToMenu.getChildren().add(resetGame);
+		infoDisplay.getChildren().add(backToMenu);
 
 		// the board
 		GridPane board = new GridPane();
@@ -254,6 +241,15 @@ public class ChessGUI extends Application {
 					game.importGame(readFile(loadFile));
 					update(board,root);
 				}
+			}
+		});
+
+		resetGame.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.reset();
+				update(board, root);
+				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 			}
 		});
 
@@ -527,7 +523,7 @@ public class ChessGUI extends Application {
 		Button hVSh = new Button("Human vs Human");
 		Button hVSm = new Button("Human vs AlphaBeta");
 		Button mVSr = new Button("AlphaBeta vs MinMax");
-		Button rVSr = new Button("MinMax vs MinMax");
+		Button rVSr = new Button("Random vs AlphaBeta");
 		modes.getChildren().add(hVSh);
 		modes.getChildren().add(hVSm);
 		modes.getChildren().add(mVSr);
@@ -578,8 +574,8 @@ public class ChessGUI extends Application {
 		rVSr.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				playerWhite = new AIMinMax(game);
-				playerBlack = new AIMinMax(game);
+				playerWhite = new AIRandom(game);
+				playerBlack = new AIAlphaBeta(game);
 				startTimer();
 				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
