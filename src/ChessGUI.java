@@ -524,10 +524,10 @@ public class ChessGUI extends Application {
 		txt.setFont(Font.font ("Verdana", 40));
 		txt.setFill(Color.BLACK);
 		modes.getChildren().add(txt);
-		Button hVSh = new Button("human vs human");
-		Button hVSm = new Button("human vs minmax");
-		Button mVSr = new Button("minmax vs random");
-		Button rVSr = new Button("random vs random");
+		Button hVSh = new Button("Human vs Human");
+		Button hVSm = new Button("Human vs AlphaBeta");
+		Button mVSr = new Button("AlphaBeta vs MinMax");
+		Button rVSr = new Button("MinMax vs MinMax");
 		modes.getChildren().add(hVSh);
 		modes.getChildren().add(hVSm);
 		modes.getChildren().add(mVSr);
@@ -559,7 +559,7 @@ public class ChessGUI extends Application {
 			@Override
 			public void handle(ActionEvent event){
 				playerWhite = new Human(game);
-				playerBlack = new AIMinMax(game);
+				playerBlack = new AIAlphaBeta(game);
 				startTimer();
 				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
@@ -568,8 +568,8 @@ public class ChessGUI extends Application {
 		mVSr.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				playerWhite = new AIMinMax(game);
-				playerBlack = new AIRandom(game);
+				playerWhite = new AIAlphaBeta(game);
+				playerBlack = new AIMinMax(game);
 				startTimer();
 				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
@@ -578,8 +578,8 @@ public class ChessGUI extends Application {
 		rVSr.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				playerWhite = new AIRandom(game);
-				playerBlack = new AIRandom(game);
+				playerWhite = new AIMinMax(game);
+				playerBlack = new AIMinMax(game);
 				startTimer();
 				game.getClock().startClock();
 					primaryStage.setScene(mainScene);

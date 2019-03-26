@@ -1,7 +1,8 @@
-import java.util.Random;
 import java.util.ArrayList;
 
 public class AIMinMax extends Player{
+    public static int positions = 0;
+
     public AIMinMax(Game game) {
         super(game);
         kind = Intelligence.MinMax;
@@ -9,9 +10,12 @@ public class AIMinMax extends Player{
 
     @Override
     public boolean move(){
+        positions = 0;
         Move move = minMax();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
-        makeMove(move);
+        if(GameHelper.legalMove(game, move))
+            makeMove(move);
+        System.out.println("MinMax calculated " + positions + " positions at depth " + Constant.DEFAULT_MINMAX);
         return true;
     }
 
@@ -27,6 +31,7 @@ public class AIMinMax extends Player{
                 Game tempGame = new Game(game);
                 tempGame.move(move);
                 move.setValue(tempGame.getAdvantage());
+                positions++;
             }
         }else{
             for(Move move : legalMoves){
@@ -34,60 +39,9 @@ public class AIMinMax extends Player{
                 tempGame.move(move);
                 AIMinMax tempAI = new AIMinMax(tempGame);
                 move.setValue(tempAI.minMax(depth - 1).getValue());
+                positions++;
             }
         }
         return game.getWhiteTurn()? max(legalMoves) : min(legalMoves);
-    }
-
-    public Move min(ArrayList<Move> moves){
-        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
-        Random rand = new Random();
-        ArrayList<Move> allMin = minMoves(moves);
-        return allMin.get(rand.nextInt(allMin.size()));
-    }
-
-    public Move max(ArrayList<Move> moves){
-        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
-        Random rand = new Random();
-        ArrayList<Move> allMax = maxMoves(moves);
-        return allMax.get(rand.nextInt(allMax.size()));
-    }
-
-    private ArrayList<Move> minMoves(ArrayList<Move> moves){
-        ArrayList<Move> minMoves = new ArrayList<Move>();
-        Move min;
-        if(moves.size() == 0) return null;
-        min = moves.get(0);
-        minMoves.add(min);
-        for(int i = 1; i < moves.size(); i++){
-            Move current = moves.get(i);
-            if(current.getValue() == min.getValue())
-                minMoves.add(current);
-            else if(current.getValue() < min.getValue()){
-                min = current;
-                minMoves.clear();
-                minMoves.add(min);
-            }
-        }
-        return minMoves;
-    }
-
-    private ArrayList<Move> maxMoves(ArrayList<Move> moves){
-        ArrayList<Move> maxMoves = new ArrayList<Move>();
-        Move max;
-        if(moves.size() == 0) return null;
-        max = moves.get(0);
-        maxMoves.add(max);
-        for(int i = 1; i < moves.size(); i++){
-            Move current = moves.get(i);
-            if(current.getValue() == max.getValue())
-                maxMoves.add(current);
-            else if(current.getValue() > max.getValue()){
-                max = current;
-                maxMoves.clear();
-                maxMoves.add(max);
-            }
-        }
-        return maxMoves;
     }
 }

@@ -360,7 +360,7 @@ public class Game{
         return false;
     }
 
-    private void updateAdvantage(){
+    public void updateAdvantage(){
         double sum = 0;
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
