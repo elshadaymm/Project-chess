@@ -486,8 +486,10 @@ public class ChessGUI extends Application {
 	}
 
 	public void updateClock(){
+		if(game.getEnd() == Constant.ONGOING){
 		whiteClockDisplay.setText(game.getClock().whiteTime());
 		blackClockDisplay.setText(game.getClock().blackTime());
+		}
 	}
 
 	public void startTimer() {
@@ -549,6 +551,7 @@ public class ChessGUI extends Application {
 			playerWhite = new Human(game);
 			playerBlack = new Human(game);
 			startTimer();
+			game.getClock().startClock();
 				primaryStage.setScene(mainScene);
 		}
 		});
@@ -558,6 +561,7 @@ public class ChessGUI extends Application {
 				playerWhite = new Human(game);
 				playerBlack = new AIMinMax(game);
 				startTimer();
+				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
 			}
 		});
@@ -567,6 +571,7 @@ public class ChessGUI extends Application {
 				playerWhite = new AIMinMax(game);
 				playerBlack = new AIRandom(game);
 				startTimer();
+				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
 			}
 		});
@@ -576,6 +581,7 @@ public class ChessGUI extends Application {
 				playerWhite = new AIRandom(game);
 				playerBlack = new AIRandom(game);
 				startTimer();
+				game.getClock().startClock();
 					primaryStage.setScene(mainScene);
 			}
 		});
