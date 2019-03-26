@@ -107,6 +107,9 @@ public class Game{
                     case Queen:
                         copy = new Queen(original);
                         break;
+                    case Princess:
+                        copy = new Princess(original);
+                        break;
                     case Rook:
                         copy = new Rook(original);
                         break;
@@ -292,6 +295,9 @@ public class Game{
                     break;
                 case 'Q': case 'q':
                     copy = new Queen(color);
+                    break;
+                case 'A': case 'a':
+                    copy = new Princess(color);
                     break;
                 case 'R': case 'r':
                     copy = new Rook(color);

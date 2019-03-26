@@ -27,6 +27,7 @@ public class Constant{
     //default values of pieces
     public static final double KING_VALUE = 1000;
     public static final double QUEEN_VALUE = 9;
+    public static final double PRINCESS_VALUE = 7;
     public static final double ROOK_VALUE = 5;
     public static final double BISHOP_VALUE = 3 + BISHOP_PREFERENCE;
     public static final double KNIGHT_VALUE = 3 - BISHOP_PREFERENCE;
