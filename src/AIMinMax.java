@@ -2,6 +2,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class AIMinMax extends Player{
+    public static int positions = 0;
+
     public AIMinMax(Game game) {
         super(game);
         kind = Intelligence.MinMax;
@@ -11,7 +13,9 @@ public class AIMinMax extends Player{
     public boolean move(){
         Move move = minMax();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
-        makeMove(move);
+        if(GameHelper.legalMove(game, move))
+            makeMove(move);
+        System.out.println("MinMax calculated " + positions + " positions at depth " + Constant.DEFAULT_MINMAX);
         return true;
     }
 
@@ -27,6 +31,7 @@ public class AIMinMax extends Player{
                 Game tempGame = new Game(game);
                 tempGame.move(move);
                 move.setValue(tempGame.getAdvantage());
+                positions++;
             }
         }else{
             for(Move move : legalMoves){
@@ -34,11 +39,32 @@ public class AIMinMax extends Player{
                 tempGame.move(move);
                 AIMinMax tempAI = new AIMinMax(tempGame);
                 move.setValue(tempAI.minMax(depth - 1).getValue());
+                positions++;
             }
         }
         return game.getWhiteTurn()? max(legalMoves) : min(legalMoves);
     }
 
+    public Move min(ArrayList<Move> moves){
+        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
+        Move min = moves.get(0);
+        for(int i = 1; i < moves.size(); i++){
+            if(moves.get(i).getValue() < min.getValue())
+                min = moves.get(i);
+        }
+        return min;
+    }
+
+    public Move max(ArrayList<Move> moves){
+        if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
+        Move max = moves.get(0);
+        for(int i = 1; i < moves.size(); i++){
+            if(moves.get(i).getValue() > max.getValue())
+                max = moves.get(i);
+        }
+        return max;
+    }
+/*
     public Move min(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
         Random rand = new Random();
@@ -51,7 +77,7 @@ public class AIMinMax extends Player{
         Random rand = new Random();
         ArrayList<Move> allMax = maxMoves(moves);
         return allMax.get(rand.nextInt(allMax.size()));
-    }
+    }*/
 
     private ArrayList<Move> minMoves(ArrayList<Move> moves){
         ArrayList<Move> minMoves = new ArrayList<Move>();

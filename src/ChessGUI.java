@@ -487,9 +487,9 @@ public class ChessGUI extends Application {
 	}
 
 	public void updateClock(){
-		whiteClockDisplay.setText(game.getClock().whiteTime());
-		blackClockDisplay.setText(game.getClock().blackTime());
-		System.out.println("working!");
+		//whiteClockDisplay.setText(game.getClock().whiteTime());
+		//blackClockDisplay.setText(game.getClock().blackTime());
+		//System.out.println("working!");
 	}
 
 	//the timer object to update the game clock every second
@@ -528,7 +528,7 @@ public class ChessGUI extends Application {
 		Button hVSh = new Button("human vs human");
 		Button hVSm = new Button("human vs minmax");
 		Button mVSr = new Button("minmax vs random");
-		Button rVSr = new Button("random vs random");
+		Button rVSr = new Button("Testing 2 ais. debug button");
 		modes.getChildren().add(hVSh);
 		modes.getChildren().add(hVSm);
 		modes.getChildren().add(mVSr);
@@ -576,8 +576,8 @@ public class ChessGUI extends Application {
 		rVSr.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				playerWhite = new AIRandom(game);
-				playerBlack = new AIRandom(game);
+				playerWhite = new AIAlphaBeta(game);
+				playerBlack = new AIMinMax(game);
 				startTimer();
 					primaryStage.setScene(mainScene);
 			}
