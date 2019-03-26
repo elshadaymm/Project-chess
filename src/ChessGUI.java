@@ -188,7 +188,7 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.importGame(FEN.getText());
 				update(board, root);
-				
+
 				startTimer();
 				game.getClock().startClock();
 			}
@@ -492,8 +492,8 @@ public class ChessGUI extends Application {
 
 	public void updateClock(){
 		if(game.getEnd() == Constant.ONGOING){
-		whiteClockDisplay.setText(game.getClock().whiteTime());
-		blackClockDisplay.setText(game.getClock().blackTime());
+			whiteClockDisplay.setText(game.getClock().whiteTime());
+			blackClockDisplay.setText(game.getClock().blackTime());
 		}
 	}
 

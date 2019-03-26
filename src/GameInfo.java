@@ -29,6 +29,8 @@ public class GameInfo{
         System.out.println("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
         System.out.println("FEN: " + toFEN(game));
         System.out.println("Repetition: " + GameHelper.repetition(game));
+        System.out.println("White Time: " + game.getClock().getWhiteTime());
+        System.out.println("Black Time: " + game.getClock().getBlackTime());
     }
 
     public static void printBoard(Game game){
