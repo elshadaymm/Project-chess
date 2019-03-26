@@ -147,21 +147,10 @@ public class ChessGUI extends Application {
 		newGame.getChildren().add(load);
 		infoDisplay.getChildren().add(newGame);
 
-		HBox setWhite = new HBox();
-		TextField whiteIs = new TextField();
-		whiteIs.setPrefWidth(200);
-		setWhite.getChildren().add(whiteIs);
-		Button setWhitePlayer = new Button("Set White Player");
-		setWhite.getChildren().add(setWhitePlayer);
-		infoDisplay.getChildren().add(setWhite);
-
-		HBox setBlack = new HBox();
-		TextField blackIs = new TextField();
-		blackIs.setPrefWidth(200);
-		setBlack.getChildren().add(blackIs);
-		Button setBlackPlayer = new Button("Set Black Player");
-		setBlack.getChildren().add(setBlackPlayer);
-		infoDisplay.getChildren().add(setBlack);
+		HBox backToMenu = new HBox();
+		Button resetGame = new Button("Reset Game");
+		backToMenu.getChildren().add(resetGame);
+		infoDisplay.getChildren().add(backToMenu);
 
 
 
@@ -213,7 +202,6 @@ public class ChessGUI extends Application {
 			public void handle(ActionEvent event){
 				game.reset();
 				update(board, root);
-				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 			}
 		});
 
@@ -258,6 +246,15 @@ public class ChessGUI extends Application {
 					game.importGame(readFile(loadFile));
 					update(board,root);
 				}
+			}
+		});
+
+		resetGame.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				game.reset();
+				update(board, root);
+				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
 			}
 		});
 
