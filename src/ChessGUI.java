@@ -22,6 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -34,9 +35,6 @@ import java.util.logging.Level;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-import java.util.concurrent.TimeUnit;
-
 public class ChessGUI extends Application {
 	private static Game game = new Game();
 	private static Player playerWhite;
@@ -45,10 +43,8 @@ public class ChessGUI extends Application {
 	private static Label turnNumber = new Label("Turn: " + game.getTurn());
 	private static Label fiftyMove = new Label("Fifty-move Rule: " + game.getPeace());
 	private static Label fen = new Label("FEN: " + GameInfo.toFEN(game));
-	private static Label whiteTime = new Label(
-			"White Time: " + (game.getClock().getWhiteTime() / 1000) + " seconds");
-	private static Label blackTime = new Label(
-			"Black Time: " + (game.getClock().getBlackTime() / 1000) + " seconds");
+	private static Label whiteTime = new Label("White Time: " + (game.getClock().getWhiteTime() / 1000) + " seconds");
+	private static Label blackTime = new Label("Black Time: " + (game.getClock().getBlackTime() / 1000) + " seconds");
 	private static Label repetition = new Label("Repetition: " + GameHelper.repetition(game));
 	private static Label whiteClockDisplay = new Label(game.getClock().whiteTime());
 	private static Label blackClockDisplay = new Label(game.getClock().blackTime());
@@ -61,12 +57,12 @@ public class ChessGUI extends Application {
 	public void start(Stage primaryStage) {
 		// start of main scene
 		Pane root = new Pane();
-		
+
 		// VBox for the right side with the info diplays and the input. The HBox is a
 		// inside this VBox.
 		VBox infoDisplay = new VBox();
 
-		//the FischerClock display
+		// the FischerClock display
 		StackPane clock = new StackPane();
 
 		Label blackLabel = new Label("Black Time Remaining:");
@@ -101,7 +97,7 @@ public class ChessGUI extends Application {
 		clock.getChildren().add(timeText);
 		infoDisplay.getChildren().add(clock);
 
-		//text displays
+		// text displays
 		infoDisplay.getChildren().add(whosTurn);
 		infoDisplay.getChildren().add(turnNumber);
 		infoDisplay.getChildren().add(fiftyMove);
@@ -177,15 +173,29 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-					move.clear();					
+
+					if (playerWhite.getKind() != Intelligence.Human && playerBlack.getKind() != Intelligence.Human) {
+						if (!game.getWhiteTurn())
+							playerBlack.move();
+						update(board, root);
+						while (game.getEnd() == Constant.ONGOING) {
+							playerWhite.move();
+							update(board, root);
+							if (game.getEnd() == Constant.ONGOING) {
+								playerBlack.move();
+								update(board, root);
+							}
+						}
+					}
+					move.clear();
 				}
 			}
 		});
 
-		//load game
-		loadString.setOnAction(new EventHandler<ActionEvent>(){
+		// load game
+		loadString.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event) {
 				game.importGame(FEN.getText());
 				update(board, root);
 
@@ -194,10 +204,10 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		//resets game
-		newStandard.setOnAction(new EventHandler<ActionEvent>(){
+		// resets game
+		newStandard.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event) {
 				game.reset();
 				update(board, root);
 
@@ -206,27 +216,27 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		//resets game to fischer random
-		newFischerRandom.setOnAction(new EventHandler<ActionEvent>(){
+		// resets game to fischer random
+		newFischerRandom.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event) {
 				game.importGame(GameHelper.newFischerRandom());
 				update(board, root);
-				
+
 				startTimer();
 				game.getClock().startClock();
 			}
 		});
 
-		//save a game to text file using Save button
+		// save a game to text file using Save button
 		save.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
 
-			//Sets FileChooser to only save .txt files
+			// Sets FileChooser to only save .txt files
 			FileChooser.ExtensionFilter txtOnly = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
 			fileChooser.getExtensionFilters().add(txtOnly);
 
-			//popup window to browse where to save the game
+			// popup window to browse where to save the game
 			File saveFile = fileChooser.showSaveDialog(primaryStage);
 
 			if (saveFile != null) {
@@ -234,28 +244,29 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		//load a game from text file using Load buttong
+		// load a game from text file using Load buttong
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
 
-				//set to only load txt files
-				FileChooser.ExtensionFilter onlyLoadTxt = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
+				// set to only load txt files
+				FileChooser.ExtensionFilter onlyLoadTxt = new FileChooser.ExtensionFilter("Chess Files (*.chess)",
+						"*.chess");
 				fileChooser.getExtensionFilters().add(onlyLoadTxt);
 
-				//display window to find file to load
+				// display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
 				if (loadFile != null) {
 					game.importGame(readFile(loadFile));
-					update(board,root);
+					update(board, root);
 				}
 			}
 		});
 
-		resetGame.setOnAction(new EventHandler<ActionEvent>(){
+		resetGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event) {
 				game.reset();
 				update(board, root);
 				primaryStage.setScene(drawStartingPage(primaryStage, startScene));
@@ -274,7 +285,7 @@ public class ChessGUI extends Application {
 
 	}
 
-	//draws the numbering/lettering on the edge
+	// draws the numbering/lettering on the edge
 	public void drawEdges(Pane root) {
 		int hspace = 67;
 		VBox leftNumberEdge = new VBox();
@@ -339,7 +350,7 @@ public class ChessGUI extends Application {
 		root.getChildren().add(rightNumberEdge);
 	}
 
-	//saves the information to the .chess file
+	// saves the information to the .chess file
 	public void saveTextToFile(String content, File file) {
 		try {
 			PrintWriter writer;
@@ -351,7 +362,7 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	//loads the .chess file to a String
+	// loads the .chess file to a String
 	private String readFile(File file) {
 		StringBuilder stringBuffer = new StringBuilder();
 		BufferedReader bufferedReader = null;
@@ -380,61 +391,66 @@ public class ChessGUI extends Application {
 		return stringBuffer.toString();
 	}
 
-	//draws an empty board
-	public void baseBoard(GridPane board){
-		for(int i=0; i< game.getRankSize(); i++) {
-				for(int j=0; j<game.getFileSize(); j++) {
-					int check_1= i+j;
-					Rectangle square_s = new Rectangle(0, 0,80,80);
-					if (check_1%2==0) {
-						square_s.setFill(Color.WHITE);}
-					else {
-						square_s.setFill(Color.SILVER);}
-					board.add(square_s, i, j, 1, 1);}
+	// draws an empty board
+	public void baseBoard(GridPane board) {
+		for (int i = 0; i < game.getRankSize(); i++) {
+			for (int j = 0; j < game.getFileSize(); j++) {
+				int check_1 = i + j;
+				Rectangle square_s = new Rectangle(0, 0, 80, 80);
+				if (check_1 % 2 == 0) {
+					square_s.setFill(Color.WHITE);
+				} else {
+					square_s.setFill(Color.SILVER);
+				}
+				board.add(square_s, i, j, 1, 1);
+			}
 		}
 	}
 
-	//draws the board
-	public void drawBoard(GridPane b){
+	// draws the board
+	public void drawBoard(GridPane b) {
 		GameInfo.printState(game);
-		for(int i = game.getRankSize() -1; i >= 0; i--) {
-			for(int j = game.getFileSize() -1; j >= 0; j--) {
+		for (int i = game.getRankSize() - 1; i >= 0; i--) {
+			for (int j = game.getFileSize() - 1; j >= 0; j--) {
 
 				boolean pieceColor = game.getPiece(i, j).getColor();
 				String base = "file:../pictures/80/";
 				String picture;
-				switch (game.getPiece(i,j).getType()) {
-					case King:
-						picture = pieceColor ? "WhiteKing.png" : "BlackKing.png";
-						break;
-					case Queen:
-						picture = pieceColor ? "WhiteQueen.png" : "BlackQueen.png";
-						break;
-					case Rook:
-						picture = pieceColor ? "WhiteRook.png" : "BlackRook.png";
-						break;
-					case Bishop:
-						picture = pieceColor ? "WhiteBishop.png" : "BlackBishop.png";
-						break;
-					case Knight:
-						picture = pieceColor ? "WhiteKnight.png" : "BlackKnight.png";
-						break;
-					case Pawn:
-						picture = pieceColor ? "WhitePawn.png" : "BlackPawn.png";
-						break;
-					default:
-						picture = null;
-						break;}
-					if(picture == null) continue;
-					Image pic = new Image(base + picture);
-					ImageView toPlace = new ImageView(pic);
-					toPlace.setPreserveRatio(true);
-					b.add(toPlace, j, 7 - i, 1, 1);}  //7 - i is what makes the GridPane start from the bottom left and not top left
-			}
+				switch (game.getPiece(i, j).getType()) {
+				case King:
+					picture = pieceColor ? "WhiteKing.png" : "BlackKing.png";
+					break;
+				case Queen:
+					picture = pieceColor ? "WhiteQueen.png" : "BlackQueen.png";
+					break;
+				case Rook:
+					picture = pieceColor ? "WhiteRook.png" : "BlackRook.png";
+					break;
+				case Bishop:
+					picture = pieceColor ? "WhiteBishop.png" : "BlackBishop.png";
+					break;
+				case Knight:
+					picture = pieceColor ? "WhiteKnight.png" : "BlackKnight.png";
+					break;
+				case Pawn:
+					picture = pieceColor ? "WhitePawn.png" : "BlackPawn.png";
+					break;
+				default:
+					picture = null;
+					break;
+				}
+				if (picture == null)
+					continue;
+				Image pic = new Image(base + picture);
+				ImageView toPlace = new ImageView(pic);
+				toPlace.setPreserveRatio(true);
+				b.add(toPlace, j, 7 - i, 1, 1);
+			} // 7 - i is what makes the GridPane start from the bottom left and not top left
+		}
 	}
 
-	//updates the board
-	public void update(GridPane board, Pane root){
+	// updates the board
+	public void update(GridPane board, Pane root) {
 		baseBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
 		turnNumber.setText("Turn: " + game.getTurn());
@@ -486,7 +502,7 @@ public class ChessGUI extends Application {
 		endDisplay.setLayoutX(750);
 		endDisplay.setLayoutY(10);
 		root.getChildren().add(endDisplay);
-
+		
 		drawBoard(board);
 	}
 
