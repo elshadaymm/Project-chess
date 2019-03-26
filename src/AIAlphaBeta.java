@@ -15,7 +15,7 @@ public class AIAlphaBeta extends Player{
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
         if(GameHelper.legalMove(game, move))
             makeMove(move);
-            System.out.println("AlphaBeta calculated " + positions + " positions at depth " + Constant.DEFAULT_ALPHABETA);
+        System.out.println("AlphaBeta calculated " + positions + " positions at depth " + Constant.DEFAULT_ALPHABETA);
         return true;
     }
     
@@ -24,8 +24,7 @@ public class AIAlphaBeta extends Player{
     public Move alphaBeta(int depth, double alpha, double beta){
         ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
 
-        if(depth < 0) return null;
-        if(depth == 0) return new Move(game.getAdvantage());
+        if(depth < 1) return null;
         if(depth == 1){
             if(game.getWhiteTurn()){
                 double value = Integer.MIN_VALUE;

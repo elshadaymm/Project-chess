@@ -47,36 +47,36 @@ public class Player{
     protected Move min(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
 
-        /*
+        
         Move min = moves.get(0);
         for(int i = 1; i < moves.size(); i++){
             if(moves.get(i).getValue() < min.getValue())
                 min = moves.get(i);
         }
         return min;
-        */
         
+        /*
         Random rand = new Random();
         ArrayList<Move> allMin = minMoves(moves);
-        return allMin.get(rand.nextInt(allMin.size()));
+        return allMin.get(rand.nextInt(allMin.size()));*/
     }
 
     //used for ai
     protected Move max(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
 
-        /*
+        
         Move max = moves.get(0);
         for(int i = 1; i < moves.size(); i++){
             if(moves.get(i).getValue() > max.getValue())
                 max = moves.get(i);
         }
         return max;
-        */
         
+        /*
         Random rand = new Random();
         ArrayList<Move> allMax = maxMoves(moves);
-        return allMax.get(rand.nextInt(allMax.size()));
+        return allMax.get(rand.nextInt(allMax.size()));*/
     }
 
     private ArrayList<Move> minMoves(ArrayList<Move> moves){

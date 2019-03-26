@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.ArrayList;
 
 public class AIMinMax extends Player{
@@ -11,6 +10,7 @@ public class AIMinMax extends Player{
 
     @Override
     public boolean move(){
+        positions = 0;
         Move move = minMax();
         if(move != null) System.out.println("Move made: " + move.toString() + ", Debug: " + move.getValue());
         if(GameHelper.legalMove(game, move))
