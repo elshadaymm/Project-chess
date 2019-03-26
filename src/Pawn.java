@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import com.sun.prism.paint.Color;
+
 public class Pawn extends Piece{
     public Pawn(boolean white){
         super(Type.Pawn, white);
@@ -47,6 +49,7 @@ public class Pawn extends Piece{
     public void updateValue(Game game, Cord at){
       value = Constant.PAWN_VALUE;
       value += validMoves(game, at).size() * Constant.PAWN_SCOPE;
+      value += Constant.PAWN_PROGRESS * (isWhite? at.rank(): 7 - at.rank());
     }
 
     @Override
