@@ -8,7 +8,18 @@ public class Pawn extends Piece{
     public Pawn(Piece piece){
         this(piece.getColor());
     }
-
+     /**
+     * Function to check the moves avaliable to the corrosponding piece(Pawn)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @param to coordinate variable of the pieces end position
+     * @param dy value of delta y
+     * @param adx absolute value of delta x
+     * @param getEnpassant gets the enpassant position
+     * @param getRankSize gets the row of the corrosponding piece
+     * @param getType gets the type of the piece on the square
+     * @return an ArrayList of moves that the piece can make
+     */
     @Override
     public boolean isValid(Game game, Move move){
       if(!super.isValid(game, move)) return false;
@@ -50,6 +61,12 @@ public class Pawn extends Piece{
       value += Constant.PAWN_PROGRESS * (isWhite? at.rank(): 7 - at.rank());
     }
 
+    /**
+     * Function to check the moves avaliable to the corrosponding piece(Pawn)
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @return an ArrayList of moves that the piece can make
+     */
     @Override
     public ArrayList<Cord> validMoves(Game game, Cord from){
         ArrayList<Cord> moves = new ArrayList<Cord>();
