@@ -163,12 +163,12 @@ public class ChessGUI extends Application {
 					moveInput = moveInput + " ";
 					if (game.getWhiteTurn()) {
 						if (playerWhite.move(moveInput))
-							if (playerBlack.getKind() != Intelligence.Human)
+							if (playerWhite.getKind() == Intelligence.Human && playerBlack.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerBlack.move();
 					} else {
 						if (playerBlack.move(moveInput))
-							if (playerWhite.getKind() != Intelligence.Human)
+							if (playerBlack.getKind() == Intelligence.Human && playerWhite.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerWhite.move();
 					}
