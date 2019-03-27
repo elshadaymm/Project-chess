@@ -98,6 +98,6 @@ public class Princess extends Piece{
 
     @Override
     public char toCharacter(){
-        return isWhite? 'P' : 'p';
+        return isWhite? 'A' : 'a';
     }
 }
