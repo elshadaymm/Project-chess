@@ -1,6 +1,6 @@
 del *.class
 
 javac Main.java
-java Main AIMinMax AIAlphaBeta
+java Main AIAlphaBeta AIMinMax
 
 PAUSE

@@ -10,14 +10,8 @@ public class PieceTest{
     private Human tester = new Human(game);
 
     @Test
-    public void MEGATEST(){
-        game.reset();
-        //todo
-    }
-
-    @Test
     public void testKing(){
-        game.setBoard("8/8/4k3/8/8/4K3/8/8 w - - 0 1");
+        game.importGame("8/8/4k3/8/8/4K3/8/8 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 8; //the king
@@ -29,7 +23,7 @@ public class PieceTest{
 
     @Test
     public void testKingSuicide(){
-        game.setBoard("8/8/4k3/R7/7r/4K3/8/8 w - - 0 1");
+        game.importGame("8/8/4k3/R7/7r/4K3/8/8 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //the king
@@ -42,7 +36,7 @@ public class PieceTest{
 
     @Test
     public void testCheckmate(){
-        game.setBoard("rnb1kbnr/2Nppppp/8/p1p1N3/1p6/3P3P/PPP1PPP1/R1BQKB1R b KQkq - 1 7");
+        game.importGame("rnb1kbnr/2Nppppp/8/p1p1N3/1p6/3P3P/PPP1PPP1/R1BQKB1R b KQkq - 1 7");
 
         int numOfLegalMoves = 1;// escape check
         assertEquals("Checkmate test Failed", numOfLegalMoves, GameHelper.allLegalMoves(game).size());
@@ -50,7 +44,7 @@ public class PieceTest{
 
     @Test
     public void testQueenWhite(){
-        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK w - - 0 1");
+        game.importGame("kq6/qq6/8/8/8/8/6QQ/6QK w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 12;//othagnal moves
@@ -60,7 +54,7 @@ public class PieceTest{
 
     @Test
     public void testQueenBlack(){
-        game.setBoard("kq6/qq6/8/8/8/8/6QQ/6QK b - - 0 1");
+        game.importGame("kq6/qq6/8/8/8/8/6QQ/6QK b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 12;//othagnal moves
@@ -70,7 +64,7 @@ public class PieceTest{
 
     @Test
     public void testRook(){
-        game.setBoard("kr6/rr6/8/8/8/8/6RR/6RK w - - 0 1");
+        game.importGame("kr6/rr6/8/8/8/8/6RR/6RK w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 24; //the rooks
@@ -82,7 +76,7 @@ public class PieceTest{
     
     @Test
     public void testBasicWhiteCastle(){
-        game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 14; //rooks
@@ -94,7 +88,7 @@ public class PieceTest{
     
     @Test
     public void testBasicBlackCastle(){
-        game.setBoard("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 14; //rooks
@@ -106,7 +100,7 @@ public class PieceTest{
     
     @Test
     public void testInCheckWhiteCastle(){
-        game.setBoard("r3k2r/4r3/8/8/8/8/8/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/4r3/8/8/8/8/8/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 0; //rooks
@@ -118,7 +112,7 @@ public class PieceTest{
     
     @Test
     public void testInCheckBlackCastle(){
-        game.setBoard("r3k2r/8/8/8/8/8/4R3/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/8/8/8/8/8/4R3/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 0; //rooks
@@ -130,7 +124,7 @@ public class PieceTest{
     
     @Test
     public void testWhiteQueenCastle(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -151,7 +145,7 @@ public class PieceTest{
     
     @Test
     public void testBlackQueenCastle(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -172,7 +166,7 @@ public class PieceTest{
     
     @Test
     public void testWhiteKingCastle(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -193,7 +187,7 @@ public class PieceTest{
     
     @Test
     public void testBlackKingCastle(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -214,7 +208,7 @@ public class PieceTest{
     
     @Test
     public void testWhiteQueenCastleCheck(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -235,7 +229,7 @@ public class PieceTest{
     
     @Test
     public void testBlackQueenCastleCheck(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -256,7 +250,7 @@ public class PieceTest{
     
     @Test
     public void testWhiteKingCastleCheck(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R w KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -277,7 +271,7 @@ public class PieceTest{
     
     @Test
     public void testBlackKingCastleCheck(){
-        game.setBoard("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
+        game.importGame("r3k2r/p6p/8/8/8/8/P6P/R3K2R b KQkq - 0 1");
         
         int numOfLegalMoves = 0;
         numOfLegalMoves += 5; //rooks
@@ -298,7 +292,7 @@ public class PieceTest{
 
     @Test
     public void testCastleGeneral(){
-        game.setBoard("r3k2r/8/6N1/8/8/2n5/8/R3K2R w KQkq - 0 1");
+        game.importGame("r3k2r/8/6N1/8/8/2n5/8/R3K2R w KQkq - 0 1");
 
         tester.move("e1d1");//should fail
         tester.move("e1c1");//should fail
@@ -313,7 +307,7 @@ public class PieceTest{
 
     @Test
     public void testBishop(){
-        game.setBoard("kb6/bb6/2b5/8/8/5B2/6BB/6BK b - - 0 1");
+        game.importGame("kb6/bb6/2b5/8/8/5B2/6BB/6BK b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 9 + 12;
@@ -325,7 +319,7 @@ public class PieceTest{
 
     @Test
     public void testKnight(){
-        game.setBoard("kn6/n7/8/3n4/4N3/8/7N/6NK w - - 0 1");
+        game.importGame("kn6/n7/8/3n4/4N3/8/7N/6NK w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 6; //knights corner
@@ -339,7 +333,7 @@ public class PieceTest{
     
 	@Test
 	public void testPawnAdvance(){
-        game.setBoard("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1");
+        game.importGame("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 16; //pawns
@@ -352,7 +346,7 @@ public class PieceTest{
     
 	@Test
 	public void testWhiteEnPassant(){
-        game.setBoard("4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1");
+        game.importGame("4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 2; //pawn
@@ -368,7 +362,7 @@ public class PieceTest{
     
 	@Test
 	public void testBlackEnPassant(){
-        game.setBoard("4k3/8/8/8/3Pp3/8/8/4K3 b - d3 0 1");
+        game.importGame("4k3/8/8/8/3Pp3/8/8/4K3 b - d3 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 2; //pawn
@@ -384,7 +378,7 @@ public class PieceTest{
 
     @Test
     public void testWhitePromotion(){
-        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N w - - 0 1");
+        game.importGame("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N w - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 3 * 4; // knight
@@ -395,7 +389,7 @@ public class PieceTest{
 
     @Test
     public void testBlackPromotion(){
-        game.setBoard("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N b - - 0 1");
+        game.importGame("4k2n/1P4P1/8/8/8/8/1p4p1/4K2N b - - 0 1");
 
         int numOfLegalMoves = 0;
         numOfLegalMoves += 3 * 4; // knight

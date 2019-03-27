@@ -6,12 +6,10 @@ public class FischerClock{
     private static int defaultTime = 120000; // temp instant variable will remove later
     private int whiteTime = defaultTime; //2 minutes, could reference something in Constant?  or be set in GUI?
     private int blackTime = defaultTime; //2 minutes, could reference something in Constant?  or be set in GUI?
-    private int increment = 0; // in ms, default to 12 seconds
+    private int increment = 5000; // in ms, default to 12 seconds
     private boolean currentPlayer = true;   
     
     public FischerClock(){
-    	Timer mechanism = new Timer(1000, tictoc);  //this is the part that takes time off every second
-    	mechanism.start();
     }
 
     public FischerClock(FischerClock other){
@@ -20,6 +18,11 @@ public class FischerClock{
         blackTime = other.getBlackTime();
         increment = other.getIncrement();
         currentPlayer = other.getCurrentPlayer();
+    }
+
+    public void startClock(){
+        Timer mechanism = new Timer(1000, tictoc); // this is the part that takes time off every second
+        mechanism.start();
     }
     
     public int getWhiteTime() {return whiteTime;}
@@ -32,7 +35,7 @@ public class FischerClock{
     
     public void switchTurns() { //this method switches between the players and adds 12 seconds every turn
     	currentPlayer = !currentPlayer;	
-    	if(currentPlayer) { whiteTime += increment;}
+    	if(!currentPlayer) { whiteTime += increment;}
     	else { blackTime += increment;}
     }
     

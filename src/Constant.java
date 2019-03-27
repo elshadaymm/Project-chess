@@ -27,6 +27,7 @@ public class Constant{
     //default values of pieces
     public static final double KING_VALUE = 1000;
     public static final double QUEEN_VALUE = 9;
+    public static final double PRINCESS_VALUE = 7;
     public static final double ROOK_VALUE = 5;
     public static final double BISHOP_VALUE = 3 + BISHOP_PREFERENCE;
     public static final double KNIGHT_VALUE = 3 - BISHOP_PREFERENCE;
@@ -38,7 +39,7 @@ public class Constant{
     private static final double KNIGHT_MAX_SCOPE = 8;
     private static final double PAWN_MAX_SCOPE = 4;
 
-    public static final double KING_SCOPE = 0.4 / KING_MAX_SCOPE;
+    public static final double KING_SCOPE = 0.1 / KING_MAX_SCOPE;
     public static final double QUEEN_SCOPE = DEFAULT_SCOPE / 5;
     public static final double ROOK_SCOPE = DEFAULT_SCOPE;
     public static final double BISHOP_SCOPE = DEFAULT_SCOPE * 2;
@@ -48,6 +49,9 @@ public class Constant{
     //safety of the king
     public static final double KING_NOT_SAFE = -0.5;
     public static final double KING_SAFE = 0.5;
+
+    //pawn increse in value as they get to the end
+    public static final double PAWN_PROGRESS = 0.2 / 6;
 
     //Threathhold fo the game lossing or winning
     public static final double THRESHOLD = KING_VALUE / 2;
