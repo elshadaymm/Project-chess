@@ -57,9 +57,15 @@ The state of the game is displayed on the top of the screen, and will display "O
 This is an OOP based chess program written in the java programming language and created as a project for CPSC233 at the University of Calgary for the Winter 2019 semester.
 
 v0.3 (Demo 3)
+
 Tut10 G01
+
 Elvis Chen
+
 Elshaday Moges
+
 Diwij Dev
+
 Yifeng Pan
+
 Jeremy Stuart
