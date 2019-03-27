@@ -5,7 +5,7 @@ enum Intelligence{
     Human, Random, MinMax, AlphaBeta
 }
 
-public class Player{
+public abstract class Player{
     protected Game game;
     protected Intelligence kind = Intelligence.Random;
     public Player(Game game) {
