@@ -161,7 +161,7 @@ public class GameHelper{
 
     //Todo
     public static String newFischerRandom(){
-        String original = "RNBQKBNR";
+        String original = "RNBQKANR";
 
         ArrayList<Character> characters = new ArrayList<Character>();
         for(char c:original.toCharArray()){

@@ -72,7 +72,7 @@ public class Pawn extends Piece{
         if(isValid(game, new Move(from, test)))
           moves.add(test);
 
-          updatePromotion(game, moves);
+        updatePromotion(game, moves);
 
         return moves;
     }

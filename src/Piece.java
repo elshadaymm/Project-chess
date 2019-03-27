@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 
 enum Type{
-    King, Queen, Rook,  //these should all be upper case I think (convention)?. <-- idk, google it and chacge it yourself if its not java conventions.
+    King, Queen, Princess, Rook,  //these should all be upper case I think (convention)?. <-- idk, google it and chacge it yourself if its not java conventions.
     Bishop, Knight, Pawn,
     Empty;
 }

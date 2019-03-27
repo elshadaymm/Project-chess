@@ -163,17 +163,17 @@ public class ChessGUI extends Application {
 					moveInput = moveInput + " ";
 					if (game.getWhiteTurn()) {
 						if (playerWhite.move(moveInput))
-							if (playerBlack.getKind() != Intelligence.Human)
+							if (playerWhite.getKind() == Intelligence.Human && playerBlack.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerBlack.move();
 					} else {
 						if (playerBlack.move(moveInput))
-							if (playerWhite.getKind() != Intelligence.Human)
+							if (playerBlack.getKind() == Intelligence.Human && playerWhite.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerWhite.move();
 					}
 					update(board, root);
-
+/*
 					if (playerWhite.getKind() != Intelligence.Human && playerBlack.getKind() != Intelligence.Human) {
 						if (!game.getWhiteTurn())
 							playerBlack.move();
@@ -186,7 +186,7 @@ public class ChessGUI extends Application {
 								update(board, root);
 							}
 						}
-					}
+					}*/
 					move.clear();
 				}
 			}
@@ -422,6 +422,9 @@ public class ChessGUI extends Application {
 					break;
 				case Queen:
 					picture = pieceColor ? "WhiteQueen.png" : "BlackQueen.png";
+					break;
+				case Princess:
+					picture = pieceColor ? "WhitePrincess.png" : "BlackPrincess.png";
 					break;
 				case Rook:
 					picture = pieceColor ? "WhiteRook.png" : "BlackRook.png";
