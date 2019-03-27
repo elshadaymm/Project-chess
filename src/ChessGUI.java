@@ -141,7 +141,7 @@ public class ChessGUI extends Application {
 		infoDisplay.getChildren().add(newGame);
 
 		HBox backToMenu = new HBox();
-		Button resetGame = new Button("Reset Game");
+		Button resetGame = new Button("Main Menu");
 		backToMenu.getChildren().add(resetGame);
 		infoDisplay.getChildren().add(backToMenu);
 
@@ -391,7 +391,7 @@ public class ChessGUI extends Application {
 		return stringBuffer.toString();
 	}
 
-	// draws an empty board
+	// draws the squares for the board
 	public void baseBoard(GridPane board) {
 		for (int i = 0; i < game.getRankSize(); i++) {
 			for (int j = 0; j < game.getFileSize(); j++) {
@@ -407,7 +407,7 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	// draws the board
+	// adds the pieces to the board
 	public void drawBoard(GridPane b) {
 		GameInfo.printState(game);
 		for (int i = game.getRankSize() - 1; i >= 0; i--) {
@@ -524,7 +524,7 @@ public class ChessGUI extends Application {
 		}, 1000, 1000);
 	}
 
-	//drawStartingPage is the startscene
+	//drawStartingPage is the startscene (Main Menu)
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
 		Pane surface = new Pane();
 
