@@ -260,6 +260,7 @@ public class ChessGUI extends Application {
 				if (loadFile != null) {
 					game.importGame(readFile(loadFile));
 					update(board, root);
+					game.getClock().startClock();
 				}
 			}
 		});
