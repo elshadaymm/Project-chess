@@ -16,7 +16,6 @@ public class Pawn extends Piece{
      * @param dy value of delta y
      * @param adx absolute value of delta x
      * @param getEnpassant gets the enpassant position
-     * @param getRankSize gets the row of the corrosponding piece
      * @param getType gets the type of the piece on the square
      * @return an ArrayList of moves that the piece can make
      */

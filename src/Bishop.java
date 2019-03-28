@@ -54,8 +54,6 @@ public class Bishop extends Piece{
      * Function to check the moves avaliable to the corrosponding piece(Bishop)
      * @param game game variable that stores the piece positions, accessed with game class getPiece()
      * @param from coordinate variable of the pieces starting position
-     * @param getRankSize gets the row of the corrosponding piece
-     * @param getFileSize gets the column of the corrosponding piece
      * @return an ArrayList of moves that the piece can make
      */
     @Override
