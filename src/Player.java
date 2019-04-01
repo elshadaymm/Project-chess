@@ -12,7 +12,11 @@ public abstract class Player{
         this.game = game;
     }
 
-    //Player by default makes a random move by ai
+    /**
+     * Makes a random move.  Used for the random AI to make moves.
+     * Decides on the random move by getting the list of legal moves and randomly choosing one.
+     * @return always returns true after making the random move.
+     */
     public boolean move(){
         Random rand = new Random();
         ArrayList<Move> legalMoves = GameHelper.allLegalMoves(game);
@@ -26,10 +30,17 @@ public abstract class Player{
         return move();
     }
 
+    /**
+     * Takes the input of a move the player has made and passes it to the game.
+     * @param move a valid move from the Move class
+     */
     protected void makeMove(Move move){
         game.makeMove(move);
     }
 
+    /**
+     * Checks to make sure that the user input is a valid move.
+     */
     protected boolean validInput(String str){
         if(str.length() < 4) 
             return false;
@@ -43,7 +54,11 @@ public abstract class Player{
         return true;
     }
 
-    //used for ai
+    /**
+     * Checks to see if there are any possible moves.  If not, sets the winner of the game
+     * by changing the constant to a winner.  Then finds the smallest value piece in the list of
+     * available moves.
+     */
     protected Move min(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
 
@@ -56,7 +71,11 @@ public abstract class Player{
         return min;
     }
 
-    //used for ai
+    /**
+     * Checks to see if there are any possible moves. If not, sets the winner of the
+     * game by changing the constant to a winner. Then finds the largest value
+     * piece in the list of available moves.
+     */
     protected Move max(ArrayList<Move> moves){
         if(moves.size() == 0) return new Move(game.getWhiteTurn()? -Constant.THRESHOLD : Constant.THRESHOLD);
 
