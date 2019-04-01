@@ -233,8 +233,8 @@ public class ChessGUI extends Application {
 			FileChooser fileChooser = new FileChooser();
 
 			// Sets FileChooser to only save .txt files
-			FileChooser.ExtensionFilter txtOnly = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
-			fileChooser.getExtensionFilters().add(txtOnly);
+			FileChooser.ExtensionFilter chessOnly = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
+			fileChooser.getExtensionFilters().add(chessOnly);
 
 			// popup window to browse where to save the game
 			File saveFile = fileChooser.showSaveDialog(primaryStage);
@@ -251,9 +251,9 @@ public class ChessGUI extends Application {
 				FileChooser fileChooser = new FileChooser();
 
 				// set to only load txt files
-				FileChooser.ExtensionFilter onlyLoadTxt = new FileChooser.ExtensionFilter("Chess Files (*.chess)",
+				FileChooser.ExtensionFilter onlyLoadChess = new FileChooser.ExtensionFilter("Chess Files (*.chess)",
 						"*.chess");
-				fileChooser.getExtensionFilters().add(onlyLoadTxt);
+				fileChooser.getExtensionFilters().add(onlyLoadChess);
 
 				// display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
