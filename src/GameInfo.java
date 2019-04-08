@@ -6,7 +6,8 @@
 
 public class GameInfo{
     /**
-     * prints the state of the board using ascii characters to the terminal for the player to reference
+     * function that prints the state of the board using ascii characters to the terminal for the player to reference
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
      */
     public static void printState(Game game){
         printInfo(game);
@@ -22,6 +23,11 @@ public class GameInfo{
         printBoard(game);
     }
 
+    /**
+     * function that prints info about the game such as the turn, fifty-move rule, black or white turn, the FEN, threefold repetition and white and black time
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     */
+
     public static void printInfo(Game game){
         System.out.println();
         System.out.println("Turn " + game.getTurn() + ":");
@@ -32,6 +38,11 @@ public class GameInfo{
         System.out.println("White Time: " + game.getClock().getWhiteTime());
         System.out.println("Black Time: " + game.getClock().getBlackTime());
     }
+
+    /**
+     * function that prints the current state of the board
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     */
 
     public static void printBoard(Game game){
         System.out.println();
@@ -57,13 +68,29 @@ public class GameInfo{
         System.out.println();
     }
 
+     /**
+     * function that prints the history of all move made
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     */
+
     public static void printHistory(Game game){
         for(int i = 0; i < game.getHistory().size(); i++)
             System.out.println(game.getHistory().get(i));
     }
+    /**
+     * function that combines the FEN of the board and FEN info 
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     * @return FEN of Board and FEN info combined into a string
+     */
     public static String toFEN(Game game){
         return FENBoard(game) + FENInfo(game);
     }
+
+    /**
+     * function that turns all positions on the board into Forsynth-Edwards Notation
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     * @return all positions of pieces on board as Forsynth-Edwards Notation
+     */
 
     public static String FENBoard(Game game){
         StringBuilder gameState = new StringBuilder();
@@ -92,6 +119,12 @@ public class GameInfo{
         }
         return gameState.toString();
     }
+
+    /**
+     * function that turns additional info such as if a piece is able to enpassant or castle into Forsynth-Edwards Notation
+     * @param game variable that stores the piece positions, accessed with game class getPiece()
+     * @return additional info for the game as Forsynth-Edwards Notation 
+     */
 
     public static String FENInfo(Game game){
         StringBuilder gameState = new StringBuilder();
