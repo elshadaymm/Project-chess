@@ -18,7 +18,6 @@ public class King extends Piece{
      * @param dy value of delta y
      * @return If move is valid
      */
-
     @Override
     public boolean isValid(Game game, Move move){
         if(!super.isValid(game, move)) return false;
@@ -31,16 +30,16 @@ public class King extends Piece{
         //checks for castle
         if(move.from().file() == 4 && move.adx() == 2 && move.dy() == 0 && 
             (to.rank() == 0 || to.rank() == game.getRankSize() - 1)){
-            int index = from.file();
-            if(dx == 2 && getColor()?game.getWhiteKingCastle():game.getBlackKingCastle()){
+            int index = 4;
+            if(dx == 2 && (getColor()?game.getWhiteKingCastle():game.getBlackKingCastle())){
                 do{
                     index++;
-                }while(index < game.getFileSize() - 1 && game.getPiece(new Cord(from.rank(), index)).getType() == Type.Empty);
+                }while(index < game.getFileSize() - 1 && game.getPiece(new Cord(from.rank(), index)).getType().equals(Type.Empty));
                 return index == game.getFileSize() - 1;
-            }else if(dx == -2 && getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle()){
+            }else if(dx == -2 && (getColor()?game.getWhiteQueenCastle():game.getBlackQueenCastle())){
                 do{
                     index--;
-                }while(index > 0 && game.getPiece(new Cord(from.rank(), index)).getType() == Type.Empty);
+                }while(index > 0 && game.getPiece(new Cord(from.rank(), index)).getType().equals(Type.Empty));
                 return index == 0;
             }
         }
