@@ -97,7 +97,12 @@ public abstract class Piece{
     public abstract void updateValue(); //Default value of a piece
     public abstract void updateValue(Game game, Cord at);
 
-    //Returns all valid moves
+    /**
+     * Function to check the moves avaliable to the corrosponding pieces
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @param from coordinate variable of the pieces starting position
+     * @return an ArrayList of moves that the piece can make
+     */
     public abstract ArrayList<Cord> validMoves(Game game, Cord from);
 
     public boolean getColor() {return isWhite;}

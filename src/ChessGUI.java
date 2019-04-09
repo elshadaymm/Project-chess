@@ -147,7 +147,7 @@ public class ChessGUI extends Application {
 		infoDisplay.getChildren().add(newGame);
 
 		HBox backToMenu = new HBox();
-		Button resetGame = new Button("Reset Game");
+		Button resetGame = new Button("Main Menu");
 		backToMenu.getChildren().add(resetGame);
 		infoDisplay.getChildren().add(backToMenu);
 
@@ -258,12 +258,12 @@ public class ChessGUI extends Application {
 					moveInput = moveInput + " ";
 					if (game.getWhiteTurn()) {
 						if (playerWhite.move(moveInput))
-							if (playerBlack.getKind() != Intelligence.Human)
+							if (playerWhite.getKind() == Intelligence.Human && playerBlack.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerBlack.move();
 					} else {
 						if (playerBlack.move(moveInput))
-							if (playerWhite.getKind() != Intelligence.Human)
+							if (playerBlack.getKind() == Intelligence.Human && playerWhite.getKind() != Intelligence.Human)
 								if (game.getEnd() == Constant.ONGOING)
 									playerWhite.move();
 					}
@@ -328,8 +328,8 @@ public class ChessGUI extends Application {
 			FileChooser fileChooser = new FileChooser();
 
 			// Sets FileChooser to only save .txt files
-			FileChooser.ExtensionFilter txtOnly = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
-			fileChooser.getExtensionFilters().add(txtOnly);
+			FileChooser.ExtensionFilter chessOnly = new FileChooser.ExtensionFilter("Chess Files (*.chess)", "*.chess");
+			fileChooser.getExtensionFilters().add(chessOnly);
 
 			// popup window to browse where to save the game
 			File saveFile = fileChooser.showSaveDialog(primaryStage);
@@ -346,15 +346,16 @@ public class ChessGUI extends Application {
 				FileChooser fileChooser = new FileChooser();
 
 				// set to only load txt files
-				FileChooser.ExtensionFilter onlyLoadTxt = new FileChooser.ExtensionFilter("Chess Files (*.chess)",
+				FileChooser.ExtensionFilter onlyLoadChess = new FileChooser.ExtensionFilter("Chess Files (*.chess)",
 						"*.chess");
-				fileChooser.getExtensionFilters().add(onlyLoadTxt);
+				fileChooser.getExtensionFilters().add(onlyLoadChess);
 
 				// display window to find file to load
 				File loadFile = fileChooser.showOpenDialog(primaryStage);
 				if (loadFile != null) {
 					game.importGame(readFile(loadFile));
 					update(board, root);
+					game.getClock().startClock();
 				}
 			}
 		});
@@ -486,7 +487,7 @@ public class ChessGUI extends Application {
 		return stringBuffer.toString();
 	}
 
-	// draws an empty board
+	// draws the squares for the board
 	public void baseBoard(GridPane board) {
 		for (int i = 0; i < game.getRankSize(); i++) {
 			for (int j = 0; j < game.getFileSize(); j++) {
@@ -502,7 +503,7 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	// draws the board
+	// adds the pieces to the board
 	public void drawBoard(GridPane b) {
 		GameInfo.printState(game);
 		for (int i = game.getRankSize() - 1; i >= 0; i--) {
@@ -622,7 +623,7 @@ public class ChessGUI extends Application {
 		}, 1000, 1000);
 	}
 
-	//drawStartingPage is the startscene
+	//drawStartingPage is the startscene (Main Menu)
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
 		Pane surface = new Pane();
 

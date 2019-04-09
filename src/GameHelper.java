@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameHelper{
+    /**
+     * Function that creates an arrayList holding all legal moves
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @return ArrayList of all legal moves of the current board
+     */
     public static ArrayList<Move> allValidMoves(Game game){
         ArrayList<Move> moves = new ArrayList<Move>();
         Cord from;
