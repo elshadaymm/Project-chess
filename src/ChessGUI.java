@@ -156,7 +156,6 @@ public class ChessGUI extends Application {
 		board.setLayoutX(50);
 		board.setLayoutY(50);
 		
-		Rectangle selected = new Rectangle(1,1,77,77);
 		board.setOnMouseReleased(new EventHandler <MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -164,16 +163,17 @@ public class ChessGUI extends Application {
 				toY=(int)(event.getY());
 				toX=toX/80;
 				toY=toY/80;
+				Rectangle selected = new Rectangle(1,1,77,77);
 				if (toX==8 || toY==8) {
 					toX=7;
 					toY=7;
 				}
-				if(toX==fromX && toY==fromY) {}
-				else {
+
+				if(toX!=fromX || toY!=fromY){
 					System.out.println(toX+","+toY);
-					String themove=Converter.cordToUCI(new Cord(toX,toY));
+					String themove = Converter.cordToUCI(new Cord(toX,toY));
 					System.out.println(themove);
-					/**Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
+					Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
 					for(int i=0;i<moves.length;i++) {
 						System.out.println(moves[i]);
 						String e=moves[i].toString();
@@ -197,16 +197,18 @@ public class ChessGUI extends Application {
 							}
 						}
 				
-					}*/
+					}
 				}
-				/**Object[] moves=(game.getPiece(7-mouse_cordY,mouse_cordX).validMoves(game, new Cord(7-mouse_cordY,mouse_cordX))).toArray();
+				/*
+				Object[] moves= (game.getPiece(7-toY,toX).validMoves(game, new Cord(7-toY,toX))).toArray();
 				for(int i=0;i<moves.length;i++) {
 					System.out.println(moves[i]);
 					String e=moves[i].toString();
 					Rectangle validSq = new Rectangle(1,1,80,80);
 					validSq.setFill(Color.BLACK);
 					board.add(validSq,Converter.stringToCord(e).file(),Converter.stringToCord(e).rank());			
-				}*/
+				}
+				*/
 			}
 		});
 		
@@ -223,6 +225,7 @@ public class ChessGUI extends Application {
 					fromX=7;
 					fromY=7;
 				}
+
 				selected.setFill(Color.TRANSPARENT);
 				selected.setStrokeWidth(2.8);
 				selected.setStroke(Color.BLACK);
@@ -268,20 +271,7 @@ public class ChessGUI extends Application {
 									playerWhite.move();
 					}
 					update(board, root);
-/*
-					if (playerWhite.getKind() != Intelligence.Human && playerBlack.getKind() != Intelligence.Human) {
-						if (!game.getWhiteTurn())
-							playerBlack.move();
-						update(board, root);
-						while (game.getEnd() == Constant.ONGOING) {
-							playerWhite.move();
-							update(board, root);
-							if (game.getEnd() == Constant.ONGOING) {
-								playerBlack.move();
-								update(board, root);
-							}
-						}
-					}*/
+
 					move.clear();
 				}
 			}
