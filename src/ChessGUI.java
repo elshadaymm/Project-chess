@@ -14,7 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
+import javafx.event.*;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -49,7 +51,11 @@ public class ChessGUI extends Application {
 	private static Label whiteClockDisplay = new Label(game.getClock().whiteTime());
 	private static Label blackClockDisplay = new Label(game.getClock().blackTime());
 	private static Scene startScene, mainScene;
-
+	private static int fromX;
+	private static int fromY;
+	private static int toX;
+	private static int toY;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -149,7 +155,96 @@ public class ChessGUI extends Application {
 		GridPane board = new GridPane();
 		board.setLayoutX(50);
 		board.setLayoutY(50);
-
+		
+		Rectangle selected = new Rectangle(1,1,77,77);
+		board.setOnMouseReleased(new EventHandler <MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				toX=(int)(event.getX());
+				toY=(int)(event.getY());
+				toX=toX/80;
+				toY=toY/80;
+				if (toX==8 || toY==8) {
+					toX=7;
+					toY=7;
+				}
+				if(toX==fromX && toY==fromY) {}
+				else {
+					System.out.println(toX+","+toY);
+					String themove=Converter.cordToUCI(new Cord(toX,toY));
+					System.out.println(themove);
+					/**Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
+					for(int i=0;i<moves.length;i++) {
+						System.out.println(moves[i]);
+						String e=moves[i].toString();
+						if(toX==Converter.stringToCord(e).file() && toY==7-Converter.stringToCord(e).rank()) {
+							if (game.getEnd() == Constant.ONGOING) {
+								String moveInput = move.getText();
+								moveInput = moveInput + " ";
+								if (game.getWhiteTurn()) {
+									if (playerWhite.move(moveInput))
+										if (playerBlack.getKind() != Intelligence.Human)
+											if (game.getEnd() == Constant.ONGOING)
+												playerBlack.move();
+								} else {
+									if (playerBlack.move(moveInput))
+										if (playerWhite.getKind() != Intelligence.Human)
+											if (game.getEnd() == Constant.ONGOING)
+												playerWhite.move();
+								}
+								update(board, root);
+								move.clear();
+							}
+						}
+				
+					}*/
+				}
+				/**Object[] moves=(game.getPiece(7-mouse_cordY,mouse_cordX).validMoves(game, new Cord(7-mouse_cordY,mouse_cordX))).toArray();
+				for(int i=0;i<moves.length;i++) {
+					System.out.println(moves[i]);
+					String e=moves[i].toString();
+					Rectangle validSq = new Rectangle(1,1,80,80);
+					validSq.setFill(Color.BLACK);
+					board.add(validSq,Converter.stringToCord(e).file(),Converter.stringToCord(e).rank());			
+				}*/
+			}
+		});
+		
+		board.setOnMousePressed(new EventHandler <MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				update(board,root);
+				fromX=(int)(event.getX());
+				fromY=(int)(event.getY());
+				fromX=fromX/80;
+				fromY=fromY/80;
+				Rectangle selected = new Rectangle(1,1,77,77);
+				if (fromX==8 || fromY==8) {
+					fromX=7;
+					fromY=7;
+				}
+				selected.setFill(Color.TRANSPARENT);
+				selected.setStrokeWidth(2.8);
+				selected.setStroke(Color.BLACK);
+				board.add(selected,fromX,fromY);
+				Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
+				for(int i=0;i<moves.length;i++) {
+					System.out.println(moves[i]);
+					String e=moves[i].toString();
+					Rectangle validSq = new Rectangle(1,1,77,77);
+					validSq.setFill(Color.GREEN);
+					validSq.setStrokeWidth(2.8);
+					validSq.setStroke(Color.BLACK);
+					board.add(validSq,Converter.stringToCord(e).file(),7-Converter.stringToCord(e).rank());
+				}
+				if(event.getClickCount()==2) {
+					update(board,root);
+				}
+				
+			}
+		});
+		
+		
 		baseBoard(board);
 		drawBoard(board);
 		drawEdges(root);
