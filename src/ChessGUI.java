@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
-import javafx.event.*;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -24,7 +23,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -168,47 +166,21 @@ public class ChessGUI extends Application {
 					toX=7;
 					toY=7;
 				}
-
-				if(toX!=fromX || toY!=fromY){
-					System.out.println(toX+","+toY);
-					String themove = Converter.cordToUCI(new Cord(toX,toY));
-					System.out.println(themove);
-					Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
-					for(int i=0;i<moves.length;i++) {
-						System.out.println(moves[i]);
-						String e=moves[i].toString();
-						if(toX==Converter.stringToCord(e).file() && toY==7-Converter.stringToCord(e).rank()) {
-							if (game.getEnd() == Constant.ONGOING) {
-								String moveInput = move.getText();
-								moveInput = moveInput + " ";
-								if (game.getWhiteTurn()) {
-									if (playerWhite.move(moveInput))
-										if (playerBlack.getKind() != Intelligence.Human)
-											if (game.getEnd() == Constant.ONGOING)
-												playerBlack.move();
-								} else {
-									if (playerBlack.move(moveInput))
-										if (playerWhite.getKind() != Intelligence.Human)
-											if (game.getEnd() == Constant.ONGOING)
-												playerWhite.move();
-								}
-								update(board, root);
-								move.clear();
-							}
-						}
 				
-					}
+				String moveInput = "" + (char)('a' + fromX) + (8 - fromY) + (char)('a' + toX) + (8 - toY);
+				System.out.println(moveInput);
+				if (game.getWhiteTurn()) {
+					if (playerWhite.move(moveInput))
+						if (playerBlack.getKind() != Intelligence.Human)
+							if (game.getEnd() == Constant.ONGOING)
+								playerBlack.move();
+				} else {
+					if (playerBlack.move(moveInput))
+						if (playerWhite.getKind() != Intelligence.Human)
+							if (game.getEnd() == Constant.ONGOING)
+								playerWhite.move();
 				}
-				/*
-				Object[] moves= (game.getPiece(7-toY,toX).validMoves(game, new Cord(7-toY,toX))).toArray();
-				for(int i=0;i<moves.length;i++) {
-					System.out.println(moves[i]);
-					String e=moves[i].toString();
-					Rectangle validSq = new Rectangle(1,1,80,80);
-					validSq.setFill(Color.BLACK);
-					board.add(validSq,Converter.stringToCord(e).file(),Converter.stringToCord(e).rank());			
-				}
-				*/
+				update(board, root);
 			}
 		});
 		
@@ -230,7 +202,7 @@ public class ChessGUI extends Application {
 				selected.setStrokeWidth(2.8);
 				selected.setStroke(Color.BLACK);
 				board.add(selected,fromX,fromY);
-				Object[] moves=(game.getPiece(7-fromY,fromX).validMoves(game, new Cord(7-fromY,fromX))).toArray();
+				Object[] moves=(game.getPiece(7-fromY,fromX).legalMoves(game, new Cord(7-fromY,fromX))).toArray();
 				for(int i=0;i<moves.length;i++) {
 					System.out.println(moves[i]);
 					String e=moves[i].toString();
