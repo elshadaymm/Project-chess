@@ -4,6 +4,9 @@
  *
  */
 public class Main{
+    /**
+     * Function that updates the console version of the game.
+     */
     public static void main(String[] args){
         Game game = new Game();
         GameInfo.printState(game);
