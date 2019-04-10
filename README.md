@@ -60,11 +60,6 @@ This is an OOP based chess program written in the java programming language and 
 - AIAlphaBeta
 - AIMinMax
 - ChessGUI comment in javadoc
-- Cord
-- Empty
-- FischerClock
-- Human
-- Main
 
 v0.3 (Demo 3)
 
