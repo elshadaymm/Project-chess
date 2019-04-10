@@ -6,7 +6,10 @@ public class Human extends Player{
         kind = Intelligence.Human;
     }
 
-    //makes a move from input
+    /**
+     * Function that takes in a move from input and checks if it is a legal move then moves the piece if it is.
+     * @return true if conditions are met for the move
+     */
     @Override
     public boolean move(){//throw errors instead of printing to console
         Scanner sc = new Scanner(System.in);
@@ -34,7 +37,10 @@ public class Human extends Player{
         }
         //close the sc leak!!
     }
-    
+    /**
+     * Function that checks if the input is valid and if it is a legal move
+     * @return true if input is valid and legal.
+     */
     @Override
     public boolean move(String move){
         if(!validInput(move)){
