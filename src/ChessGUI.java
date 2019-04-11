@@ -166,7 +166,6 @@ public class ChessGUI extends Application {
 				}
 				
 				String moveInput = "" + (char)('a' + fromX) + (8 - fromY) + (char)('a' + toX) + (8 - toY);
-				System.out.println(moveInput);
 				if (game.getWhiteTurn()) {
 					if (playerWhite.move(moveInput))
 						if (playerBlack.getKind() != Intelligence.Human)
@@ -185,7 +184,6 @@ public class ChessGUI extends Application {
 		board.setOnMousePressed(new EventHandler <MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				update(board,root);
 				fromX=(int)(event.getX());
 				fromY=(int)(event.getY());
 				fromX=fromX/80;
@@ -202,16 +200,12 @@ public class ChessGUI extends Application {
 				board.add(selected,fromX,fromY);
 				Object[] moves=(game.getPiece(7-fromY,fromX).legalMoves(game, new Cord(7-fromY,fromX))).toArray();
 				for(int i=0;i<moves.length;i++) {
-					System.out.println(moves[i]);
 					String e=moves[i].toString();
 					Rectangle validSq = new Rectangle(1,1,77,77);
 					validSq.setFill(Color.GREEN);
 					validSq.setStrokeWidth(2.8);
 					validSq.setStroke(Color.BLACK);
 					board.add(validSq,Converter.stringToCord(e).file(),7-Converter.stringToCord(e).rank());
-				}
-				if(event.getClickCount()==2) {
-					update(board,root);
 				}
 				
 			}
