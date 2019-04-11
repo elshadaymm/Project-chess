@@ -106,8 +106,6 @@ public class ChessGUI extends Application {
 		infoDisplay.getChildren().add(turnNumber);
 		infoDisplay.getChildren().add(fiftyMove);
 		infoDisplay.getChildren().add(fen);
-		infoDisplay.getChildren().add(whiteTime);
-		infoDisplay.getChildren().add(blackTime);
 		infoDisplay.getChildren().add(repetition);
 		infoDisplay.setPadding(new Insets(190, 100, 20, 50));
 		infoDisplay.setSpacing(10);
