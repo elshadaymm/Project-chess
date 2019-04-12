@@ -52,7 +52,12 @@ public abstract class Piece{
         return true;
     }
 
-    //returns all legal moves
+    /**
+     * Returns a list of all legal moves that a piece can make
+     * @param game the current game
+     * @param from the coordinates that a piece is moving from
+     * @return
+     */
     public ArrayList<Cord> legalMoves(Game game, Cord from){
         ArrayList<Cord> moves = validMoves(game, from);
         
@@ -66,7 +71,12 @@ public abstract class Piece{
         return moves;
     }
 
-    //if a move is legal
+    /**
+     * Checks to see if a move is legal.  Checks with the piece to checks it's move rules
+     * @param game the current game
+     * @param move the move that the piece is trying to make
+     * @return
+     */
     public boolean isLegal(Game game, Move move){
         if(move.to().getPromotion() == '*') return true;//cheat mode
         
