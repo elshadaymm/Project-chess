@@ -27,7 +27,12 @@ public class GameHelper{
         return moves;
     }
 
-    //todo improve logic with allvalidomoves. remove dupe code
+    /**
+     * Creates a list of all legal moves
+     * 
+     * @param game game variable that stores the piece positions, accessed with game class getPiece()
+     * @return ArrayList of all legal moves of the current board
+     */
     public static ArrayList<Move> allLegalMoves(Game game){
         ArrayList<Move> moves = new ArrayList<Move>();
         Cord from;
@@ -44,10 +49,19 @@ public class GameHelper{
         return moves;
     }
     
-    //if Constant.WHITE return "white" otherwise
+    /**
+     * if Constant.WHITE return "white" otherwise
+     * @param white a boolean for the current turn
+     * @return Returns "white" if current turn is true and "black" if it is false
+     */
     public static String turnToString(boolean white){return white? "white" : "black";}
 
-    //checks if a king of a color is alive in a game
+    /**
+     * checks if a king of a color is alive in a game
+     * @param game game variable that sotres the piece positions
+     * @param color the current player whose turn it is
+     * @return True if the King is still alive, false otherwise
+     */
     public static boolean kingAlive(Game game, boolean color){
         for(int i = 0; i < game.getRankSize(); i++)
             for(int j = 0; j < game.getFileSize(); j++)
@@ -56,12 +70,20 @@ public class GameHelper{
         return false;
     }
 
-    //the color of the cordanet. iif its a blac or whitet squer
+    /**
+     * the color of the coordinate
+     * @param at the square being tested
+     * @return whether the square is black or white
+     */
     public static boolean cordColor(Cord at){
         return (at.rank() + at.file()) % 2 == 0? Constant.BLACK : Constant.WHITE;
     }
 
-    //0 for not in mate, 1 for checkmate, 2 for stale mate
+    /**
+     * Checks if a piece is in check.  0 for not in mate, 1 for checkmate, 2 for stale mate
+     * @param game the object that stores the position of the pieces
+     * @return the state of the king's positin (Check, stalemate, or not in mate/stalemate)
+     */
     public static int inMate(Game game){
         ArrayList<Move> moves = allLegalMoves(game);
         if(moves.size() == 0){
@@ -71,7 +93,12 @@ public class GameHelper{
         return Constant.NO;
     }
 
-    //checks if the move is sucide/puting it self in check
+    /**
+     * checks if the move is sucide/puting it self in check
+     * @param game the game object that stores the state of the board
+     * @param move the move to be checked
+     * @return True if the King is moving into check, false otherwise
+     */
     public static boolean sucide(Game game, Move move){
         Game tempGame = new Game(game);
         tempGame.simpleMove(move);
@@ -84,7 +111,11 @@ public class GameHelper{
         return false;
     }
 
-    //cehcks if the game is in check
+    /**
+     * checks if the game is in check
+     * @param game the game object that stores the state of the board
+     * @return true if the King is in check, false otherwise
+     */
     public static boolean inCheck(Game game){
         Game tempGame = new Game(game);
         tempGame.changeTurn();
@@ -133,7 +164,7 @@ public class GameHelper{
      * checks if any board state has occured three times (Threefold Repetition)
      * records boardstate as FEN and stores it into an arraylist
      * iterates through the arraylist and checks if there are three identiacal board states
-     * @param game
+     * @param game the game object that stores the location of the pieces
      * @return true if a board state has occured more then three times, else false
      */
     public static boolean threefoldRepetition(Game game){return repetition(game) >= 3;}
@@ -147,7 +178,12 @@ public class GameHelper{
         return repetition;
     }
 
-    //if a piece is to the right of a king, used for casteling
+    /**
+     * if a piece is to the left of a king, used for casteling
+     * @param game the game object that stores the location of the pieces
+     * @param at The position to be checked
+     * @return true if a piece is left of the King, false otherwise
+     */
     public static boolean leftOfKing(Game game, Cord at){
         for(int i = at.file() + 1; i < game.getFileSize(); i++)
             if(game.getPiece(new Cord(at.rank(), i)).getType() == Type.King)
@@ -155,7 +191,12 @@ public class GameHelper{
         return false;
     }
 
-    //if a piece is to the right of a king, used for casteling
+    /**
+     * if a piece is to the right of a king, used for casteling
+     * @param game the game object that stores the location of the pieces
+     * @param at The position to be checked
+     * @return true if a piece is left of the King, false otherwise
+     */
     public static boolean rightOfKing(Game game, Cord at){
         for(int i = at.file() - 1; i >=0; i--)
             if(game.getPiece(new Cord(at.rank(), i)).getType() == Type.King)
@@ -168,7 +209,10 @@ public class GameHelper{
         return true;
     }
 
-    //Todo
+    /**
+     * Used to re-arrange the pieces for a Fischer random game
+     * @return a string of the new Fischer random setup
+     */
     public static String newFischerRandom(){
         String original = "RNBQKANR";
 
