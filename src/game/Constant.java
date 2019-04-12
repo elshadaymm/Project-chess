@@ -61,4 +61,7 @@ public class Constant{
     //default depth for ai
     public static final int DEFAULT_MINMAX = 2;
     public static final int DEFAULT_ALPHABETA = 2;
+    
+    // default time for each player, in milliseconds.
+    public static int DEFAULT_TIME = 10 * 60 * 1000;
 }
