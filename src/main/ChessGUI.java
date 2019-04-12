@@ -181,6 +181,7 @@ public class ChessGUI extends Application {
 			}
 		});
 		
+		//creates the squares for displaying valid moves for the selected piece
 		board.setOnMousePressed(new EventHandler <MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
