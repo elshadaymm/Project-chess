@@ -1,3 +1,8 @@
+/**
+ * An AI that uses a minimax strategy to decide it's move.
+ * This AI considers a given number of future moves, which is set in
+ * the CONSTANT class.
+ */
 package ai;
 
 import game.*;

@@ -1,3 +1,10 @@
+/**
+ * An AI that uses alpha-beta pruning to optimize the minimax AI.
+ * This AI considers a given number of future moves, which is set in
+ * the CONSTANT class.
+ * For an explanation of what alpha-beta pruning is, see:
+ * https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+ */
 package ai;
 
 import game.*;
