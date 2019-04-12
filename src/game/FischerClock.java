@@ -10,9 +10,8 @@ import java.awt.event.*;
 import java.lang.StringBuilder;
 
 public class FischerClock{
-    private static int defaultTime = Integer.MAX_VALUE / 2; // default time for each player, in milliseconds.
-    private int whiteTime = defaultTime;
-    private int blackTime = defaultTime; 
+    private int whiteTime = Constant.DEFAULT_TIME;
+    private int blackTime = Constant.DEFAULT_TIME; 
     private int increment = 5000; // in milliseconds, default to 12 seconds
     private boolean currentPlayer = true;   
     
