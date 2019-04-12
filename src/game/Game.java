@@ -13,7 +13,6 @@ public class Game{
     private int rankSize = Constant.DEFAULT_RANK_SIZE;//row
     private int fileSize = Constant.DEFAULT_FILE_SIZE;//col
 
-    //in order of FEN
     private Piece[][] board;//the chess board. 2d array of piecese
     private boolean whiteTurn = true;
     private boolean whiteKingCastle = true;
@@ -22,14 +21,15 @@ public class Game{
     private boolean blackQueenCastle = true;
     private Cord enPassant = new Cord(-1, -1);
     private int peace = 0;  //the number of turns since the last capture or pawn advance. incriments at the end of black's turn. Used for the fifty-move rule 
-    private int turn = 1; //the turn number, if its whites turn or not
+    private int turn = 1; //the turn number
 
-    //extra info for the game
     private FischerClock clock = new FischerClock();//thes clock for the game
     private ArrayList<String> history = new ArrayList<String>();
     
-    // Who's winning? white if its positive. black if its negative
-    //Larger the value, more the game faves white
+    /**
+     * Who's winning? white if its positive. black if its negative.  Larger the
+     * value, more the game faves white
+     */
     private double advantage = 0;
     private int end = Constant.ONGOING; //if the game has ended. check the Constant class for detales
 
@@ -67,9 +67,15 @@ public class Game{
         clock = new FischerClock(other.getClock());
     }
 
+    /**
+     * FEN string of the default board setup.
+     */
     public void reset(){importGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");}
 
-    //Sets the board using an FEN string
+    /**
+     * Sets the board using an FEN string
+     * @param FEN uses a FEN string to setup the game being imported
+     */
     public void importGame(String FEN){
         if(!GameHelper.FENFormat(FEN)) return;
 
@@ -98,7 +104,10 @@ public class Game{
         update();
     }
 
-    //copies a board
+    /**
+     * Creates a copy of a current game
+     * @param board the board object to be copied
+     */
     public void setBoard(Piece[][] board){
         for(int i = 0; i < rankSize; i++)
             for(int j = 0; j < fileSize; j++){
@@ -134,11 +143,19 @@ public class Game{
             }
     }
 
+    /**
+     * Checks to see if the game is over.  If not, updates the advantage calculation.
+     */
     public void update(){
         updateEnd();
         if(end == Constant.ONGOING) updateAdvantage();
     }
 
+    /**
+     * Checks to make sure that the current player's clock has not run out of time.
+     * If it has, ends the game.  If not, makes the move given.
+     * @param move the move played by the player
+     */
     public void makeMove(Move move){
     	if(clock.getWhiteTime() <= 0) {
             end = Constant.WHITE_TIMEOUT;
@@ -186,7 +203,10 @@ public class Game{
         update();
     }
 
-    //makes a simple move without updating anything
+    /**
+     * Sets the board using an FEN string
+     * @param move the move to be made
+     */
     public void simpleMove(Move move){
         Cord from = move.from();
         Cord to = move.to();
@@ -194,7 +214,9 @@ public class Game{
         board[from.rank()][from.file()] = new Empty(GameHelper.cordColor(from));
     }
 
-    //alternates turn
+    /**
+     * Changes the player whose turn it is
+     */
     public void changeTurn(){whiteTurn = whiteTurn ? false : true;}
 
     /**
@@ -205,10 +227,12 @@ public class Game{
     public Piece getPiece(Cord at){return board[at.rank()][at.file()];}
     public Piece getPiece(int rank, int file){return board[rank][file];}
 
+    /**
+     * Standard setters and getters
+     */
     public int getRankSize() {return rankSize;}
     public int getFileSize() {return fileSize;}
 
-    //in order of FEN
     public Piece[][] getBoard() {return board;}
     public boolean getWhiteTurn() {return whiteTurn;}
     public boolean getWhiteKingCastle() {return whiteKingCastle;}
@@ -232,7 +256,10 @@ public class Game{
     public void setBlackQueenCastle(boolean value) {blackQueenCastle = value;}
 
 
-    //implimed helper methods starts here!!
+    /**
+     * Updates the information of the instance variables
+     * @param info
+     */
     private void setInfo(String info){
         String turn, castle, enPassant, halfMove, fullMove; 
         turn = info.substring(1, 2);//w or b
@@ -265,7 +292,10 @@ public class Game{
         this.turn = Integer.parseInt(fullMove);
     }
 
-    //used by setBoard(String FEN)
+    /**
+     * Decides if castling is possible based on the String provided
+     * @param castle the string that's being checked for the possibility to castle
+     */
     private void setCastle(String castle){
         whiteKingCastle = false;
         blackKingCastle = false;
@@ -287,7 +317,12 @@ public class Game{
         }
     }
 
-    //used by setBoard(String FEN)
+    /**
+     * Used to create the board from a FEN String.  Reads the string and creates the
+     * board based on the values that are read.
+     * @param rank The String being read
+     * @param atRank
+     */
     private void setRank(String rank, int atRank){
         int fileIndex = 0;
         for(int i = 0; i < rank.length(); i++){
@@ -330,6 +365,10 @@ public class Game{
         }
     }
 
+    /**
+     * Checks to see if the game is over
+     * @return a boolean, true if the game is not over.  False if th game is over.
+     */
     private boolean updateEnd(){
         end = Constant.ONGOING;
         switch (GameHelper.inMate(this)){
@@ -370,6 +409,9 @@ public class Game{
         return false;
     }
 
+   /**
+    * Updates the value of the advantage variable 
+    */ 
     private void updateAdvantage(){
         double sum = 0;
         for(int i = 0; i < rankSize; i++)
@@ -382,11 +424,17 @@ public class Game{
         advantage = sum;
     }
 
+    /**
+     * Checks to see if castling is still possible based on the positions
+     * of the pieces of the board.  Updates the castling variables.
+     * @param move the move being checked against
+     * @return true or false depending on if castling is still possible for that location
+     */
     private boolean updateCastle(Move move){
         Cord from = move.from();
         int dx = move.dx();
-        boolean temp = false;//lazy logic will replace later
-        boolean temp2 = getPiece(from).getColor();//again shit logic
+        boolean temp = false;
+        boolean temp2 = getPiece(from).getColor();
         if(getPiece(from).getType() == Type.King){
             if(getPiece(from).getColor() == Constant.WHITE){
                 if(dx == 2 && whiteKingCastle){
@@ -442,6 +490,10 @@ public class Game{
         return temp;
     }
 
+    /**
+     * Checks to see if it is possible to capture a piece en passant
+     * @param move the move being checked
+     */
     private void updateEnpassant(Move move){
         Cord from = move.from();
         Cord to = move.to();
@@ -460,6 +512,10 @@ public class Game{
         }
     }
 
+    /**
+     * Checks to see if a piece can be promoted based on it's current position
+     * @param move the move to be checked
+     */
     private void updatePromotion(Move move){
         Cord to = move.to();
         boolean color = getPiece(to).getColor();
