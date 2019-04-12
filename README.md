@@ -63,6 +63,15 @@ The state of the game is displayed on the top of the screen, and will display "O
 This is an OOP based chess program written in the java programming language and created as a project for CPSC233 at the University of Calgary for the Winter 2019 semester.
 
 
+# Citations
+- Pictures of chess pieces taken from: https://marcelk.net/chess/pieces/ 
+- Tutorial used to create save/load interface: http://tutorials.jenkov.com/javafx/filechooser.html
+- Tutorial used to create Fischer Clock display: https://asgteach.com/2011/10/javafx-animation-and-binding-simple-countdown-timer-2/
+
+
+
+
+
 v1.0 (Final Submission)
 
 ### Tut10 G01
