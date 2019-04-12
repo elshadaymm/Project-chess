@@ -181,7 +181,9 @@ public class ChessGUI extends Application {
 			}
 		});
 		
-		//creates the squares for displaying valid moves for the selected piece
+		/**
+		 * Creates the squares for displaying valid moves for the selected pieces
+		 */
 		board.setOnMousePressed(new EventHandler <MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -217,7 +219,9 @@ public class ChessGUI extends Application {
 		drawBoard(board);
 		drawEdges(root);
 
-		// move input Button Action Handler
+		/**
+		 * The button used to submit the move typed in manually
+		 */
 		submit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -242,7 +246,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		// load game
+		/**
+		 * Loads the game from a FEN String
+		 */
 		loadString.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -254,7 +260,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		// resets game
+		/**
+		 * Resets the game
+		 */
 		newStandard.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -266,7 +274,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		// resets game to fischer random
+		/**
+		 * Resets game to fischer random
+		 */
 		newFischerRandom.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -278,7 +288,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		// save a game to text file using Save button
+		/**
+		 * Save a game to text file using Save button
+		 */
 		save.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
 
@@ -294,7 +306,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
-		// load a game from text file using Load buttong
+		/**
+		 * Load a game from text file using Load button
+		 */
 		load.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -315,6 +329,9 @@ public class ChessGUI extends Application {
 			}
 		});
 
+		/**
+		 * Button to reset the game
+		 */
 		resetGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -336,7 +353,9 @@ public class ChessGUI extends Application {
 
 	}
 
-	// draws the numbering/lettering on the edge
+	/**
+	 * Draws the numbers and letters around the edge of the board
+	 */
 	public void drawEdges(Pane root) {
 		int hspace = 67;
 		VBox leftNumberEdge = new VBox();
@@ -401,7 +420,9 @@ public class ChessGUI extends Application {
 		root.getChildren().add(rightNumberEdge);
 	}
 
-	// saves the information to the .chess file
+	/**
+	 * saves the information to a .chess file
+	 */
 	public void saveTextToFile(String content, File file) {
 		try {
 			PrintWriter writer;
@@ -413,7 +434,9 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	// loads the .chess file to a String
+	/**
+	 * loads the .chess file to a String
+	 */
 	private String readFile(File file) {
 		StringBuilder stringBuffer = new StringBuilder();
 		BufferedReader bufferedReader = null;
@@ -442,7 +465,9 @@ public class ChessGUI extends Application {
 		return stringBuffer.toString();
 	}
 
-	// draws the squares for the board
+	/**
+	 * Draws the squares for the board in the display
+	 */
 	public void baseBoard(GridPane board) {
 		for (int i = 0; i < game.getRankSize(); i++) {
 			for (int j = 0; j < game.getFileSize(); j++) {
@@ -458,7 +483,9 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	// adds the pieces to the board
+	/**
+	 * Adds the pictures of the pieces to the board
+	 */
 	public void drawBoard(GridPane b) {
 		GameInfo.printState(game);
 		for (int i = game.getRankSize() - 1; i >= 0; i--) {
@@ -503,7 +530,9 @@ public class ChessGUI extends Application {
 		}
 	}
 
-	// updates the board
+	/**
+	 * Updates the display of the board
+	 */
 	public void update(GridPane board, Pane root) {
 		baseBoard(board);
 		whosTurn.setText("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");
@@ -560,6 +589,9 @@ public class ChessGUI extends Application {
 		drawBoard(board);
 	}
 
+	/**
+	 * Updates the display of the Fischer Clock in the GUI
+	 */
 	public void updateClock(){
 		if(game.getEnd() == Constant.ONGOING){
 			whiteClockDisplay.setText(game.getClock().whiteTime());
@@ -567,6 +599,9 @@ public class ChessGUI extends Application {
 		}
 	}
 
+	/**
+	 * Starts the Fischer Clock
+	 */
 	public void startTimer() {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -578,7 +613,9 @@ public class ChessGUI extends Application {
 		}, 1000, 1000);
 	}
 
-	//drawStartingPage is the startscene (Main Menu)
+	/**
+	 * Functin to draw the main menu
+	 */
 	public Scene drawStartingPage(Stage primaryStage, Scene s){
 		Pane surface = new Pane();
 
